@@ -1,6 +1,6 @@
 # $ pip install --requirement requirements_test.txt
 requests==2.21.0
-git+https://github.com/tducret/PTable.git
+git+https://github.com/tducret/PTable.git#egg=PTable
 Click==7.0
 pytest==4.0.1
 pytest-cov==2.6.0

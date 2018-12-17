@@ -1,3 +1,3 @@
 requests==2.21.0
-git+https://github.com/tducret/PTable.git
+git+https://github.com/tducret/PTable.git#egg=PTable
 Click==7.0
