@@ -4,7 +4,7 @@
 import sys
 import click
 import allocine
-from prettytable import PrettyTable, UNICODE
+from prettytable import PrettyTable #, UNICODE
 
 # Usage : allocine_cli.py --help
 
@@ -58,7 +58,7 @@ def main(paramwithenvvar, paramwithdefaultvalue, requiredparam, flagparam,
     will be used in the --help
     """
     x = PrettyTable()
-    x.set_style(UNICODE)
+    # x.set_style(UNICODE)
     x.header = False
 
     seances = [{'*film': 'L’Exorcisme de Hannah Grace',
