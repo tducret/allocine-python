@@ -4,10 +4,15 @@
 
 import requests
 from requests import ConnectionError
+from dataclasses import dataclass
+from typing import List
+from datetime import datetime
 
 __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
 __version__ = '0.0.1'
+
+_DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 
 
 class Client(object):
@@ -36,6 +41,44 @@ class Client(object):
                 'Status code {status} for url {url}\n{content}'.format(
                     status=ret.status_code, url=url, content=ret.text))
         return ret
+
+
+@dataclass
+class Movie:
+    id: int
+    title: str
+
+
+@dataclass
+class Theater:
+    id: int
+    name: str
+
+
+@dataclass
+class Showtime:
+    datetime_str: str
+
+    def __post_init__(self):
+        self.datetime_obj = self._str_datetime_to_datetime_obj(
+            datetime_str=self.datetime_str)
+        self.hour = self._get_hour_str(self.datetime_obj)
+
+    @staticmethod
+    def _get_hour_str(datetime_obj):
+        return str(datetime_obj.strftime("%H:%M"))
+
+    @staticmethod
+    def _str_datetime_to_datetime_obj(datetime_str,
+                                      date_format=_DEFAULT_DATE_FORMAT):
+        return datetime.strptime(datetime_str, date_format)
+
+
+@dataclass
+class MovieShowtimes:
+    movie: Movie
+    theater: Theater
+    showtimes: List[Showtime]
 
 
 class MyClass(object):
