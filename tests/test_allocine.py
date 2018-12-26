@@ -13,7 +13,7 @@ def test_class_Movie():
     movie = Movie(title="Titanic", id=12345, rating=4.50209)
     assert movie.title == "Titanic"
     assert movie.id == 12345
-    assert movie.rating == '4.50'
+    assert movie.rating == '4.5'
     print()
     print(movie)
 
@@ -22,7 +22,7 @@ def test_class_Movie_by_dict():
     movie = Movie(**{'title': 'Titanic', 'id': 12345, 'rating': 4.50209})
     assert movie.title == "Titanic"
     assert movie.id == 12345
-    assert movie.rating == '4.50'
+    assert movie.rating == '4.5'
     print()
     print(movie)
 
@@ -31,9 +31,9 @@ def test_Movie_rating():
     movie = Movie(title="Titanic", id=12345, rating=0)
     assert movie.rating is None
     movie = Movie(title="Titanic", id=12345, rating=1)
-    assert movie.rating == '1.00'
-    movie = Movie(title="Titanic", id=12345, rating='1.2')
-    assert movie.rating == '1.20'
+    assert movie.rating == '1.0'
+    movie = Movie(title="Titanic", id=12345, rating='1.20')
+    assert movie.rating == '1.2'
 
 def test_class_Movie_errors():
     with pytest.raises(TypeError):
