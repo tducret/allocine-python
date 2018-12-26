@@ -178,6 +178,7 @@ class Showtime:
             self.movie_version.set_duration(self.duration)
         else:
             self.duration = "HH:MM"
+            self.movie_version.set_duration(self.duration)
 
         self.hour = str(datetime_obj.strftime("%H:%M"))
         self.datetime = str(datetime_obj.strftime("%d/%m/%Y %H:%M"))
