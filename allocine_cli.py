@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """CLI tool for allocine"""
-import sys
 import click
-import allocine
-from prettytable import PrettyTable #, UNICODE
+from allocine import Allocine
+from prettytable import PrettyTable, UNICODE, FRAME, ALL
+from datetime import date, timedelta
 
 # Usage : allocine_cli.py --help
 
@@ -23,65 +23,115 @@ def extract_field_names(dict_list):
 
 @click.command()
 @click.option(
-    '--paramwithenvvar', '-p',
-    envvar="PARAM1",
+    '--id-cinema', '-c',
     type=str,
-    help='example string param (or set the env var PARAM1)',
+    help="identifiant du cinéma sur Allociné, \
+ex: C0159 pour l’UGC Ciné Cité Les Halles. Se trouve dans l’url : \
+http://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.html",
+    required=True
 )
 @click.option(
-    '--paramwithdefaultvalue', '-d',
+    '--jour', '-j',
     type=str,
-    help='example param with default value',
-    default='fr',
-    show_default=True,
+    help="jour des séances souhaitées \
+(au format DD/MM/YYYY ou +1 pour demain), par défaut : aujourd'hui",
 )
 @click.option(
-    '--requiredparam', '-f',
-    type=str,
-    help='param required',
-    # required=True,
-)
-@click.option(
-    '--flagparam',
+    '--semaine', '-s',
     is_flag=True,
-    help='flag param (True if set, False if not)',
+    help='affiche les séance pour les 7 prochains jours',
 )
 @click.option(
-    '--choiceparam',
-    type=click.Choice(['val1', 'val2'])
+    '--entrelignes', '-e',
+    is_flag=True,
+    help='ajoute une ligne entre chaque film pour améliorer la lisibilité',
 )
-def main(paramwithenvvar, paramwithdefaultvalue, requiredparam, flagparam,
-         choiceparam):
+def main(id_cinema, entrelignes, jour=None, semaine=None):
     """
-    !!! TO BE UPDATED !!!
-    Description of the CLI tool,
-    will be used in the --help
+    Les séances de votre cinéma dans le terminal
     """
-    x = PrettyTable()
-    # x.set_style(UNICODE)
-    x.header = False
+    today = date.today()
 
-    seances = [{'*film': 'L’Exorcisme de Hannah Grace',
-            '09': '09:00', '11': '11:10', '14': '14:50', '16': '16:45', '20': '20:35',
-            '22': '22:30'},
-           {'*film': 'Pupille',
-            '11': '11:40', '13': '13:50', '16': '16:00', '18': '18:10',
-            '20': '20:20', '22': '22:30'},
-           {'*film': 'Titanic',
-            '09': '09:30', '11': '11:50', '18': '18:20',
-            '20': '20:00'}]
+    jours = []
+    if semaine is False:
+        if jour is None:
+            jours.append(today.strftime("%d/%m/%Y"))
+        elif jour[0] == '+':
+            delta_jours = int(jour[1:])
+            jour_obj = today + timedelta(days=delta_jours)
+            jours.append(jour_obj.strftime("%d/%m/%Y"))
+    else:
+        for delta in range(0, 7):
+            jour_obj = today + timedelta(days=delta)
+            jours.append(jour_obj.strftime("%d/%m/%Y"))
 
-    x.field_names = extract_field_names(seances)
+    for jour in jours:
+        print()
+        print(get_showtime_table(id_cinema=id_cinema, entrelignes=entrelignes,
+                                 jour=jour))
 
-    for seances_film in seances:
-        row = []
-        for field_name in x.field_names:
-            row.append(seances_film.get(field_name, ""))
-        x.add_row(row)
 
-    x.align["*film"] = "l"
+def get_showtime_table(id_cinema, entrelignes, jour):
+    showtime_table = []
 
-    print(x)
+    a = Allocine(theater_id=id_cinema)
+
+    movies_available_today = a.theater.program.get_movies_available_for_a_day(
+                                date=jour)
+
+    for movie_version in movies_available_today:
+
+        title = movie_version.title
+        if len(title) >= 40:  # On tronque les titres trop longs
+            title = title[:40] + '...'
+
+        # '*1_film' pour être sûr que cela soit la 1ère colonne
+        movie_row = {'*1_film': "{} ({}) - {}".format(
+            title,
+            movie_version.version,
+            movie_version.duration)}
+
+        movie_row['*2_note'] = "{}*".format(movie_version.rating)
+
+        showtimes = a.theater.program.get_showtimes(
+            movie_version=movie_version, date=jour)
+
+        for showtime in showtimes:
+            hour = showtime.hour.split(':')[0]  # 11:15 => 11
+            movie_row[hour] = showtime.hour
+
+        showtime_table.append(movie_row)
+
+    seances = showtime_table
+
+    retour = "{}, le {}\n".format(a.theater.name, jour)
+
+    if len(seances) <= 0:
+        retour += "Aucune séance"
+
+    else:
+        table = PrettyTable()
+        table.set_style(UNICODE)
+        table.header = False
+
+        if entrelignes is True:
+            table.hrules = ALL
+        else:
+            table.hrules = FRAME
+
+        table.field_names = extract_field_names(seances)
+
+        for seances_film in seances:
+            row = []
+            for field_name in table.field_names:
+                row.append(seances_film.get(field_name, ""))
+            table.add_row(row)
+
+        table.align["*1_film"] = "l"
+        table.sortby = "*1_film"
+        retour += str(table)
+
+    return retour
 
 
 if __name__ == "__main__":
