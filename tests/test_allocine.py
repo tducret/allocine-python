@@ -10,20 +10,30 @@ from allocine import Movie, Theater, Showtime, MovieVersion, Allocine
 
 
 def test_class_Movie():
-    movie = Movie(title="Titanic", id=12345)
+    movie = Movie(title="Titanic", id=12345, rating=4.50209)
     assert movie.title == "Titanic"
     assert movie.id == 12345
+    assert movie.rating == '4.50'
     print()
     print(movie)
 
 
 def test_class_Movie_by_dict():
-    movie = Movie(**{'title': 'Titanic', 'id': 12345})
+    movie = Movie(**{'title': 'Titanic', 'id': 12345, 'rating': 4.50209})
     assert movie.title == "Titanic"
     assert movie.id == 12345
+    assert movie.rating == '4.50'
     print()
     print(movie)
 
+
+def test_Movie_rating():
+    movie = Movie(title="Titanic", id=12345, rating=0)
+    assert movie.rating is None
+    movie = Movie(title="Titanic", id=12345, rating=1)
+    assert movie.rating == '1.00'
+    movie = Movie(title="Titanic", id=12345, rating='1.2')
+    assert movie.rating == '1.20'
 
 def test_class_Movie_errors():
     with pytest.raises(TypeError):
@@ -33,7 +43,8 @@ def test_class_Movie_errors():
 
 
 def test_class_MovieVersion():
-    movie_version = MovieVersion(title="Titanic", id=12345, version="VOST")
+    movie_version = MovieVersion(title="Titanic", id=12345,
+                                 version="VOST", rating=4.50209)
     assert movie_version.title == "Titanic"
     assert movie_version.id == 12345
     assert movie_version.version == "VOST"
@@ -62,7 +73,8 @@ def test_class_Theater_by_dict():
 
 def test_Theater_add_showtime():
     theater = Theater(name="Cinema", id="A7890", address="2 rue lilas, Albi")
-    movie_version = MovieVersion(title="Titanic", id=12345, version="VOST")
+    movie_version = MovieVersion(title="Titanic", id=12345,
+                                 version="VOST", rating=4.50209)
     showtime = Showtime(datetime_str="2018-12-15T17:15:00.000Z",
                         movie_version=movie_version)
     showtime2 = Showtime(datetime_str="2018-12-15T20:15:00.000Z",
@@ -84,23 +96,28 @@ def test_class_Theater_errors():
 
 
 def test_class_Showtime():
-    movie_version = MovieVersion(title="Titanic", id=12345, version="VOST")
+    movie_version = MovieVersion(title="Titanic", id=12345,
+                                 version="VOST", rating=4.50209)
     showtime = Showtime(datetime_str="2018-12-15T17:15:00.000Z",
+                        end_datetime_str="2018-12-15T19:15:00.000Z",
                         movie_version=movie_version)
     assert showtime.datetime_str == "2018-12-15T17:15:00.000Z"
     assert showtime.hour == "17:15"
     assert showtime.datetime == "15/12/2018 17:15"
     assert showtime.date == "15/12/2018"
+    assert showtime.duration == "02h00"
     assert showtime.movie_version.title == "Titanic"
     assert showtime.movie_version.id == 12345
     assert showtime.movie_version.version == "VOST"
+    assert showtime.movie_version.duration == "02h00"
     print()
     print(showtime)
 
 
 def test_class_Showtime_errors():
     with pytest.raises(ValueError):
-        movie_version = MovieVersion(title="Titanic", id=12345, version="VOST")
+        movie_version = MovieVersion(title="Titanic", id=12345,
+                                     version="VOST", rating=4.50209)
         Showtime(datetime_str="This is not a date",
                  movie_version=movie_version)
 
@@ -119,13 +136,16 @@ def test_class_Allocine_errors():
 
 def init_theater_object():
     theater = Theater(name="Cinema", id="A7890", address="2 rue lilas, Albi")
-    movie_version = MovieVersion(title="Titanic", id=12345, version="VOST")
+    movie_version = MovieVersion(title="Titanic", id=12345,
+                                 version="VOST", rating=4.50209)
     showtime = Showtime(datetime_str="2018-12-15T17:15:00.000Z",
                         movie_version=movie_version)
-    movie_version2 = MovieVersion(title="Titanic", id=12345, version="VF")
+    movie_version2 = MovieVersion(title="Titanic", id=12345, version="VF",
+                                  rating=4.50209)
     showtime2 = Showtime(datetime_str="2018-12-15T20:15:00.000Z",
                          movie_version=movie_version2)
-    movie_version3 = MovieVersion(title="Avatar", id=6789, version="VF")
+    movie_version3 = MovieVersion(title="Avatar", id=6789, version="VF",
+                                  rating=4.6356)
     showtime3 = Showtime(datetime_str="2018-12-15T10:30:00.000Z",
                          movie_version=movie_version3)
     showtime4 = Showtime(datetime_str="2018-12-16T10:30:00.000Z",
@@ -158,7 +178,8 @@ def test_get_movies_available_for_a_day():
 
 def test_get_showtimes_for_a_specific_movie():
     theater = init_theater_object()
-    movie_version = MovieVersion(title="Avatar", id=6789, version="VF")
+    movie_version = MovieVersion(title="Avatar", id=6789, version="VF",
+                                 rating=4.6356)
     showtimes_for_a_movie = theater.program.get_showtimes(
         movie_version=movie_version)
     assert len(showtimes_for_a_movie) == 2
@@ -169,7 +190,8 @@ def test_get_showtimes_for_a_specific_movie():
 
 def test_get_showtimes_for_a_specific_movie_and_day():
     theater = init_theater_object()
-    movie_version = MovieVersion(title="Avatar", id=6789, version="VF")
+    movie_version = MovieVersion(title="Avatar", id=6789, version="VF",
+                                 rating=4.6356)
     showtimes_for_a_movie = theater.program.get_showtimes(
         movie_version=movie_version, date="15/12/2018")
     assert len(showtimes_for_a_movie) == 1

@@ -60,7 +60,8 @@ class Allocine:
         movie_list = []
         for movie_id, movie_details in movies.items():
             title = movie_details.get('title')
-            movie_list.append(Movie(id=movie_id, title=title))
+            rating = movie_details.get('social').get('user_review_rating')
+            movie_list.append(Movie(id=movie_id, title=title, rating=rating))
         return movie_list
 
     def _get_theater_info(self):
@@ -107,13 +108,15 @@ class Allocine:
 
                     movie_version_obj = MovieVersion(title=movie_obj.title,
                                                      id=movie_obj.id,
+                                                     rating=movie_obj.rating,
                                                      version=version)
 
                     for showtime in movie_version.get('showtimes'):
 
                         showtime_obj = Showtime(
                             datetime_str=showtime.get("movieStart"),
-                            movie_version=movie_version_obj)
+                            movie_version=movie_version_obj,
+                            end_datetime_str=showtime.get("movieEnd"))
 
                         showtimes.append(showtime_obj)
         return showtimes
@@ -123,6 +126,15 @@ class Allocine:
 class Movie:
     id: int
     title: str
+    rating: float
+
+    def __post_init__(self):
+        if self.rating is not None:
+            f_rating = float(self.rating)
+            if f_rating == 0.0:  # The movie has not been reviewed yet
+                self.rating = None
+            else:
+                self.rating = "{0:.1f}".format(f_rating)
 
     def __str__(self):
         return "{} [{}]".format(self.title, self.id)
@@ -131,6 +143,9 @@ class Movie:
 @dataclass
 class MovieVersion(Movie):
     version: str  # VF, VOST, VF 3D...
+
+    def set_duration(self, duration):
+        self.duration = duration
 
     def __str__(self):
         return "{} ({})".format(super().__str__(), self.version)
@@ -147,22 +162,45 @@ class Showtime:
     # hour: str (see __post_init__)
     # date: str (see __post_init__)
     # datetime: str (see __post_init__)
+    # duration: str (see __post_init__)
     movie_version: MovieVersion
+    end_datetime_str: str = None
 
     def __post_init__(self):
-        self.datetime_obj = self._str_datetime_to_datetime_obj(
+        datetime_obj = self._str_datetime_to_datetime_obj(
             datetime_str=self.datetime_str)
-        self.hour = str(self.datetime_obj.strftime("%H:%M"))
-        self.datetime = str(self.datetime_obj.strftime("%d/%m/%Y %H:%M"))
-        self.date = str(self.datetime_obj.strftime("%d/%m/%Y"))
+        if self.end_datetime_str is not None:
+            end_datetime_obj = self._str_datetime_to_datetime_obj(
+                datetime_str=self.end_datetime_str)
+            duration_obj = end_datetime_obj - datetime_obj
+            self.duration = self._strfdelta(duration_obj,
+                                            "{hours:02d}h{minutes:02d}")
+            self.movie_version.set_duration(self.duration)
+        else:
+            self.duration = "HH:MM"
+
+        self.hour = str(datetime_obj.strftime("%H:%M"))
+        self.datetime = str(datetime_obj.strftime("%d/%m/%Y %H:%M"))
+        self.date = str(datetime_obj.strftime("%d/%m/%Y"))
 
     def __str__(self):
-        return "{} {} : {}".format(self.date, self.hour, self.movie_version)
+        return "{} {} : {} ({})".format(self.date, self.hour,
+                                        self.movie_version,
+                                        self.duration)
 
     @staticmethod
     def _str_datetime_to_datetime_obj(datetime_str,
                                       date_format=_DEFAULT_DATE_FORMAT):
         return datetime.strptime(datetime_str, date_format)
+
+    @staticmethod
+    def _strfdelta(tdelta, fmt):
+        """ Format a timedelta object """
+        # Thanks to https://stackoverflow.com/questions/8906926
+        d = {"days": tdelta.days}
+        d["hours"], rem = divmod(tdelta.seconds, 3600)
+        d["minutes"], d["seconds"] = divmod(rem, 60)
+        return fmt.format(**d)
 
 
 @dataclass
@@ -181,6 +219,10 @@ class Program:
         showtimes = self.get_showtimes(date=date)
         movie_versions = [showtime.movie_version for showtime in showtimes]
         return list(set(movie_versions))
+
+    def get_movie_duration(self, movie_version):
+        showtimes = self.get_showtimes(movie_version=movie_version)
+        return showtimes[0].duration
 
     def get_showtimes(self, date=None, movie_version=None):
         """ Returns a list of showtimes filtered """
@@ -212,4 +254,3 @@ class Theater:
     def __str__(self):
         return "{} [{}] : {} - {} showtime(s) available".format(
             self.name, self.id, self.address, len(self.program.showtimes))
-
