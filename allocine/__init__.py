@@ -28,7 +28,7 @@ class Allocine:
         self.movies = self._get_movies()
         self.theater = self._get_theater_info()
         showtimes = self._get_showtimes()
-        self.theater.add_showtimes(showtimes)
+        self.theater.program.add_showtimes(showtimes)
 
     def _get_showtimes_dict(self):
         """ Get the `data-movies-showtimes` dict from Allociné webpage.
@@ -159,10 +159,8 @@ class Showtime:
 
 
 @dataclass
-class Theater:
-    id: int
-    name: str
-    address: str
+class Program:
+    """ A program is a list of showtimes """
     showtimes: List[Showtime] = field(default_factory=list)
 
     def add_showtime(self, showtime):
@@ -189,7 +187,22 @@ class Theater:
                          if showtime.movie_version == movie_version]
         return showtimes
 
+    def __str__():
+        s = ""
+        for showtime in self.showtimes:
+            s += "{}\n".format(str(showtime))
+
+
+@dataclass
+class Theater:
+    id: int
+    name: str
+    address: str
+
+    def __post_init__(self):
+        self.program = Program()
+
     def __str__(self):
         return "{} [{}] : {} - {} showtime(s) available".format(
-            self.name, self.id, self.address, len(self.showtimes))
+            self.name, self.id, self.address, len(self.program.showtimes))
 

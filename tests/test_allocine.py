@@ -67,11 +67,11 @@ def test_Theater_add_showtime():
                         movie_version=movie_version)
     showtime2 = Showtime(datetime_str="2018-12-15T20:15:00.000Z",
                          movie_version=movie_version)
-    assert len(theater.showtimes) == 0
-    theater.add_showtime(showtime=showtime)
-    assert len(theater.showtimes) == 1
-    theater.add_showtimes(showtimes=[showtime, showtime2])
-    assert len(theater.showtimes) == 3
+    assert len(theater.program.showtimes) == 0
+    theater.program.add_showtime(showtime=showtime)
+    assert len(theater.program.showtimes) == 1
+    theater.program.add_showtimes(showtimes=[showtime, showtime2])
+    assert len(theater.program.showtimes) == 3
     print()
     print(theater)
 
@@ -108,7 +108,7 @@ def test_class_Showtime_errors():
 def test_class_Allocine():
     a = Allocine(theater_id="P2235")
     print()
-    for showtime in a.theater.showtimes:
+    for showtime in a.theater.program.showtimes:
         print(showtime)
 
 
@@ -130,16 +130,16 @@ def init_theater_object():
                          movie_version=movie_version3)
     showtime4 = Showtime(datetime_str="2018-12-16T10:30:00.000Z",
                          movie_version=movie_version3)
-    theater.add_showtimes(showtimes=[showtime, showtime2,
-                                     showtime3, showtime4])
+    theater.program.add_showtimes(showtimes=[showtime, showtime2,
+                                             showtime3, showtime4])
     return theater
 
 
 def test_get_showtimes_for_a_day():
     theater = init_theater_object()
-    assert len(theater.showtimes) == 4
+    assert len(theater.program.showtimes) == 4
 
-    showtimes_for_a_day = theater.get_showtimes(date="15/12/2018")
+    showtimes_for_a_day = theater.program.get_showtimes(date="15/12/2018")
     assert len(showtimes_for_a_day) == 3
     print()
     for showtime in showtimes_for_a_day:
@@ -148,7 +148,8 @@ def test_get_showtimes_for_a_day():
 
 def test_get_movies_available_for_a_day():
     theater = init_theater_object()
-    movie_versions = theater.get_movies_available_for_a_day(date="15/12/2018")
+    movie_versions = theater.program.get_movies_available_for_a_day(
+        date="15/12/2018")
     assert len(movie_versions) == 3
     print()
     for movie_version in movie_versions:
@@ -158,7 +159,8 @@ def test_get_movies_available_for_a_day():
 def test_get_showtimes_for_a_specific_movie():
     theater = init_theater_object()
     movie_version = MovieVersion(title="Avatar", id=6789, version="VF")
-    showtimes_for_a_movie = theater.get_showtimes(movie_version=movie_version)
+    showtimes_for_a_movie = theater.program.get_showtimes(
+        movie_version=movie_version)
     assert len(showtimes_for_a_movie) == 2
     print()
     for showtime in showtimes_for_a_movie:
@@ -168,8 +170,8 @@ def test_get_showtimes_for_a_specific_movie():
 def test_get_showtimes_for_a_specific_movie_and_day():
     theater = init_theater_object()
     movie_version = MovieVersion(title="Avatar", id=6789, version="VF")
-    showtimes_for_a_movie = theater.get_showtimes(movie_version=movie_version,
-                                                  date="15/12/2018")
+    showtimes_for_a_movie = theater.program.get_showtimes(
+        movie_version=movie_version, date="15/12/2018")
     assert len(showtimes_for_a_movie) == 1
     print()
     for showtime in showtimes_for_a_movie:
