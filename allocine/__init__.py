@@ -98,6 +98,13 @@ class Allocine:
                     else:
                         version = "VOST"
 
+                    format = movie_version.get("format").get("name")
+                    if format != "Numérique":
+                        version += " {}".format(format)
+
+                    if movie_version.get("fourdx") == True:
+                        version += ", Salle 4DX"
+
                     movie_version_obj = MovieVersion(title=movie_obj.title,
                                                      id=movie_obj.id,
                                                      version=version)
@@ -123,7 +130,7 @@ class Movie:
 
 @dataclass
 class MovieVersion(Movie):
-    version: str  # VF, VOST
+    version: str  # VF, VOST, VF 3D...
 
     def __str__(self):
         return "{} ({})".format(super().__str__(), self.version)
