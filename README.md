@@ -5,15 +5,15 @@
 [![PyPI](https://img.shields.io/pypi/v/allocine.svg)](https://pypi.org/project/allocine/)
 ![License](https://img.shields.io/github/license/tducret/allocine-python.svg)
 
-## Description
+![Cinéma](cinema.jpg)
 
-Non official Python wrapper for allocine.fr
+## Description
 
 **Avec cet outil, vous récupérez les horaires des séances ciné directement dans le terminal**.
 
-# Requirements
+## Requirements
 
-- Python 3
+- Python 3.7
 - pip3
 
 ## Installation
