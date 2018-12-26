@@ -9,6 +9,8 @@
 
 Non official Python wrapper for allocine.fr
 
+**Avec cet outil, vous récupérez les horaires des séances ciné directement dans le terminal**.
+
 # Requirements
 
 - Python 3
@@ -21,37 +23,90 @@ pip3 install -U allocine
 ```
 ## CLI tool usage
 
-```bash
-allocine2csv.py --salle P2235
+#### Help
 
-┌─────────────────────────────┐
-│ Mardi 11 Décembre 2018      │
-├─────────────────────────────┼───────┬───────┬───────┬───────┬───────┬───────┬───────┐
-│ L’Exorcisme de Hannah Grace │ 11:10 │       │ 14:50 │ 16:45 │       │ 20:35 │ 22:30 │
-├─────────────────────────────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-│ Pupille                     │ 11:40 │ 13:50 │       │ 16:00 │ 18:10 │ 20:20 │ 22:30 │
-└─────────────────────────────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┘
+```bash
+allocine_cli.py --help
+Usage: allocine_cli.py [OPTIONS]
+
+  Les séances de votre cinéma dans le terminal
+
+Options:
+  -c, --id-cinema TEXT  identifiant du cinéma sur Allociné, ex: C0159 pour
+                        l’UGC Ciné Cité Les Halles. Se trouve dans l’url : htt
+                        p://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.ht
+                        ml  [required]
+  -j, --jour TEXT       jour des séances souhaitées (au format DD/MM/YYYY ou
+                        +1 pour demain), par défaut : aujourd’hui
+  -s, --semaine         affiche les séance pour les 7 prochains jours
+  -e, --entrelignes     ajoute une ligne entre chaque film pour améliorer la
+                        lisibilité
+  --help                Show this message and exit.
 ```
 
+#### Basic usage
 
+```bash
+allocine_cli.py --id-cinema P2235
+
+MJC Ciné 113, le 27/12/2018
+┌──────────────────────────────────────────────────────────┬──────┬───────┬───────┬───────┬───────┐
+│ Astérix - Le Secret de la Potion Magique... (VF) - 01h25 │ 4.1* │ 10:15 │       │       │       │
+│ L’Empereur de Paris (VF) - 01h50                         │ 3.4* │       │       │ 17:15 │       │
+│ Ma mère est folle (VF) - 01h35                           │ 3.0* │       │ 14:15 │       │       │
+│ Marche ou crève (VF) - 01h25                             │ 3.6* │       │       │       │ 20:15 │
+└──────────────────────────────────────────────────────────┴──────┴───────┴───────┴───────┴───────┘
+```
+
+#### For tomorrow, with interlines
+
+```bash
+allocine_cli.py --id-cinema P2235 -j+1 --entrelignes
+
+MJC Ciné 113, le 28/12/2018
+┌────────────────────────────────────────────────────┬──────┬───────┬───────┬───────┐
+│ Casse-noisette et les quatre royaumes (VF) - 01h39 │ 3.1* │       │       │ 20:15 │
+├────────────────────────────────────────────────────┼──────┼───────┼───────┼───────┤
+│ Ma mère est folle (VF) - 01h35                     │ 3.0* │       │ 17:15 │       │
+├────────────────────────────────────────────────────┼──────┼───────┼───────┼───────┤
+│ Marche ou crève (VF) - 01h25                       │ 3.6* │ 14:15 │       │       │
+└────────────────────────────────────────────────────┴──────┴───────┴───────┴───────┘
+```
+
+#### For a specific date
+
+```bash
+allocine_cli.py --id-cinema P2235 --jour 29/12/2018
+```
+
+#### For the full week
+
+```bash
+allocine_cli.py --id-cinema P2235 --semaine
+```
 
 ## Package usage
 
 ```python
 # -*- coding: utf-8 -*-
-import allocine
+from allocine import Allocine
 
-TODO : Insert a package usage
+a = Allocine(theater_id="P2235")
+
+for showtime in a.theater.program.showtimes:
+    print(showtime)
 ```
 
 Example output :
 
 ```bash
-
-TODO : Insert output
+27/12/2018 10:15 : Astérix - Le Secret de la Potion Magique [244560] (VF) (01h25)
+27/12/2018 14:15 : Ma mère est folle [260370] (VF) (01h35)
+27/12/2018 17:15 : L’Empereur de Paris [258914] (VF) (01h50)
+27/12/2018 20:15 : Marche ou crève [258052] (VF) (01h25)
+28/12/2018 14:15 : Marche ou crève [258052] (VF) (01h25)
+28/12/2018 17:15 : Ma mère est folle [260370] (VF) (01h35)
+28/12/2018 20:15 : Casse-noisette et les quatre royaumes [245656] (VF) (01h39)
+29/12/2018 14:15 : Astérix - Le Secret de la Potion Magique [244560] (VF) (01h25)
+[...]
 ```
-
-## TODO
-
-- [ ] Update the package usage
-- [ ] Update the example output
