@@ -23,6 +23,8 @@ pip3 install -U allocine
 ```
 ## CLI tool usage
 
+![Capture terminal](termtosvg.svg)
+
 #### Help
 
 ```bash
