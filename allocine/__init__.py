@@ -217,10 +217,6 @@ class Program:
         movie_versions = [showtime.movie_version for showtime in showtimes]
         return list(set(movie_versions))
 
-    def get_movie_duration(self, movie_version):
-        showtimes = self.get_showtimes(movie_version=movie_version)
-        return showtimes[0].duration
-
     def get_showtimes(self, date=None, movie_version=None):
         """ Returns a list of showtimes filtered """
         if date is not None:
@@ -237,6 +233,7 @@ class Program:
         s = ""
         for showtime in self.showtimes:
             s += "{}\n".format(str(showtime))
+        return s
 
 
 class Theater:
