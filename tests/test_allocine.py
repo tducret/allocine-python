@@ -35,6 +35,7 @@ def test_Movie_rating():
     movie = Movie(title="Titanic", id=12345, rating='1.20')
     assert movie.rating == '1.2'
 
+
 def test_class_Movie_errors():
     with pytest.raises(TypeError):
         Movie(title="Titanic")  # Missing id
