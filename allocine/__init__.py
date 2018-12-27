@@ -11,7 +11,7 @@ __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
 __version__ = '0.0.1'
 
-_DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
+_DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
 _DEFAULT_BEAUTIFULSOUP_PARSER = "html.parser"
 
 
