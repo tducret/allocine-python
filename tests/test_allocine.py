@@ -35,6 +35,7 @@ def test_Movie_rating():
     movie = Movie(title="Titanic", id=12345, rating='1.20')
     assert movie.rating == '1.2'
 
+
 def test_class_Movie_errors():
     with pytest.raises(TypeError):
         Movie(title="Titanic")  # Missing id
@@ -123,10 +124,8 @@ def test_class_Showtime_errors():
 
 
 def test_class_Allocine():
-    a = Allocine(theater_id="P2235")
-    print()
-    for showtime in a.theater.program.showtimes:
-        print(showtime)
+    a = Allocine(theater_id="P0645")
+    print(a.theater.program)
 
 
 def test_class_Allocine_errors():

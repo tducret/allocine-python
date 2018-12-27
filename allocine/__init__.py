@@ -3,8 +3,6 @@
 """Top-level package for Allociné."""
 
 import requests
-from dataclasses import dataclass, field
-from typing import List
 from datetime import datetime
 from bs4 import BeautifulSoup
 from json import loads
@@ -13,7 +11,7 @@ __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
 __version__ = '0.0.1'
 
-_DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
+_DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
 _DEFAULT_BEAUTIFULSOUP_PARSER = "html.parser"
 
 
@@ -122,13 +120,12 @@ class Allocine:
         return showtimes
 
 
-@dataclass
 class Movie:
-    id: int
-    title: str
-    rating: float
+    def __init__(self, id, title, rating):
+        self.id = id
+        self.title = title
+        self.rating = rating
 
-    def __post_init__(self):
         if self.rating is not None:
             f_rating = float(self.rating)
             if f_rating == 0.0:  # The movie has not been reviewed yet
@@ -140,9 +137,10 @@ class Movie:
         return "{} [{}]".format(self.title, self.id)
 
 
-@dataclass
 class MovieVersion(Movie):
-    version: str  # VF, VOST, VF 3D...
+    def __init__(self, id, title, rating, version):
+        super().__init__(id, title, rating)
+        self.version = version  # VF, VOST, VF 3D...
 
     def set_duration(self, duration):
         self.duration = duration
@@ -150,23 +148,21 @@ class MovieVersion(Movie):
     def __str__(self):
         return "{} ({})".format(super().__str__(), self.version)
 
+    def __eq__(self, other):
+        return (self.title, self.id, self.version)\
+         == (other.title, other.id, other.version)
+
     def __hash__(self):
         """ This function allows us
         to do a set(list_of_MovieVersion_objects) """
         return hash((self.title, self.id, self.version))
 
 
-@dataclass
 class Showtime:
-    datetime_str: str
-    # hour: str (see __post_init__)
-    # date: str (see __post_init__)
-    # datetime: str (see __post_init__)
-    # duration: str (see __post_init__)
-    movie_version: MovieVersion
-    end_datetime_str: str = None
-
-    def __post_init__(self):
+    def __init__(self, datetime_str, movie_version, end_datetime_str=None):
+        self.datetime_str = datetime_str
+        self.movie_version = movie_version
+        self.end_datetime_str = end_datetime_str
         datetime_obj = self._str_datetime_to_datetime_obj(
             datetime_str=self.datetime_str)
         if self.end_datetime_str is not None:
@@ -204,10 +200,10 @@ class Showtime:
         return fmt.format(**d)
 
 
-@dataclass
 class Program:
     """ A program is a list of showtimes """
-    showtimes: List[Showtime] = field(default_factory=list)
+    def __init__(self, showtimes=[]):
+        self.showtimes = showtimes
 
     def add_showtime(self, showtime):
         self.showtimes.append(showtime)
@@ -221,10 +217,6 @@ class Program:
         movie_versions = [showtime.movie_version for showtime in showtimes]
         return list(set(movie_versions))
 
-    def get_movie_duration(self, movie_version):
-        showtimes = self.get_showtimes(movie_version=movie_version)
-        return showtimes[0].duration
-
     def get_showtimes(self, date=None, movie_version=None):
         """ Returns a list of showtimes filtered """
         if date is not None:
@@ -237,20 +229,19 @@ class Program:
                          if showtime.movie_version == movie_version]
         return showtimes
 
-    def __str__():
+    def __str__(self):
         s = ""
         for showtime in self.showtimes:
             s += "{}\n".format(str(showtime))
+        return s
 
 
-@dataclass
 class Theater:
-    id: int
-    name: str
-    address: str
-
-    def __post_init__(self):
-        self.program = Program()
+    def __init__(self, id, name, address):
+        self.id = id
+        self.name = name
+        self.address = address
+        self.program = Program(showtimes=[])
 
     def __str__(self):
         return "{} [{}] : {} - {} showtime(s) available".format(
