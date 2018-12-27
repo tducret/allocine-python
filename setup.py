@@ -14,6 +14,7 @@ __version__ = '0.0.1'  # Should match with __init.py__
 _GITHUB_URL = 'https://github.com/tducret/allocine-python'
 _KEYWORDS = ['api', 'allocine', 'parsing',
              'python-wrapper', 'scraping', 'scraper', 'parser']
+_SCRIPTS = ['seances.py']
 
 
 install_reqs = parse_requirements('requirements.txt', session='hack')
@@ -23,7 +24,7 @@ setup(
     name='allocine',
     packages=find_packages(),
     package_data={},
-
+    scripts=_SCRIPTS,
     version=__version__,
     license="MIT license",
     platforms='Posix; MacOS X',

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """CLI tool for allocine"""
@@ -6,7 +7,7 @@ from allocine import Allocine
 from prettytable import PrettyTable, UNICODE, FRAME, ALL
 from datetime import date, timedelta
 
-# Usage : allocine_cli.py --help
+# Usage : seances.py --help
 
 
 def extract_field_names(dict_list):
@@ -22,19 +23,16 @@ def extract_field_names(dict_list):
 
 
 @click.command()
-@click.option(
-    '--id-cinema', '-c',
+@click.argument(
+    'id_cinema',
     type=str,
-    help="identifiant du cinéma sur Allociné, \
-ex: C0159 pour l’UGC Ciné Cité Les Halles. Se trouve dans l’url : \
-http://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.html",
     required=True
 )
 @click.option(
     '--jour', '-j',
     type=str,
     help="jour des séances souhaitées \
-(au format DD/MM/YYYY ou +1 pour demain), par défaut : aujourd'hui",
+(au format DD/MM/YYYY ou +1 pour demain), par défaut : aujourd’hui",
 )
 @click.option(
     '--semaine', '-s',
@@ -48,7 +46,10 @@ http://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.html",
 )
 def main(id_cinema, entrelignes, jour=None, semaine=None):
     """
-    Les séances de votre cinéma dans le terminal
+    Les séances de votre cinéma dans le terminal, avec
+    ID_CINEMA : identifiant du cinéma sur Allociné,
+    ex: C0159 pour l’UGC Ciné Cité Les Halles. Se trouve dans l’url :
+    http://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.html
     """
     today = date.today()
 
@@ -60,6 +61,8 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
             delta_jours = int(jour[1:])
             jour_obj = today + timedelta(days=delta_jours)
             jours.append(jour_obj.strftime("%d/%m/%Y"))
+        else:
+            jours.append(jour)
     else:
         for delta in range(0, 7):
             jour_obj = today + timedelta(days=delta)

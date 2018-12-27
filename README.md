@@ -28,28 +28,27 @@ pip3 install -U allocine
 #### Help
 
 ```bash
-allocine_cli.py --help
-Usage: allocine_cli.py [OPTIONS]
+seances.py --help
+Usage: seances.py [OPTIONS] ID_CINEMA
 
-  Les séances de votre cinéma dans le terminal
+  Les séances de votre cinéma dans le terminal, avec ID_CINEMA : identifiant
+  du cinéma sur Allociné, ex: C0159 pour l’UGC Ciné Cité Les Halles. Se
+  trouve dans l’url :
+  http://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.html
 
 Options:
-  -c, --id-cinema TEXT  identifiant du cinéma sur Allociné, ex: C0159 pour
-                        l’UGC Ciné Cité Les Halles. Se trouve dans l’url : htt
-                        p://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.ht
-                        ml  [required]
-  -j, --jour TEXT       jour des séances souhaitées (au format DD/MM/YYYY ou
-                        +1 pour demain), par défaut : aujourd’hui
-  -s, --semaine         affiche les séance pour les 7 prochains jours
-  -e, --entrelignes     ajoute une ligne entre chaque film pour améliorer la
-                        lisibilité
-  --help                Show this message and exit.
+  -j, --jour TEXT    jour des séances souhaitées (au format DD/MM/YYYY ou +1
+                     pour demain), par défaut : aujourd’hui
+  -s, --semaine      affiche les séance pour les 7 prochains jours
+  -e, --entrelignes  ajoute une ligne entre chaque film pour améliorer la
+                     lisibilité
+  --help             Show this message and exit.
 ```
 
 #### Basic usage
 
 ```bash
-allocine_cli.py --id-cinema P2235
+seances.py P2235
 
 MJC Ciné 113, le 27/12/2018
 ┌──────────────────────────────────────────────────────────┬──────┬───────┬───────┬───────┬───────┐
@@ -63,7 +62,7 @@ MJC Ciné 113, le 27/12/2018
 #### For tomorrow, with interlines
 
 ```bash
-allocine_cli.py --id-cinema P2235 -j+1 --entrelignes
+seances.py P2235 -j+1 --entrelignes
 
 MJC Ciné 113, le 28/12/2018
 ┌────────────────────────────────────────────────────┬──────┬───────┬───────┬───────┐
@@ -78,13 +77,13 @@ MJC Ciné 113, le 28/12/2018
 #### For a specific date
 
 ```bash
-allocine_cli.py --id-cinema P2235 --jour 29/12/2018
+seances.py P2235 --jour 29/12/2018
 ```
 
 #### For the full week
 
 ```bash
-allocine_cli.py --id-cinema P2235 --semaine
+seances.py P2235 --semaine
 ```
 
 ## Package usage
