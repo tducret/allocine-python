@@ -1,7 +1,7 @@
 language: python
 sudo: required
 dist: xenial
-python: "3.7"
+python: '3.7'
 before_script:
 - pip install -r requirements.txt
 - pip install python-coveralls
@@ -15,6 +15,6 @@ deploy:
   provider: pypi
   user: thibdct
   password:
-    secure: JWneDgQJCA5YZlyj34siCN0HXjqJnDjkSzJE9BVM4BRbTwJxej9ok/dwVhCKMBnzC5IFi2tvGhADLKOEheXbas7PxJfyxdN/cVnuHkXBtE0v56vYKw/j0/teasFnFx/mmTM7Lg80+sI1YDoLDU7TsvPYBEMFV57g4J8tTWzjQWJV4OpNUrERKQTbQoU3sBqOpQKNz0ebYuAiCSUuUqP8/z10zjfFBx5TUpHkErIZYMEHIZYvuRFjCtGXXnZLCR3vSwfM2NnvPyisbXUVDivuM9MTKR1yeMGG046cj5w4234y3I2IW+NO/mXJQ6eI+KubM69D+bMOtB1Dz3S/rNeSBixrontXFHKH9xQoaROm2FQtmKVwIFnJTMPcaw2keCwHj49vlNXsf3X8CjdCiDTFenJCQ0gLQNW5ehD3joqFF70fwE1FXfMn2kTJ0VK+bmSq0wvE9eu5hmfVPBXdvTOj8QRczd3duS4ygkDFErYYREFzpiykKo1A3/1L+jmqoBu9+LADavvssMVlT0183uB0ItiPLnnCAlZ5jt9rLoqf8GbcC76368BwD9fxbdXGiJrfa31OdFQnc5Nh1YHoChyrBnkF6W5bev/fTyoxuPMU7l+kBup4J3VJZirjG+HvFhRovtOieWXtli3ASZu0y7ZJ1IfFV+78k/Ys6sdUBQBnWnI=
+    secure: C8oVggIPJgI6OV35g+lP+cFfP7MMkJQYC1/a98I8wSjaW1GBzJdcZgqIGnyaWwWe4ihMtBhSCEF9mxk262o8cPvwwLhP/9Rve+X+dzJogBLSZ5x8Np7dbRcyMjlTqStNNGlIbijB8lX5HiZA+XA/Rs717DCQseilf1aJX3K9S9vq8+dfdgy9PGQDnWoOxV3DjCp/XtRaITpBr/K8g1bxdW2YB0Tp8NbtJbiSLAKZfXfCCDrdrtHt11SB+3BiczM2zS76Ir5zyr+PfJL3HRgNzuHq2K7afEFSca1ryLt4T+dQ3YSmj/Pxic9pmKbfcN1S4HdQK+IOZEpYIL94dqMie+92OlY5OIA+u1nlu8fGj1EZTD7nZ49EIVLRzqNCAC0iHAzJfNfFYsbwsbgXiYt2NeCRIRKwx71kvagJ2t3IjJnkBrHCwG+Atbzuo5MMOV8xicLItOBxTysDP2V9Wg2HJ85362wwFmLC4MxhRGa+YKtlKZFL3Z2vNor5wj+zLr/F9Ehd6AyObn9Fa6hJGc87+LTPLRmGOa/E4JvvaP55VUnWPaJu7/eyBROoWD+j+6aTlTpOSd7drPqlVwv69XgIfINU8wS5/Wh070IEGwrD9aSwxGnOdTZlTrQ9x2P7lEZYNK3TWfvmc4quFNd6zCkjm0GrfuHu32/QZmYm3F0V/mA=
   on:
     tags: true

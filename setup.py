@@ -52,7 +52,7 @@ setup(
 # ------------------------------------------
 # Make sure everything was pushed (with a git status)
 # (or git commit --am "Comment" and git push)
-# export VERSION=<VERSION>; git tag $VERSION -m "First version"; git push --tags
+# export VERSION=0.0.1; git tag $VERSION -m "First version"; git push --tags
 
 # If you need to delete a tag
 # git push --delete origin $VERSION; git tag -d $VERSION
