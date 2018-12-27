@@ -13,7 +13,7 @@
 
 ## Requirements
 
-- Python 3.7
+- Python 3.5
 - pip3
 
 ## Installation
