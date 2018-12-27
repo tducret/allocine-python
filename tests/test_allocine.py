@@ -124,7 +124,7 @@ def test_class_Showtime_errors():
 
 
 def test_class_Allocine():
-    a = Allocine(theater_id="P2235")
+    a = Allocine(theater_id="P0645")
     print(a.theater.program)
 
 
