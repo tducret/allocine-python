@@ -111,3 +111,8 @@ Example output :
 29/12/2018 14:15 : Astérix - Le Secret de la Potion Magique [244560] (VF) (01h25)
 [...]
 ```
+
+## TODO
+
+- [ ] Automate Docker image generation on Docker Hub
+- [ ] Add docker image usage
