@@ -3,6 +3,7 @@
 [![Travis](https://img.shields.io/travis/tducret/allocine-python.svg)](https://travis-ci.org/tducret/allocine-python)
 [![Coveralls github](https://img.shields.io/coveralls/github/tducret/allocine-python.svg)](https://coveralls.io/github/tducret/allocine-python)
 [![PyPI](https://img.shields.io/pypi/v/allocine.svg)](https://pypi.org/project/allocine/)
+[![Docker Build Status](https://img.shields.io/docker/build/thibdct/seances.svg)](https://hub.docker.com/r/thibdct/seances/)
 ![License](https://img.shields.io/github/license/tducret/allocine-python.svg)
 
 ![Cinéma](cinema.jpg)
@@ -21,7 +22,16 @@
 ```bash
 pip3 install -U allocine
 ```
+
+> You can also use it with Docker. Have a look at [this section](#docker)
+
 ## CLI tool usage
+
+You just need to look for your theater identifier on [allocine.fr](allocine.fr).
+
+Just search for your theater, and take note of the identifier in the URL. Here, it is `P0645`.
+
+![Theater identifier](snapshot_theater_id.png)
 
 ![Capture terminal](capture.svg)
 
@@ -112,7 +122,43 @@ Example output :
 [...]
 ```
 
-## TODO
+# Docker
 
-- [ ] Automate Docker image generation on Docker Hub
-- [ ] Add docker image usage
+You can use the `seances` tool with the [Docker image](https://hub.docker.com/r/thibdct/seances/)
+
+You may execute :
+
+`docker run -it --rm thibdct/seances P2235`
+
+## 🤘 The easy way 🤘
+
+I also built a bash wrapper to execute the Docker container easily.
+
+Install it with :
+
+```bash
+curl -s https://raw.githubusercontent.com/tducret/allocine-python/master/seances \
+> /usr/local/bin/seances && chmod +x /usr/local/bin/seances
+```
+*You may replace `/usr/local/bin` with another folder that is in your $PATH*
+
+Check that it works :
+
+*On the first execution, the script will download the Docker image, so please be patient*
+
+```bash
+seances --help
+seances P2235 -j+1 --entrelignes
+```
+
+You can upgrade the app with :
+
+```bash
+seances --upgrade
+```
+
+and even uninstall with :
+
+```bash
+seances --uninstall
+```
