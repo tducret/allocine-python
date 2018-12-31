@@ -3,7 +3,7 @@
 [![Travis](https://img.shields.io/travis/tducret/allocine-python.svg)](https://travis-ci.org/tducret/allocine-python)
 [![Coveralls github](https://img.shields.io/coveralls/github/tducret/allocine-python.svg)](https://coveralls.io/github/tducret/allocine-python)
 [![PyPI](https://img.shields.io/pypi/v/allocine.svg)](https://pypi.org/project/allocine/)
-[![Docker Build Status](https://img.shields.io/docker/build/thibdct/seances.svg)](https://hub.docker.com/r/thibdct/seances/)
+[![Docker Image size](https://img.shields.io/microbadger/image-size/thibdct/seances.svg)](https://hub.docker.com/r/thibdct/seances/)
 ![License](https://img.shields.io/github/license/tducret/allocine-python.svg)
 
 ![Cinéma](cinema.jpg)
@@ -129,6 +129,8 @@ You can use the `seances` tool with the [Docker image](https://hub.docker.com/r/
 You may execute :
 
 `docker run -it --rm thibdct/seances P2235`
+
+> The Docker image is built on top of [Google Distroless image](https://github.com/GoogleContainerTools/distroless), so it is tiny :)
 
 ## 🤘 The easy way 🤘
 
