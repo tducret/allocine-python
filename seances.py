@@ -85,8 +85,8 @@ def get_showtime_table(id_cinema, entrelignes, jour):
     for movie_version in movies_available_today:
 
         title = movie_version.title
-        if len(title) >= 40:  # On tronque les titres trop longs
-            title = title[:40] + '...'
+        if len(title) >= 31:  # On tronque les titres trop longs
+            title = title[:31] + '...'
 
         # '*1_film' pour être sûr que cela soit la 1ère colonne
         movie_row = {'*1_film': "{} ({}) - {}".format(
@@ -107,7 +107,7 @@ def get_showtime_table(id_cinema, entrelignes, jour):
 
     seances = showtime_table
 
-    retour = "{}, le {}\n".format(a.theater.name, jour)
+    retour = "{}\n".format(jour)
 
     if len(seances) <= 0:
         retour += "Aucune séance"
