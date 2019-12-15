@@ -76,9 +76,9 @@ def test_Theater_add_showtime():
     theater = Theater(name="Cinema", id="A7890", address="2 rue lilas, Albi")
     movie_version = MovieVersion(title="Titanic", id=12345,
                                  version="VOST", rating=4.50209)
-    showtime = Showtime(datetime_str="2018-12-15T17:15:00.000Z",
+    showtime = Showtime(datetime_str="2018-12-15T17:15:00",
                         movie_version=movie_version)
-    showtime2 = Showtime(datetime_str="2018-12-15T20:15:00.000Z",
+    showtime2 = Showtime(datetime_str="2018-12-15T20:15:00",
                          movie_version=movie_version)
     assert len(theater.program.showtimes) == 0
     theater.program.add_showtime(showtime=showtime)
@@ -99,10 +99,10 @@ def test_class_Theater_errors():
 def test_class_Showtime():
     movie_version = MovieVersion(title="Titanic", id=12345,
                                  version="VOST", rating=4.50209)
-    showtime = Showtime(datetime_str="2018-12-15T17:15:00.000Z",
-                        end_datetime_str="2018-12-15T19:15:00.000Z",
+    showtime = Showtime(datetime_str="2018-12-15T17:15:00",
+                        end_datetime_str="2018-12-15T19:15:00",
                         movie_version=movie_version)
-    assert showtime.datetime_str == "2018-12-15T17:15:00.000Z"
+    assert showtime.datetime_str == "2018-12-15T17:15:00"
     assert showtime.hour == "17:15"
     assert showtime.datetime == "15/12/2018 17:15"
     assert showtime.date == "15/12/2018"
@@ -137,17 +137,17 @@ def init_theater_object():
     theater = Theater(name="Cinema", id="A7890", address="2 rue lilas, Albi")
     movie_version = MovieVersion(title="Titanic", id=12345,
                                  version="VOST", rating=4.50209)
-    showtime = Showtime(datetime_str="2018-12-15T17:15:00.000Z",
+    showtime = Showtime(datetime_str="2018-12-15T17:15:00",
                         movie_version=movie_version)
     movie_version2 = MovieVersion(title="Titanic", id=12345, version="VF",
                                   rating=4.50209)
-    showtime2 = Showtime(datetime_str="2018-12-15T20:15:00.000Z",
+    showtime2 = Showtime(datetime_str="2018-12-15T20:15:00",
                          movie_version=movie_version2)
     movie_version3 = MovieVersion(title="Avatar", id=6789, version="VF",
                                   rating=4.6356)
-    showtime3 = Showtime(datetime_str="2018-12-15T10:30:00.000Z",
+    showtime3 = Showtime(datetime_str="2018-12-15T10:30:00",
                          movie_version=movie_version3)
-    showtime4 = Showtime(datetime_str="2018-12-16T10:30:00.000Z",
+    showtime4 = Showtime(datetime_str="2018-12-16T10:30:00",
                          movie_version=movie_version3)
     theater.program.add_showtimes(showtimes=[showtime, showtime2,
                                              showtime3, showtime4])
