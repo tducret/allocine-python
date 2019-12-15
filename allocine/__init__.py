@@ -4,15 +4,13 @@
 
 import requests
 from datetime import datetime
-from bs4 import BeautifulSoup
 from json import loads
 
 __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
-__version__ = '0.0.1'
+__version__ = '0.0.3'
 
-_DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
-_DEFAULT_BEAUTIFULSOUP_PARSER = "html.parser"
+_DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 
 class Allocine:
@@ -22,13 +20,16 @@ class Allocine:
         http://www.allocine.fr/seance/salle_gen_csalle=[theater_id].html
         For example : theater_id="C0159" for UGC Ciné Cité Les Halles"""
         self.theater_id = theater_id
-        self.allocine_dict = self._get_showtimes_dict()
+        self.results = []
+        for delta in range(0, 8):
+            results = self._get_showtimes_dict(delta_day=delta).get('results')
+            self.results.extend(results)
         self.movies = self._get_movies()
         self.theater = self._get_theater_info()
         showtimes = self._get_showtimes()
         self.theater.program.add_showtimes(showtimes)
 
-    def _get_showtimes_dict(self):
+    def _get_showtimes_dict(self, delta_day=0):
         """ Get the `data-movies-showtimes` dict from Allociné webpage.
         It contains all the information about the theater, the movies and
         the showtimes.
@@ -40,34 +41,33 @@ class Allocine:
                                    Intel Mac OS X 10.14; rv:63.0) \
                                    Gecko/20100101 Firefox/63.0',
                     }
-        url = "http://www.allocine.fr/seance/salle_gen_csalle={}.html".format(
-            self.theater_id)
+        url = "http://www.allocine.fr/_/showtimes/theater-{id}/d-{delta}/".format(
+            id=self.theater_id, delta=delta_day)
         ret = session.get(url=url, headers=headers)
-        html_page = ret.text
-        soup = BeautifulSoup(html_page, _DEFAULT_BEAUTIFULSOUP_PARSER)
-        section = soup.select("section.js-movie-list")
-        if len(section) == 0:
+        if ret.status_code != 200:
             raise ValueError(
                 "Showtimes not found. Is theater id correct : '{}' ?".format(
                     self.theater_id))
-        return loads(section[0].get("data-movies-showtimes"))
+        return loads(ret.text)
 
     def _get_movies(self):
         """ From the Allociné dict, returns a list of Movie objects"""
-        movies = self.allocine_dict['movies']
         movie_list = []
-        for movie_id, movie_details in movies.items():
-            title = movie_details.get('title')
-            rating = movie_details.get('social').get('user_review_rating')
-            movie_list.append(Movie(id=movie_id, title=title, rating=rating))
+        for m in self.results:
+            movie_details = m.get('movie')
+            if movie_details:
+                title = movie_details.get('title')
+                rating = movie_details.get('stats').get('userRating').get('score')
+                movie_id = movie_details.get('internalId')
+                movie_list.append(Movie(id=movie_id, title=title, rating=rating))
         return movie_list
 
     def _get_theater_info(self):
         """ From the Allociné dict, returns a Theater object"""
-        theaters = self.allocine_dict.get('theaters')
-        t = theaters.get(self.theater_id)
-        return Theater(id=self.theater_id, name=t.get('name'),
-                       address=t.get('address').get('city'))
+        # theaters = self.allocine_dict.get('theaters')
+        # t = theaters.get(self.theater_id)
+        return Theater(id=self.theater_id, name='',
+                       address='')
 
     def _get_movie_obj_from_id(self, movie_id):
         """ Returns a Movie object from its id """
@@ -82,41 +82,58 @@ class Allocine:
         """ From the Allociné dict, returns a list of Showtime objects
         """
         showtimes = []
-        showtimes_per_day = self.allocine_dict.get(
-            'showtimes').get(self.theater_id)
-        for date, movies in showtimes_per_day.items():
-            for movie_id, movie_versions in movies.items():
-                # movie_version is a kind of display for the movie
-                # (language, 3D/2D...)
-                movie_obj = self._get_movie_obj_from_id(movie_id=movie_id)
+        for r in self.results:
+            movie_details = r.get('movie')
+            if movie_details:
+                title = movie_details.get('title')
+                rating = movie_details.get('stats').get('userRating').get('score')
+                movie_id = movie_details.get('internalId')
+                raw_duration = movie_details.get('runtime')
+                # Converts '1h 40min' to '01h40'
+                duration = raw_duration.replace(' ','').replace('min','')
+                if len(duration) == 4:
+                    duration = '0' + duration
+            
+            movie_showtimes = []
+            for version_type in ('dubbed', 'original', 'local'):
+                movie_showtimes.extend(r.get('showtimes').get(version_type))
 
-                for movie_version in movie_versions:
+            for movie_showtime in movie_showtimes:
+                # Language
+                version = 'VF' if check_string_in_list(
+                    movie_showtime.get('tags'),
+                    value='Localization.Language.French'
+                ) else 'VOST'
 
-                    if movie_version.get("version") == "translated":
-                        version = "VF"
-                    else:
-                        version = "VOST"
+                # Projection
+                if check_string_in_list(movie_showtime.get('tags'),
+                                        value='Format.Projection.Imax3d'):
+                    version += ' IMAX 3D'         
+                elif check_string_in_list(movie_showtime.get('tags'),
+                                        value='FFormat.Projection.3d'):
+                    version += ' 3D'      
 
-                    format = movie_version.get("format").get("name")
-                    if format != "Numérique":
-                        version += " {}".format(format)
+                # Experience
+                if check_string_in_list(movie_showtime.get('tags'),
+                                        value='Auditorium.Experience.4dx'):
+                    version += ', Salle 4DX'
+                elif check_string_in_list(movie_showtime.get('tags'),
+                                        value='Auditorium.Experience.DolbyCinema'):
+                    version += ', Salle Dolby'
 
-                    if movie_version.get("fourdx") == True:
-                        version += ", Salle 4DX"
+                movie_version_obj = MovieVersion(
+                    title=title,
+                    id=movie_id,
+                    rating=rating,
+                    version=version)
 
-                    movie_version_obj = MovieVersion(title=movie_obj.title,
-                                                     id=movie_obj.id,
-                                                     rating=movie_obj.rating,
-                                                     version=version)
+                
+                showtime_obj = Showtime(
+                    datetime_str=movie_showtime.get("startsAt"),
+                    movie_version=movie_version_obj,
+                    duration=duration)
 
-                    for showtime in movie_version.get('showtimes'):
-
-                        showtime_obj = Showtime(
-                            datetime_str=showtime.get("movieStart"),
-                            movie_version=movie_version_obj,
-                            end_datetime_str=showtime.get("movieEnd"))
-
-                        showtimes.append(showtime_obj)
+                showtimes.append(showtime_obj)
         return showtimes
 
 
@@ -159,10 +176,12 @@ class MovieVersion(Movie):
 
 
 class Showtime:
-    def __init__(self, datetime_str, movie_version, end_datetime_str=None):
+    def __init__(self, datetime_str, movie_version, end_datetime_str=None,
+                 duration=None):
         self.datetime_str = datetime_str
         self.movie_version = movie_version
         self.end_datetime_str = end_datetime_str
+        self.duration = duration
         datetime_obj = self._str_datetime_to_datetime_obj(
             datetime_str=self.datetime_str)
         if self.end_datetime_str is not None:
@@ -171,6 +190,8 @@ class Showtime:
             duration_obj = end_datetime_obj - datetime_obj
             self.duration = self._strfdelta(duration_obj,
                                             "{hours:02d}h{minutes:02d}")
+            self.movie_version.set_duration(self.duration)
+        elif self.duration is not None:
             self.movie_version.set_duration(self.duration)
         else:
             self.duration = "HH:MM"
@@ -246,3 +267,8 @@ class Theater:
     def __str__(self):
         return "{} [{}] : {} - {} showtime(s) available".format(
             self.name, self.id, self.address, len(self.program.showtimes))
+
+
+def check_string_in_list(my_list, *, value):
+    """ Returns ``True`` if the ``value`` is present in ``my_list`` """
+    return any(value in s for s in my_list)
