@@ -68,18 +68,18 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
             jour_obj = today + timedelta(days=delta)
             jours.append(jour_obj.strftime("%d/%m/%Y"))
 
+    a = Allocine(theater_id=id_cinema)
+
     for jour in jours:
         print()
-        print(get_showtime_table(id_cinema=id_cinema, entrelignes=entrelignes,
+        print(get_showtime_table(allocine=a, id_cinema=id_cinema, entrelignes=entrelignes,
                                  jour=jour))
 
 
-def get_showtime_table(id_cinema, entrelignes, jour):
+def get_showtime_table(allocine, id_cinema, entrelignes, jour):
     showtime_table = []
 
-    a = Allocine(theater_id=id_cinema)
-
-    movies_available_today = a.theater.program.get_movies_available_for_a_day(
+    movies_available_today = allocine.theater.program.get_movies_available_for_a_day(
                                 date=jour)
 
     for movie_version in movies_available_today:
@@ -96,7 +96,7 @@ def get_showtime_table(id_cinema, entrelignes, jour):
 
         movie_row['*2_note'] = "{}*".format(movie_version.rating)
 
-        showtimes = a.theater.program.get_showtimes(
+        showtimes = allocine.theater.program.get_showtimes(
             movie_version=movie_version, date=jour)
 
         for showtime in showtimes:
