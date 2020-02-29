@@ -8,7 +8,7 @@ from json import loads
 
 __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 _DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
@@ -20,35 +20,40 @@ class Allocine:
         http://www.allocine.fr/seance/salle_gen_csalle=[theater_id].html
         For example : theater_id="C0159" for UGC Ciné Cité Les Halles"""
         self.theater_id = theater_id
-        self.results = []
-        for delta in range(0, 8):
-            results = self._get_showtimes_dict(delta_day=delta).get('results')
-            self.results.extend(results)
-        self.movies = self._get_movies()
-        self.theater = self._get_theater_info()
-        showtimes = self._get_showtimes()
-        self.theater.program.add_showtimes(showtimes)
-
-    def _get_showtimes_dict(self, delta_day=0):
-        """ Get the `data-movies-showtimes` dict from Allociné webpage.
-        It contains all the information about the theater, the movies and
-        the showtimes.
-        Returns a dict."""
-        session = requests.session()
         headers = {
                     'Host': 'www.allocine.fr',
                     'User-Agent': 'Mozilla/5.0 (Macintosh; \
                                    Intel Mac OS X 10.14; rv:63.0) \
                                    Gecko/20100101 Firefox/63.0',
                     }
-        url = "http://www.allocine.fr/_/showtimes/theater-{id}/d-{delta}/".format(
-            id=self.theater_id, delta=delta_day)
-        ret = session.get(url=url, headers=headers)
+        self.session = requests.session()
+        self.session.headers.update(headers)
+        self.results = []
+        for delta in range(0, 8):
+            results = self._get_showtimes_dict(delta_day=delta)
+            self.results.extend(results)
+        self.movies = self._get_movies()
+        self.theater = self._get_theater_info()
+        showtimes = self._get_showtimes()
+        self.theater.program.add_showtimes(showtimes)
+
+    def _get_showtimes_dict(self, delta_day=0, page=1):
+        """ Get the `data-movies-showtimes` dict from Allociné webpage.
+        It contains all the information about the theater, the movies and
+        the showtimes.
+        Returns a dict."""
+        url = "http://www.allocine.fr/_/showtimes/theater-{id}/d-{delta}/p-{page}".format(
+            id=self.theater_id, delta=delta_day, page=page)
+        ret = self.session.get(url=url)
         if ret.status_code != 200:
             raise ValueError(
                 "Showtimes not found. Is theater id correct : '{}' ?".format(
                     self.theater_id))
-        return loads(ret.text)
+        ret_json = ret.json()
+        showtimes = ret_json.get('results')
+        if page < ret_json.get('pagination').get('totalPages'):
+            showtimes += self._get_showtimes_dict(delta_day=delta_day, page=page+1)
+        return showtimes
 
     def _get_movies(self):
         """ From the Allociné dict, returns a list of Movie objects"""

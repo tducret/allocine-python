@@ -10,7 +10,7 @@ except ImportError:  # For pip <= 9
     from pip.req import parse_requirements
 
 
-__version__ = '0.0.3'  # Should match with __init.py__
+__version__ = '0.0.4'  # Should match with __init.py__
 _GITHUB_URL = 'https://github.com/tducret/allocine-python'
 _KEYWORDS = ['api', 'allocine', 'parsing',
              'python-wrapper', 'scraping', 'scraper', 'parser']
@@ -52,7 +52,7 @@ setup(
 # ------------------------------------------
 # Make sure everything was pushed (with a git status)
 # (or git commit --am "Comment" and git push)
-# export VERSION=0.0.3; git tag $VERSION -m "Fix #3: use new Allociné API"; git push --tags
+# export VERSION=0.0.4; git tag $VERSION -m "Gestion de la pagination (s'il y a plus de 15 films dans une salle)"; git push --tags
 
 # If you need to delete a tag
 # git push --delete origin $VERSION; git tag -d $VERSION
