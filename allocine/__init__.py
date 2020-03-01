@@ -8,7 +8,7 @@ from json import loads
 
 __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 
 _DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 _BASE_URL = 'http://api.allocine.fr/rest/v3'
