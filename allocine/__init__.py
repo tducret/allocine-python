@@ -2,21 +2,217 @@
 
 """Top-level package for Allociné."""
 
-import requests
-from datetime import datetime, timedelta
+from dataclasses import dataclass
+from datetime import datetime, timedelta, date
 from json import loads
+from typing import List, Optional
+
+import jmespath
+import requests
 
 __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
-_DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
-_BASE_URL = 'http://api.allocine.fr/rest/v3'
-_PARTNER_KEY = '000042532791'
+DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
+BASE_URL = 'http://api.allocine.fr/rest/v3'
+PARTNER_KEY = '000042532791'
 
 
+# === Models ===
+@dataclass
+class Movie:
+    movie_id: int
+    title: str
+    rating: Optional[float]
+    duration: Optional[timedelta]
+
+    @property
+    def duration_str(self):
+        if self.duration is not None:
+            return _strfdelta(self.duration, '{hours:02d}h{minutes:02d}')
+        else:
+            return 'HH:MM'
+
+    @property
+    def rating_str(self):
+        return '{0:.1f}'.format(self.rating) if self.rating else ''
+
+    def __str__(self):
+        return f'{self.title} [{self.movie_id}] ({self.duration_str})'
+
+
+@dataclass
+class MovieVersion(Movie):
+    language: str
+    screen_format: str
+
+    @property
+    def version(self):
+        version = 'VF' if self.language != 'Français' else 'VOST'
+        if self.screen_format != 'Numérique':
+            version += f' {self.screen_format}'
+        return version
+
+    def __str__(self):
+        movie_str = super().__str__()
+        return f'{movie_str} ({self.version})'
+
+    def __eq__(self, other):
+        return (self.movie_id, self.version) == (other.movie_id, other.version)
+
+    def __hash__(self):
+        """ This function allows us
+        to do a set(list_of_MovieVersion_objects) """
+        return hash((self.movie_id, self.version))
+
+
+@dataclass
+class Showtime:
+    date_time: datetime
+    movie: MovieVersion
+
+    @property
+    def date(self) -> date:
+        return self.date_time.date()
+
+    @property
+    def hour(self) -> str:
+        return str(self.date_time.strftime('%H:%M'))
+
+    def __str__(self):
+        return f'{self.date} : {self.movie}'
+
+@dataclass
+class Theater:
+    theater_id: str
+    name: str
+    showtimes: List[Showtime]
+    address: str
+    zipcode: str
+    city: str
+
+    @property
+    def address_str(self):
+        return f'{self.address}, {self.zipcode} {self.city}'
+
+    def get_showtimes_of_a_movie(self, movie_version: MovieVersion, date: date=None):
+        movie_showtimes = [showtime for showtime in self.showtimes
+                           if showtime.movie == movie_version]
+        if date:
+            return [showtime for showtime in movie_showtimes
+                    if showtime.date == date]
+        else:
+            return movie_showtimes
+
+    def get_showtimes_of_a_day(self, date: date):
+        return [showtime for showtime in self.showtimes
+                if showtime.date == date]
+
+    def get_movies_available_for_a_day(self, date: date):
+        """ Returns a list of movies available on a specified day """
+        movies = [showtime.movie for showtime in self.get_showtimes_of_a_day(date)]
+        return list(set(movies))
+
+# === Main class ===
+class Allocine:
+    def __init__(self):
+        self.__client = Client()
+
+    def get_theater(self, theater_id: str):
+        ret = self.__client.get_showtimelist_by_theater_id(theater_id=theater_id)
+        if jmespath.search('feed.totalResults', ret) == 0:
+            raise ValueError(f'Theater not found. Is theater id {theater_id!r} correct?')
+        
+        theaters = self.__get_theaters_from_raw_showtimelist(raw_showtimelist=ret)
+        if len(theaters) != 1:
+            raise ValueError('Expecting 1 theater but received {}'.format(len(theaters)))
+ 
+        return theaters[0]
+
+    def __get_theaters_from_raw_showtimelist(
+        self, raw_showtimelist: dict, distance_max_inclusive: int=0):
+        theaters = []
+        for theater_showtime in jmespath.search('feed.theaterShowtimes', raw_showtimelist):
+            raw_theater = jmespath.search('place.theater', theater_showtime)
+
+            if raw_theater.get('distance') is not None:
+                  # distance is not present when theater ids were used for search
+                if raw_theater.get('distance') > distance_max_inclusive:
+                    # Skip theaters that are above the max distance specified
+                    continue
+
+            raw_showtimes = jmespath.search('movieShowtimes', theater_showtime)
+            showtimes = self.__parse_showtimes(raw_showtimes=raw_showtimes)
+            theater = Theater(
+                theater_id=raw_theater.get('code'),
+                name=raw_theater.get('name'),
+                address=raw_theater.get('address'),
+                zipcode=raw_theater.get('postalCode'),
+                city=raw_theater.get('city'),
+                showtimes=showtimes
+            )
+            theaters.append(theater)
+        return theaters
+
+    def search_theaters(self, geocode: int):
+        theaters = []
+        page = 1
+        while True:
+            ret = self.__client.get_showtimelist_from_geocode(geocode=geocode, page=page)
+            total_results = jmespath.search('feed.totalResults', ret)
+            if total_results == 0:
+                raise ValueError(f'Theater not found. Is geocode {geocode!r} correct?')
+
+            theaters_to_parse = jmespath.search('feed.theaterShowtimes', ret)
+            if theaters_to_parse:
+                theaters += self.__get_theaters_from_raw_showtimelist(
+                    raw_showtimelist=ret,
+                    distance_max_inclusive=0
+                )
+                page += 1
+            else:
+                break
+        
+        return theaters
+
+    def __parse_showtimes(self, raw_showtimes: dict):
+        showtimes = []
+        for s in raw_showtimes:
+            raw_movie = jmespath.search('onShow.movie', s)
+            language = jmespath.search('version."$"', s)
+            screen_format = jmespath.search('screenFormat."$"', s)
+            duration=raw_movie.get('runtime')
+            duration_obj = timedelta(seconds=duration) if duration else None
+    
+            rating = jmespath.search('statistics.userRating', raw_movie)
+            try:
+                rating = float(rating)
+            except:
+                rating = None
+    
+            movie = MovieVersion(
+                movie_id=raw_movie.get('code'),
+                title=raw_movie.get('title'),
+                rating=rating,
+                language=language,
+                screen_format=screen_format,
+                duration=duration_obj)
+            for showtimes_of_day in s.get('scr'):
+                day = showtimes_of_day.get('d')
+                for one_showtime in showtimes_of_day.get('t'):
+                    datetime_str = '{}T{}:00'.format(day, one_showtime.get('$'))
+                    datetime_obj = _str_datetime_to_datetime_obj(datetime_str)
+                    showtime = Showtime(
+                        date_time=datetime_obj,
+                        movie=movie,
+                    )
+                    showtimes.append(showtime)
+        return showtimes
+
+
+# === Client to execute requests with Allociné APIs ===
 class SingletonMeta(type):
-
     _instance = None
 
     def __call__(self):
@@ -39,117 +235,30 @@ class Client(metaclass=SingletonMeta):
         self.session = requests.session()
         self.session.headers.update(headers)
 
-    def _get(self, url, expected_status=200, *args, **kwargs):
+    def _get(self, url: str, expected_status: int=200, *args, **kwargs):
         ret = self.session.get(url, *args, **kwargs)
         if ret.status_code != expected_status:
             raise ValueError('{!r} : expected status {}, received {}'.format(
                 url, expected_status, ret.status_code))
-        return ret
+        return ret.json()
 
-    def get_theater_info(self, theater_id):
-        url = '{base_url}/theater?partner={partner_key}&format=json&code={theater_id}'.format(
-            base_url=_BASE_URL,
-            partner_key=_PARTNER_KEY,
-            theater_id=theater_id
+    def get_showtimelist_by_theater_id(self, theater_id: str, page: int=1, count: int=10):
+        url = (
+                f'{BASE_URL}/showtimelist?partner={PARTNER_KEY}&format=json'
+                f'&theaters={theater_id}&page={page}&count={count}'
         )
-        ret = self._get(url=url)
-        info = ret.json().get('theater')
-        if info is None:
-            raise ValueError(
-                "Theater not found. Is theater id correct : '{}' ?".format(
-                    theater_id)
-            )
-        return info
+        return self._get(url=url)
 
-    def get_showtimes(self, theater_id):
-        url = '{base_url}/showtimelist?partner={partner_key}&format=json&theaters={theater_id}'.format(
-            base_url=_BASE_URL,
-            partner_key=_PARTNER_KEY,
-            theater_id=theater_id
+    def get_theater_info_by_id(self, theater_id: str):
+        url = f'{BASE_URL}/theater?partner={PARTNER_KEY}&format=json&code={theater_id}'
+        return self._get(url=url)
+
+    def get_showtimelist_from_geocode(self, geocode: int, page: int=1, count: int=10):
+        url = (
+                f'{BASE_URL}/showtimelist?partner={PARTNER_KEY}&format=json'
+                f'&geocode={geocode}&page={page}&count={count}'
         )
-        ret = self._get(url=url)
-        raw_showtimes = ret.json().get('feed').get('theaterShowtimes')[0].get('movieShowtimes')
-        return self.__parse_showtimes(raw_showtimes)
-
-    def __parse_showtimes(self, raw_showtimes):
-        showtimes = []
-        for s in raw_showtimes:
-            raw_movie = s.get('onShow').get('movie')
-            raw_version = s.get('version').get('$')
-            screen_format = s.get('screenFormat').get('$')
-            version = 'VF' if raw_version == 'Français' else 'VOST'
-            if screen_format != 'Numérique':
-                version += ' {}'.format(screen_format)
-            movie_version = MovieVersion(
-                id=raw_movie.get('code'),
-                title=raw_movie.get('title'),
-                rating=raw_movie.get('statistics').get('userRating'),
-                version=version,
-                duration=raw_movie.get('runtime'))
-            for showtimes_of_day in s.get('scr'):
-                day = showtimes_of_day.get('d')
-                for one_showtime in showtimes_of_day.get('t'):
-                    datetime_str = '{}T{}:00'.format(day, one_showtime.get('$'))
-                    showtime = Showtime(
-                        datetime_str=datetime_str,
-                        movie_version=movie_version,
-                    )
-                    showtimes.append(showtime)
-        return showtimes
-
-class Movie:
-    def __init__(self, *, id, title, rating, duration):
-        self.id = id
-        self.title = title
- 
-        if duration is not None:
-            duration_obj = timedelta(seconds=duration)
-            self.duration = _strfdelta(duration_obj, "{hours:02d}h{minutes:02d}")
-        else:
-            self.duration = 'HH:MM'
-
-        if rating is not None:
-            f_rating = float(rating)
-            if f_rating == 0.0:  # The movie has not been reviewed yet
-                self.rating = ''
-            else:
-                self.rating = "{0:.1f}".format(f_rating)
-        else:
-            self.rating = ''
-
-    def __str__(self):
-        return "{} [{}] ({})".format(self.title, self.id, self.duration)
-
-
-class MovieVersion(Movie):
-    """ A movie + the language and kind of screening (3D, IMAX...) used """
-    def __init__(self, *, id, title, rating, duration, version):
-        super().__init__(id=id, title=title, rating=rating, duration=duration)
-        self.version = version  # VF, VOST, VF 3D...
-
-    def __str__(self):
-        return "{} ({})".format(super().__str__(), self.version)
-
-    def __eq__(self, other):
-        return (self.title, self.id, self.version)\
-         == (other.title, other.id, other.version)
-
-    def __hash__(self):
-        """ This function allows us
-        to do a set(list_of_MovieVersion_objects) """
-        return hash((self.title, self.id, self.version))
-
-
-class Showtime:
-    def __init__(self, datetime_str, movie_version: MovieVersion):
-        self.movie_version = movie_version
-        datetime_obj = _str_datetime_to_datetime_obj(datetime_str)
-        self.hour = str(datetime_obj.strftime("%H:%M"))
-        self.datetime = str(datetime_obj.strftime("%d/%m/%Y %H:%M"))
-        self.date = str(datetime_obj.strftime("%d/%m/%Y"))
-
-    def __str__(self):
-        return "{} {} : {}".format(self.date, self.hour, self.movie_version)
+        return self._get(url=url)
 
 
 def _strfdelta(tdelta, fmt):
@@ -161,55 +270,5 @@ def _strfdelta(tdelta, fmt):
     return fmt.format(**d)
 
 
-def _str_datetime_to_datetime_obj(datetime_str, date_format=_DEFAULT_DATE_FORMAT):
+def _str_datetime_to_datetime_obj(datetime_str, date_format=DEFAULT_DATE_FORMAT):
     return datetime.strptime(datetime_str, date_format)
-
-
-class Program:
-    """ A program is a list of showtimes """
-    def __init__(self, theater_id):
-        self.__client = Client()
-        self.theater_id = theater_id
-        self.showtimes = self.__client.get_showtimes(theater_id)
-
-    def get_movies_available_for_a_day(self, date):
-        """ Returns a list of movies available on a specified day """
-        showtimes = self.get_showtimes(date=date)
-        movie_versions = [showtime.movie_version for showtime in showtimes]
-        return list(set(movie_versions))
-
-    def get_showtimes(self, date=None, movie_version=None):
-        """ Returns a list of showtimes filtered """
-        if date is not None:
-            showtimes = [showtime for showtime in self.showtimes
-                         if showtime.date == date]
-        else:
-            showtimes = self.showtimes
-        if movie_version is not None:
-            showtimes = [showtime for showtime in showtimes
-                         if showtime.movie_version == movie_version]
-        return showtimes
-
-    def __str__(self):
-        s = ""
-        for showtime in self.showtimes:
-            s += "{}\n".format(str(showtime))
-        return s
-
-
-class Theater:
-    def __init__(self, theater_id):
-        """ ``theater_id`` is the Allociné theater identifier.
-        It can be found in the showtimes url
-        http://www.allocine.fr/seance/salle_gen_csalle=[theater_id].html
-        For example : theater_id="C0159" for UGC Ciné Cité Les Halles"""
-        self.__client = Client()
-        self.theater_id = theater_id
-        self.info = self.__client.get_theater_info(theater_id)
-        self.name = self.info.get('name')
-        self.program = Program(theater_id)
-
-
-    def __str__(self):
-        return "{} [{}] : {} - {} showtime(s) available".format(
-            self.name, self.theater_id, self.address, len(self.program.showtimes))
