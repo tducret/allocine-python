@@ -14,7 +14,7 @@
 
 ## Requirements
 
-- Python 3.5
+- Python 3.7 and above
 - pip3
 
 ## Installation
@@ -100,11 +100,12 @@ seances.py P2235 --semaine
 
 ```python
 # -*- coding: utf-8 -*-
-from allocine import Theater
+from allocine import Allocine
 
-theater = Theater("P2235")
+allocine = Allocine()
+theater = allocine.get_theater("P2235")
 
-for showtime in theater.program.showtimes:
+for showtime in theater.showtimes:
     print(showtime)
 ```
 
