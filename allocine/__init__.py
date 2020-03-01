@@ -78,10 +78,14 @@ class Showtime:
 
     @property
     def hour(self) -> str:
-        return str(self.date_time.strftime('%H:%M'))
+        return self.date_time.strftime('%H:%M')
+
+    @property
+    def date_str(self) -> date:
+        return self.date_time.strftime('%d/%m/%Y %H:%M')
 
     def __str__(self):
-        return f'{self.date} : {self.movie}'
+        return f'{self.date_str} : {self.movie}'
 
 @dataclass
 class Theater:
