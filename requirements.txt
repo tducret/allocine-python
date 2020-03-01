@@ -1,4 +1,4 @@
-requests==2.21.0
-PTableUnicode==0.9.3
 Click==7.0
-beautifulsoup4==4.6.3
+jmespath==0.9.5
+PTableUnicode==0.9.3
+requests==2.21.0
