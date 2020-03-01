@@ -3,7 +3,7 @@
 
 """CLI tool for allocine"""
 import click
-from allocine import Allocine
+from allocine import Theater
 from prettytable import PrettyTable, UNICODE, FRAME, ALL
 from datetime import date, timedelta
 
@@ -68,18 +68,23 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
             jour_obj = today + timedelta(days=delta)
             jours.append(jour_obj.strftime("%d/%m/%Y"))
 
-    a = Allocine(theater_id=id_cinema)
+    theater = Theater(theater_id=id_cinema)
 
+    print('{}, le '.format(theater.name), end='')
     for jour in jours:
+        print(get_showtime_table(
+            theater=theater,
+            id_cinema=id_cinema,
+            entrelignes=entrelignes,
+            jour=jour)
+        )
         print()
-        print(get_showtime_table(allocine=a, id_cinema=id_cinema, entrelignes=entrelignes,
-                                 jour=jour))
 
 
-def get_showtime_table(allocine, id_cinema, entrelignes, jour):
+def get_showtime_table(theater, id_cinema, entrelignes, jour):
     showtime_table = []
 
-    movies_available_today = allocine.theater.program.get_movies_available_for_a_day(
+    movies_available_today = theater.program.get_movies_available_for_a_day(
                                 date=jour)
 
     for movie_version in movies_available_today:
@@ -96,7 +101,7 @@ def get_showtime_table(allocine, id_cinema, entrelignes, jour):
 
         movie_row['*2_note'] = "{}*".format(movie_version.rating)
 
-        showtimes = allocine.theater.program.get_showtimes(
+        showtimes = theater.program.get_showtimes(
             movie_version=movie_version, date=jour)
 
         for showtime in showtimes:

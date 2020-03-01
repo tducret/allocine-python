@@ -100,11 +100,11 @@ seances.py P2235 --semaine
 
 ```python
 # -*- coding: utf-8 -*-
-from allocine import Allocine
+from allocine import Theater
 
-a = Allocine(theater_id="P2235")
+theater = Theater("P2235")
 
-for showtime in a.theater.program.showtimes:
+for showtime in theater.program.showtimes:
     print(showtime)
 ```
 
