@@ -132,6 +132,23 @@ class Theater:
         """ Returns a list of movies available on a specified day """
         movies = [showtime.movie for showtime in self.get_showtimes_of_a_day(date)]
         return list(set(movies))
+    
+    def get_showtimes_per_movie_version(self):
+        movies = {}
+        for showtime in self.showtimes:
+            if movies.get(showtime.movie) is None:
+                movies[showtime.movie] = []
+            movies[showtime.movie].append(showtime.date)
+        return movies
+
+    def get_showtimes_per_movie(self):
+        movies = {}
+        for showtime in self.showtimes:
+            movie = showtime.movie.get_movie()  # Without language nor screen_format
+            if movies.get(movie) is None:
+                movies[movie] = []
+            movies[movie].append(showtime.date)
+        return movies
 
 # === Main class ===
 class Allocine:
