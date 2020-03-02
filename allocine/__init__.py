@@ -54,6 +54,14 @@ class MovieVersion(Movie):
             version += f' {self.screen_format}'
         return version
 
+    def get_movie(self):
+        return Movie(
+            movie_id=self.movie_id,
+            title=self.title,
+            rating=self.rating,
+            duration=self.duration
+        )
+
     def __str__(self):
         movie_str = super().__str__()
         return f'{movie_str} ({self.version})'
