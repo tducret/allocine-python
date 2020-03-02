@@ -96,11 +96,33 @@ class Showtime:
         return self.date_time.strftime('%H:%M')
 
     @property
+    def hour_short_str(self) -> str:
+        # Ex: 11h, 23h30
+        return self.date_time.strftime('%Hh%M').replace(':00', '')
+
+    @property
     def date_str(self) -> date:
         return self.date_time.strftime('%d/%m/%Y %H:%M')
 
+    @property
+    def day_str(self) -> str:
+        return day_str(self.date)
+
+    @property
+    def short_day_str(self) -> str:
+        return short_day_str(self.date)
+
     def __str__(self):
         return f'{self.date_str} : {self.movie}'
+
+
+def day_str(date: date) -> str:
+    DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
+    return DAYS[date.weekday()]
+
+
+def short_day_str(date: date) -> str:
+    return day_str(date)[:3]
 
 @dataclass
 class Theater:
@@ -125,8 +147,7 @@ class Theater:
             return movie_showtimes
 
     def get_showtimes_of_a_day(self, date: date):
-        return [showtime for showtime in self.showtimes
-                if showtime.date == date]
+        return get_showtimes_of_a_day(showtimes=self.showtimes, date=date)
 
     def get_movies_available_for_a_day(self, date: date):
         """ Returns a list of movies available on a specified day """
@@ -138,7 +159,7 @@ class Theater:
         for showtime in self.showtimes:
             if movies.get(showtime.movie) is None:
                 movies[showtime.movie] = []
-            movies[showtime.movie].append(showtime.date)
+            movies[showtime.movie].append(showtime)
         return movies
 
     def get_showtimes_per_movie(self):
@@ -147,8 +168,60 @@ class Theater:
             movie = showtime.movie.get_movie()  # Without language nor screen_format
             if movies.get(movie) is None:
                 movies[movie] = []
-            movies[movie].append(showtime.date)
+            movies[movie].append(showtime)
         return movies
+    
+    def filter_showtimes(self, date_min: date = None, date_max: date = None):
+        if date_min:
+            for showtime in self.showtimes:
+                if showtime.date < date_min:
+                    self.showtimes.remove(showtime)
+        if date_max:
+            for showtime in self.showtimes:
+                if showtime.date > date_max:
+                    self.showtimes.remove(showtime)
+
+
+# == Utils ==
+def get_available_dates(showtimes: List[Showtime]):
+    dates = [s.date for s in showtimes]
+    return sorted(list(set(dates)))
+
+
+def group_showtimes_per_schedule(showtimes: List[Showtime]):
+    showtimes_per_date = {}
+    available_dates = get_available_dates(showtimes=showtimes)
+    for date in available_dates:
+        showtimes_per_date[date] = get_showtimes_of_a_day(showtimes=showtimes, date=date)
+
+    grouped_showtimes = {}
+    for date in available_dates:
+        hours = [s.hour_short_str for s in showtimes_per_date[date]]
+        hours_str = ', '.join(hours)
+        if grouped_showtimes.get(hours_str) is None:
+            grouped_showtimes[hours_str] = []
+        grouped_showtimes[hours_str].append(date)
+    return grouped_showtimes
+
+
+def build_program_str(showtimes: List[Showtime]):
+    program_str = ''
+    grouped_showtimes = group_showtimes_per_schedule(showtimes=showtimes)
+    chronologic_grouped_showtimes = [
+        (k, v) for k, v in sorted(
+            grouped_showtimes.items(), key=lambda item: item[1])
+    ]
+    for (hours_str, dates) in chronologic_grouped_showtimes:
+        program_str += ', '.join([short_day_str(d) for d in dates])
+        program_str += f' {hours_str}; '
+    program_str = program_str[:-2]
+    return program_str
+
+
+def get_showtimes_of_a_day(showtimes: List[Showtime], *, date: date):
+        return [showtime for showtime in showtimes
+                if showtime.date == date]
+
 
 # === Main class ===
 class Allocine:
@@ -234,7 +307,7 @@ class Allocine:
                 language=language,
                 screen_format=screen_format,
                 duration=duration_obj)
-            for showtimes_of_day in s.get('scr'):
+            for showtimes_of_day in s.get('scr') or []:
                 day = showtimes_of_day.get('d')
                 for one_showtime in showtimes_of_day.get('t'):
                     datetime_str = '{}T{}:00'.format(day, one_showtime.get('$'))
