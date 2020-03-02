@@ -41,6 +41,13 @@ class Movie:
     def __str__(self):
         return f'{self.title} [{self.movie_id}] ({self.duration_str})'
 
+    def __eq__(self, other):
+        return (self.movie_id) == (other.movie_id)
+
+    def __hash__(self):
+        """ This function allows us
+        to do a set(list_of_Movie_objects) """
+        return hash(self.movie_id)
 
 @dataclass
 class MovieVersion(Movie):
