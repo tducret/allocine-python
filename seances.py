@@ -3,9 +3,9 @@
 
 """CLI tool for allocine"""
 import click
-from allocine import Theater
+from allocine import Allocine
 from prettytable import PrettyTable, UNICODE, FRAME, ALL
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 # Usage : seances.py --help
 
@@ -52,6 +52,7 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
     http://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.html
     """
     today = date.today()
+    allocine = Allocine()
 
     jours = []
     if semaine is False:
@@ -68,24 +69,23 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
             jour_obj = today + timedelta(days=delta)
             jours.append(jour_obj.strftime("%d/%m/%Y"))
 
-    theater = Theater(theater_id=id_cinema)
+    theater = allocine.get_theater(theater_id=id_cinema)
 
     print('{}, le '.format(theater.name), end='')
     for jour in jours:
         print(get_showtime_table(
             theater=theater,
-            id_cinema=id_cinema,
             entrelignes=entrelignes,
             jour=jour)
         )
         print()
 
 
-def get_showtime_table(theater, id_cinema, entrelignes, jour):
+def get_showtime_table(theater, entrelignes, jour):
     showtime_table = []
 
-    movies_available_today = theater.program.get_movies_available_for_a_day(
-                                date=jour)
+    date_obj = datetime.strptime(jour, '%d/%m/%Y').date()
+    movies_available_today = theater.get_movies_available_for_a_day(date=date_obj)
 
     for movie_version in movies_available_today:
 
@@ -97,12 +97,12 @@ def get_showtime_table(theater, id_cinema, entrelignes, jour):
         movie_row = {'*1_film': "{} ({}) - {}".format(
             title,
             movie_version.version,
-            movie_version.duration)}
+            movie_version.duration_str)}
 
-        movie_row['*2_note'] = "{}*".format(movie_version.rating)
+        movie_row['*2_note'] = "{}*".format(movie_version.rating_str)
 
-        showtimes = theater.program.get_showtimes(
-            movie_version=movie_version, date=jour)
+        showtimes = theater.get_showtimes_of_a_movie(
+            movie_version=movie_version, date=date_obj)
 
         for showtime in showtimes:
             hour = showtime.hour.split(':')[0]  # 11:15 => 11
