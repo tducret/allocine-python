@@ -98,7 +98,7 @@ class Showtime:
     @property
     def hour_short_str(self) -> str:
         # Ex: 11h, 23h30
-        return self.date_time.strftime('%Hh%M').replace(':00', '')
+        return self.date_time.strftime('%Hh%M').replace('h00', 'h')
 
     @property
     def date_str(self) -> date:
