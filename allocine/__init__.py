@@ -173,13 +173,9 @@ class Theater:
     
     def filter_showtimes(self, date_min: date = None, date_max: date = None):
         if date_min:
-            for showtime in self.showtimes:
-                if showtime.date < date_min:
-                    self.showtimes.remove(showtime)
+            self.showtimes = [s for s in self.showtimes if s.date >= date_min]
         if date_max:
-            for showtime in self.showtimes:
-                if showtime.date > date_max:
-                    self.showtimes.remove(showtime)
+            self.showtimes = [s for s in self.showtimes if s.date <= date_max]
 
 
 # == Utils ==
