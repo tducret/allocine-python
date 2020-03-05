@@ -139,6 +139,14 @@ def to_french_weekday(weekday: int) -> str:
     return DAYS[weekday]
 
 
+def get_french_month(month_number: int) -> str:
+    MONTHS = [
+        'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+    ]
+    return MONTHS[month_number-1]
+
+
 def to_french_short_weekday(weekday: int) -> str:
     return to_french_weekday(weekday)[:3]
 
