@@ -156,7 +156,9 @@ class Theater:
 
     @property
     def address_str(self):
-        return f'{self.address}, {self.zipcode} {self.city}'
+        address_str = f'{self.address}, ' if self.address else ''
+        address_str += f'{self.zipcode} {self.city}'
+        return address_str
 
     def get_showtimes_of_a_movie(self, movie_version: MovieVersion, date: date=None):
         movie_showtimes = [showtime for showtime in self.showtimes
