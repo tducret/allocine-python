@@ -83,22 +83,24 @@ class MovieVersion(Movie):
 
 
 @dataclass
-class Showtime:
+class Schedule:
     date_time: datetime
-    movie: MovieVersion
 
     @property
     def date(self) -> date:
         return self.date_time.date()
 
     @property
-    def hour(self) -> str:
+    def hour(self) -> datetime.time:
+        return self.date_time.time()
+
+    @property
+    def hour_str(self) -> str:
         return self.date_time.strftime('%H:%M')
 
     @property
     def hour_short_str(self) -> str:
-        # Ex: 11h, 23h30
-        return self.date_time.strftime('%Hh%M').replace('h00', 'h')
+        return get_hour_short_str(self.hour)
 
     @property
     def date_str(self) -> date:
@@ -112,13 +114,31 @@ class Showtime:
     def short_day_str(self) -> str:
         return short_day_str(self.date)
 
+
+def get_hour_short_str(hour: datetime.time) -> str:
+    # Ex: 11h, 23h30
+    return hour.strftime('%Hh%M').replace('h00', 'h')
+
+
+@dataclass
+class Showtime(Schedule):
+    movie: MovieVersion
+
     def __str__(self):
         return f'{self.date_str} : {self.movie}'
 
 
 def day_str(date: date) -> str:
+    return to_french_weekday(date.weekday())
+
+
+def to_french_weekday(weekday: int) -> str:
     DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
-    return DAYS[date.weekday()]
+    return DAYS[weekday]
+
+
+def to_french_short_weekday(weekday: int) -> str:
+    return to_french_weekday(weekday)[:3]
 
 
 def short_day_str(date: date) -> str:
