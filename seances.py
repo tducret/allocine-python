@@ -105,8 +105,8 @@ def get_showtime_table(theater, entrelignes, jour):
             movie_version=movie_version, date=date_obj)
 
         for showtime in showtimes:
-            hour = showtime.hour.split(':')[0]  # 11:15 => 11
-            movie_row[hour] = showtime.hour
+            hour = showtime.hour_str.split(':')[0]  # 11:15 => 11
+            movie_row[hour] = showtime.hour_str
 
         showtime_table.append(movie_row)
 
