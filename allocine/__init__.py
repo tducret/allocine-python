@@ -49,6 +49,7 @@ class Movie:
         to do a set(list_of_Movie_objects) """
         return hash(self.movie_id)
 
+
 @dataclass
 class MovieVersion(Movie):
     language: str
@@ -145,6 +146,7 @@ def to_french_short_weekday(weekday: int) -> str:
 def short_day_str(date: date) -> str:
     return day_str(date)[:3]
 
+
 @dataclass
 class Theater:
     theater_id: str
@@ -160,7 +162,7 @@ class Theater:
         address_str += f'{self.zipcode} {self.city}'
         return address_str
 
-    def get_showtimes_of_a_movie(self, movie_version: MovieVersion, date: date=None):
+    def get_showtimes_of_a_movie(self, movie_version: MovieVersion, date: date = None):
         movie_showtimes = [showtime for showtime in self.showtimes
                            if showtime.movie == movie_version]
         if date:
@@ -176,7 +178,7 @@ class Theater:
         """ Returns a list of movies available on a specified day """
         movies = [showtime.movie for showtime in self.get_showtimes_of_a_day(date)]
         return list(set(movies))
-    
+
     def get_showtimes_per_movie_version(self):
         movies = {}
         for showtime in self.showtimes:
@@ -193,7 +195,7 @@ class Theater:
                 movies[movie] = []
             movies[movie].append(showtime)
         return movies
-    
+
     def filter_showtimes(self, date_min: date = None, date_max: date = None):
         if date_min:
             self.showtimes = [s for s in self.showtimes if s.date >= date_min]
@@ -210,22 +212,23 @@ def get_available_dates(showtimes: List[Showtime]):
 def group_showtimes_per_schedule(showtimes: List[Showtime]):
     showtimes_per_date = {}
     available_dates = get_available_dates(showtimes=showtimes)
-    for date in available_dates:
-        showtimes_per_date[date] = get_showtimes_of_a_day(showtimes=showtimes, date=date)
+    for available_date in available_dates:
+        showtimes_per_date[available_date] = get_showtimes_of_a_day(showtimes=showtimes, date=available_date)
 
     grouped_showtimes = {}
-    for date in available_dates:
-        hours = [s.hour_short_str for s in showtimes_per_date[date]]
+    for available_date in available_dates:
+        hours = [s.hour_short_str for s in showtimes_per_date[available_date]]
         hours_str = ', '.join(hours)
         if grouped_showtimes.get(hours_str) is None:
             grouped_showtimes[hours_str] = []
-        grouped_showtimes[hours_str].append(date)
+        grouped_showtimes[hours_str].append(available_date)
     return grouped_showtimes
 
 
 def build_program_str(showtimes: List[Showtime]):
     schedules = [Schedule(s.date_time) for s in showtimes]
     return build_weekly_schedule_str(schedules)
+
 
 def check_schedules_within_week(schedule_list: List[Schedule]) -> bool:
     schedule_dates = [s.date for s in schedule_list]
@@ -319,7 +322,7 @@ def build_weekly_schedule_str(schedule_list: List[Schedule]) -> str:
         _grouped_date_hashmap[grouped_dates_str] = hours
 
     grouped_date_hashmap = OrderedDict()
-    _grouped_date_hashmap = sorted(_grouped_date_hashmap.items(), key=__earliest_time_in_value_list)
+    _grouped_date_hashmap = sorted(_grouped_date_hashmap.items(), key=__get_time_weight_in_list)
     grouped_date_hashmap = OrderedDict(_grouped_date_hashmap)
 
     hours_hashmap = OrderedDict()
@@ -358,8 +361,8 @@ def build_weekly_schedule_str(schedule_list: List[Schedule]) -> str:
 
 
 def get_showtimes_of_a_day(showtimes: List[Showtime], *, date: date):
-        return [showtime for showtime in showtimes
-                if showtime.date == date]
+    return [showtime for showtime in showtimes
+            if showtime.date == date]
 
 
 # === Main class ===
@@ -371,21 +374,20 @@ class Allocine:
         ret = self.__client.get_showtimelist_by_theater_id(theater_id=theater_id)
         if jmespath.search('feed.totalResults', ret) == 0:
             raise ValueError(f'Theater not found. Is theater id {theater_id!r} correct?')
-        
+
         theaters = self.__get_theaters_from_raw_showtimelist(raw_showtimelist=ret)
         if len(theaters) != 1:
             raise ValueError('Expecting 1 theater but received {}'.format(len(theaters)))
- 
+
         return theaters[0]
 
-    def __get_theaters_from_raw_showtimelist(
-        self, raw_showtimelist: dict, distance_max_inclusive: int=0):
+    def __get_theaters_from_raw_showtimelist(self, raw_showtimelist: dict, distance_max_inclusive: int = 0):
         theaters = []
         for theater_showtime in jmespath.search('feed.theaterShowtimes', raw_showtimelist):
             raw_theater = jmespath.search('place.theater', theater_showtime)
 
             if raw_theater.get('distance') is not None:
-                  # distance is not present when theater ids were used for search
+                # distance is not present when theater ids were used for search
                 if raw_theater.get('distance') > distance_max_inclusive:
                     # Skip theaters that are above the max distance specified
                     continue
@@ -421,7 +423,7 @@ class Allocine:
                 page += 1
             else:
                 break
-        
+
         return theaters
 
     def __parse_showtimes(self, raw_showtimes: dict):
@@ -430,15 +432,15 @@ class Allocine:
             raw_movie = jmespath.search('onShow.movie', s)
             language = jmespath.search('version."$"', s)
             screen_format = jmespath.search('screenFormat."$"', s)
-            duration=raw_movie.get('runtime')
+            duration = raw_movie.get('runtime')
             duration_obj = timedelta(seconds=duration) if duration else None
-    
+
             rating = jmespath.search('statistics.userRating', raw_movie)
             try:
                 rating = float(rating)
-            except:
+            except (ValueError, TypeError):
                 rating = None
-    
+
             movie = MovieVersion(
                 movie_id=raw_movie.get('code'),
                 title=raw_movie.get('title'),
@@ -483,14 +485,14 @@ class Client(metaclass=SingletonMeta):
         self.session = requests.session()
         self.session.headers.update(headers)
 
-    def _get(self, url: str, expected_status: int=200, *args, **kwargs):
+    def _get(self, url: str, expected_status: int = 200, *args, **kwargs):
         ret = self.session.get(url, *args, **kwargs)
         if ret.status_code != expected_status:
             raise ValueError('{!r} : expected status {}, received {}'.format(
                 url, expected_status, ret.status_code))
         return ret.json()
 
-    def get_showtimelist_by_theater_id(self, theater_id: str, page: int=1, count: int=10):
+    def get_showtimelist_by_theater_id(self, theater_id: str, page: int = 1, count: int = 10):
         url = (
                 f'{BASE_URL}/showtimelist?partner={PARTNER_KEY}&format=json'
                 f'&theaters={theater_id}&page={page}&count={count}'
@@ -501,7 +503,7 @@ class Client(metaclass=SingletonMeta):
         url = f'{BASE_URL}/theater?partner={PARTNER_KEY}&format=json&code={theater_id}'
         return self._get(url=url)
 
-    def get_showtimelist_from_geocode(self, geocode: int, page: int=1, count: int=10):
+    def get_showtimelist_from_geocode(self, geocode: int, page: int = 1, count: int = 10):
         url = (
                 f'{BASE_URL}/showtimelist?partner={PARTNER_KEY}&format=json'
                 f'&geocode={geocode}&page={page}&count={count}'
