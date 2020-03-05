@@ -117,8 +117,9 @@ class Schedule:
 
 
 def get_hour_short_str(hour: datetime.time) -> str:
-    # Ex: 11h, 23h30
-    return hour.strftime('%Hh%M').replace('h00', 'h')
+    # Ex: 9h, 11h, 23h30
+    # Minus in '%-H' removes the leading 0
+    return hour.strftime('%-Hh%M').replace('h00', 'h')
 
 
 @dataclass
