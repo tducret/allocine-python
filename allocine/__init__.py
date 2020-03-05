@@ -2,6 +2,7 @@
 
 """Top-level package for Allociné."""
 
+from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, date
 from json import loads
@@ -221,17 +222,105 @@ def group_showtimes_per_schedule(showtimes: List[Showtime]):
 
 
 def build_program_str(showtimes: List[Showtime]):
-    program_str = ''
-    grouped_showtimes = group_showtimes_per_schedule(showtimes=showtimes)
-    chronologic_grouped_showtimes = [
-        (k, v) for k, v in sorted(
-            grouped_showtimes.items(), key=lambda item: item[1])
-    ]
-    for (hours_str, dates) in chronologic_grouped_showtimes:
-        program_str += ', '.join([short_day_str(d) for d in dates])
-        program_str += f' {hours_str}; '
-    program_str = program_str[:-2]
-    return program_str
+    schedules = [Schedule(s.date_time) for s in showtimes]
+    return build_weekly_schedule_str(schedules)
+
+def check_schedules_within_week(schedule_list: List[Schedule]) -> bool:
+    schedule_dates = [s.date for s in schedule_list]
+    min_date = min(schedule_dates)
+    max_date = max(schedule_dates)
+    delta = (max_date - min_date)
+    if delta >= timedelta(days=7):
+        raise ValueError(
+            'Schedule list contains more days than the typical movie week')
+    # Check that the week is not from Mon/Tue to Wed/Thu/Fri/Sat/Sun
+    # because a typical week is from Wed to Tue
+    # but we need to handle the case of a schedule_list with only a few day
+    # ex: Wed, Mon = OK ; Tue = OK ; Mon, Wed : NOK
+    MONDAY = 0
+    TUESDAY = 1
+    WEDNESDAY = 2
+    if delta > timedelta(days=0):
+        if (min_date.weekday() == MONDAY and max_date.weekday() >= WEDNESDAY) \
+           or (min_date.weekday() == TUESDAY):
+            raise ValueError(
+                'Schedule list should not start before wednesday or end after tuesday')
+    
+    return True
+
+def create_weekdays_str(dates: List[datetime.date]) -> str:
+    """ Returns a compact string from a list of dates.
+        Examples:
+            - [0,1] -> 'Lun, Mar'
+            - [0,1,2,3,4] -> 'sf Sam, Dim'
+            - [0,1,2,3,4,5,6] -> ''  # Everyday is empty string
+            - [0,2] -> 'Mer, Lun'  # And not 'Lun, Mer' because we sort chrologically
+    """
+    FULL_WEEK = range(0,7)
+    unique_dates = sorted(list(set(dates)))
+    week_days = [d.weekday() for d in unique_dates]
+
+    if len(unique_dates) == 7:
+        return ''
+    elif len(unique_dates) <= 4:
+        return ', '.join([to_french_short_weekday(d) for d in week_days])
+    else:
+        missing_days = list(set(week_days).symmetric_difference(FULL_WEEK))
+        return 'sf {}'.format(', '.join([to_french_short_weekday(d) for d in missing_days]))
+
+
+def __earliest_time(d):
+        earliest = min(d[1])
+        return earliest
+
+
+def build_weekly_schedule_str(schedule_list: List[Schedule]) -> str:
+    check_schedules_within_week(schedule_list)
+ 
+    _hours_hashmap = {}  # ex: {16h: [Lun, Mar], 17h: [Lun], 17h30: [Lun]}
+    _grouped_date_hashmap = {}  # ex: {[Lun]: [16h, 17h30], [Lun, Mar]: [17h]}
+
+    for s in schedule_list:
+        
+        if _hours_hashmap.get(s.hour) is None:
+            _hours_hashmap[s.hour] = []
+        _hours_hashmap[s.hour].append(s.date)
+
+    for hour, grouped_dates in _hours_hashmap.items():
+        grouped_dates_str = create_weekdays_str(grouped_dates)
+        if _grouped_date_hashmap.get(grouped_dates_str) is None:
+            _grouped_date_hashmap[grouped_dates_str] = []
+        _grouped_date_hashmap[grouped_dates_str].append(hour)
+
+    # Then sort it chronologically
+    for grouped_dates_str, hours in _grouped_date_hashmap.items():
+        # Sort the hours inside
+        hours = list(set(hours))
+        hours.sort()
+        _grouped_date_hashmap[grouped_dates_str] = hours
+
+    _grouped_date_hashmap = sorted(_grouped_date_hashmap.items(), key=__earliest_time)
+    grouped_date_hashmap = OrderedDict(_grouped_date_hashmap)
+
+    different_showtimes = len(grouped_date_hashmap)
+ 
+    weekly_schedule = ''
+    for grouped_dates, hours in grouped_date_hashmap.items():
+        hours_str = ', '.join([get_hour_short_str(h) for h in hours])
+        if not grouped_dates:  # Here, it is available everyday at this hour
+            weekly_schedule += f'{hours_str}, '
+        else:
+            if different_showtimes == 1:
+                weekly_schedule += f'{grouped_dates} {hours_str}, '
+            else:
+                if len(hours) > 1:
+                    weekly_schedule += f'{grouped_dates} {hours_str}; '
+                else:
+                    weekly_schedule += f'{hours_str} ({grouped_dates}), '
+
+    if weekly_schedule:
+        weekly_schedule = weekly_schedule[:-2]  # Remove trailing comma
+    return weekly_schedule
 
 
 def get_showtimes_of_a_day(showtimes: List[Showtime], *, date: date):
