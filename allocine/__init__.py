@@ -4,8 +4,7 @@
 
 from collections import OrderedDict
 from dataclasses import dataclass
-from datetime import datetime, timedelta, date
-from json import loads
+from datetime import datetime, timedelta, date, time
 from typing import List, Optional
 
 import jmespath
@@ -248,18 +247,20 @@ def check_schedules_within_week(schedule_list: List[Schedule]) -> bool:
            or (min_date.weekday() == TUESDAY):
             raise ValueError(
                 'Schedule list should not start before wednesday or end after tuesday')
-    
+
     return True
 
-def create_weekdays_str(dates: List[datetime.date]) -> str:
-    """ Returns a compact string from a list of dates.
+
+def create_weekdays_str(dates: List[date]) -> str:
+    """
+        Returns a compact string from a list of dates.
         Examples:
             - [0,1] -> 'Lun, Mar'
             - [0,1,2,3,4] -> 'sf Sam, Dim'
             - [0,1,2,3,4,5,6] -> ''  # Everyday is empty string
             - [0,2] -> 'Mer, Lun'  # And not 'Lun, Mer' because we sort chrologically
     """
-    FULL_WEEK = range(0,7)
+    FULL_WEEK = range(0, 7)
     unique_dates = sorted(list(set(dates)))
     week_days = [d.weekday() for d in unique_dates]
 
@@ -272,19 +273,34 @@ def create_weekdays_str(dates: List[datetime.date]) -> str:
         return 'sf {}'.format(', '.join([to_french_short_weekday(d) for d in missing_days]))
 
 
-def __earliest_time(d):
-        earliest = min(d[1])
-        return earliest
+def __get_time_weight_in_list(d: dict) -> timedelta:
+    """ Returns the minimum time weight from the time list contained in the dict values
+        ex: {'key': [time(hour=12), time(hour=9)]} => timedelta(hour=9)
+    """
+    weights = [__get_time_weight(t) for t in d[1]]
+    return min(weights)
+
+
+def __get_time_weight(t: time) -> timedelta:
+    """ Return a timedelta taking into account night time.
+        Basically, it allows to sort a list of times 18h>23h>0h30
+        and not 0h30>18h>23h
+    """
+    _NIGHT_TIME = [time(hour=0), time(hour=5)]
+    delta = timedelta(hours=t.hour, minutes=t.minute)
+    if t >= min(_NIGHT_TIME) and t <= max(_NIGHT_TIME):
+        delta += timedelta(days=1)
+    return delta
 
 
 def build_weekly_schedule_str(schedule_list: List[Schedule]) -> str:
     check_schedules_within_week(schedule_list)
- 
+
     _hours_hashmap = {}  # ex: {16h: [Lun, Mar], 17h: [Lun], 17h30: [Lun]}
     _grouped_date_hashmap = {}  # ex: {[Lun]: [16h, 17h30], [Lun, Mar]: [17h]}
 
     for s in schedule_list:
-        
+
         if _hours_hashmap.get(s.hour) is None:
             _hours_hashmap[s.hour] = []
         _hours_hashmap[s.hour].append(s.date)
@@ -302,24 +318,39 @@ def build_weekly_schedule_str(schedule_list: List[Schedule]) -> str:
         hours.sort()
         _grouped_date_hashmap[grouped_dates_str] = hours
 
-    _grouped_date_hashmap = sorted(_grouped_date_hashmap.items(), key=__earliest_time)
+    grouped_date_hashmap = OrderedDict()
+    _grouped_date_hashmap = sorted(_grouped_date_hashmap.items(), key=__earliest_time_in_value_list)
     grouped_date_hashmap = OrderedDict(_grouped_date_hashmap)
 
+    hours_hashmap = OrderedDict()
+    for t in sorted(_hours_hashmap.keys(), key=__get_time_weight):
+        hours_hashmap[t] = _hours_hashmap.get(t)
+
     different_showtimes = len(grouped_date_hashmap)
- 
+
+    # True if at least one schedule is available everyday
+    some_schedules_available_everyday = grouped_date_hashmap.get('') is not None
+
     weekly_schedule = ''
-    for grouped_dates, hours in grouped_date_hashmap.items():
-        hours_str = ', '.join([get_hour_short_str(h) for h in hours])
-        if not grouped_dates:  # Here, it is available everyday at this hour
-            weekly_schedule += f'{hours_str}, '
-        else:
+
+    if some_schedules_available_everyday:
+        for hour, grouped_dates in hours_hashmap.items():
+            hour_str = get_hour_short_str(hour)
+            grouped_dates_str = create_weekdays_str(grouped_dates)
+            if grouped_dates_str:
+                weekly_schedule += f'{hour_str} ({grouped_dates_str}), '
+            else:  # Available everyday
+                weekly_schedule += f'{hour_str}, '
+    else:
+        for grouped_dates, hours in grouped_date_hashmap.items():
+            hours_str = ', '.join([get_hour_short_str(h) for h in hours])
             if different_showtimes == 1:
                 weekly_schedule += f'{grouped_dates} {hours_str}, '
             else:
-                if len(hours) > 1:
-                    weekly_schedule += f'{grouped_dates} {hours_str}; '
-                else:
+                if some_schedules_available_everyday:
                     weekly_schedule += f'{hours_str} ({grouped_dates}), '
+                else:
+                    weekly_schedule += f'{grouped_dates} {hours_str}; '
 
     if weekly_schedule:
         weekly_schedule = weekly_schedule[:-2]  # Remove trailing comma
