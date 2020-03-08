@@ -204,6 +204,12 @@ class Theater:
             movies[movie].append(showtime)
         return movies
 
+    def get_program_per_movie(self):
+        program_per_movie = {}
+        for movie, showtimes in self.get_showtimes_per_movie().items():
+            program_per_movie[movie] = build_program_str(showtimes=showtimes)
+        return program_per_movie
+
     def filter_showtimes(self, date_min: date = None, date_max: date = None):
         if date_min:
             self.showtimes = [s for s in self.showtimes if s.date >= date_min]
