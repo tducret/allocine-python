@@ -381,8 +381,8 @@ def get_showtimes_of_a_day(showtimes: List[Showtime], *, date: date):
 
 # === Main class ===
 class Allocine:
-    def __init__(self):
-        self.__client = Client()
+    def __init__(self, base_url=BASE_URL):
+        self.__client = Client(base_url=base_url)
 
     def get_theater(self, theater_id: str):
         ret = self.__client.get_showtimelist_by_theater_id(theater_id=theater_id)
@@ -479,9 +479,9 @@ class Allocine:
 class SingletonMeta(type):
     _instance = None
 
-    def __call__(self):
+    def __call__(self, *args, **kwargs):
         if self._instance is None:
-            self._instance = super().__call__()
+            self._instance = super().__call__(*args, **kwargs)
         return self._instance
 
 
@@ -489,9 +489,9 @@ class Client(metaclass=SingletonMeta):
     """ Client to process the requests with allocine APIs.
     This is a singleton to avoid the creation of a new session for every theater.
     """
-    def __init__(self):
+    def __init__(self, base_url):
+        self.base_url = base_url
         headers = {
-                    # 'Host': 'www.allocine.fr',
                     'User-Agent': 'Mozilla/5.0 (Macintosh; \
                                    Intel Mac OS X 10.14; rv:63.0) \
                                    Gecko/20100101 Firefox/63.0',
@@ -508,18 +508,18 @@ class Client(metaclass=SingletonMeta):
 
     def get_showtimelist_by_theater_id(self, theater_id: str, page: int = 1, count: int = 10):
         url = (
-                f'{BASE_URL}/showtimelist?partner={PARTNER_KEY}&format=json'
+                f'{self.base_url}/showtimelist?partner={PARTNER_KEY}&format=json'
                 f'&theaters={theater_id}&page={page}&count={count}'
         )
         return self._get(url=url)
 
     def get_theater_info_by_id(self, theater_id: str):
-        url = f'{BASE_URL}/theater?partner={PARTNER_KEY}&format=json&code={theater_id}'
+        url = f'{self.base_url}/theater?partner={PARTNER_KEY}&format=json&code={theater_id}'
         return self._get(url=url)
 
     def get_showtimelist_from_geocode(self, geocode: int, page: int = 1, count: int = 10):
         url = (
-                f'{BASE_URL}/showtimelist?partner={PARTNER_KEY}&format=json'
+                f'{self.base_url}/showtimelist?partner={PARTNER_KEY}&format=json'
                 f'&geocode={geocode}&page={page}&count={count}'
         )
         return self._get(url=url)
