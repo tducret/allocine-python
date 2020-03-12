@@ -57,7 +57,7 @@ class MovieVersion(Movie):
 
     @property
     def version(self):
-        version = 'VF' if self.language != 'Français' else 'VOST'
+        version = 'VF' if self.language == 'Français' else 'VOST'
         if self.screen_format != 'Numérique':
             version += f' {self.screen_format}'
         return version
