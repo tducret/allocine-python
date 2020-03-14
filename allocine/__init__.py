@@ -5,11 +5,15 @@
 from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, date, time
+import re
 from typing import List, Optional
+import unicodedata
 
 import backoff
 import jmespath
 import requests
+
+from allocine import nationalities
 
 __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
@@ -25,8 +29,15 @@ PARTNER_KEY = '000042532791'
 class Movie:
     movie_id: int
     title: str
+    original_title: str
     rating: Optional[float]
     duration: Optional[timedelta]
+    genres: str
+    countries: List[str]
+    directors: str
+    actors: str
+    synopsis: str
+    year: int
 
     @property
     def duration_str(self):
@@ -36,8 +47,27 @@ class Movie:
             return 'HH:MM'
 
     @property
+    def duration_short_str(self) -> str:
+        if self.duration is not None:
+            return _strfdelta(self.duration, '{hours:d}h{minutes:02d}')
+        else:
+            return 'NA'
+
+    @property
     def rating_str(self):
         return '{0:.1f}'.format(self.rating) if self.rating else ''
+
+    @property
+    def nationalities(self):
+        """ Return the nationality tuples, from the movie countries.
+            Example: if self.countries = ['France'] => [('français', 'française')]
+        """
+        if self.countries:
+            country_codes = [nationalities.countries[c] for c in self.countries]
+            nationality_tuples = [nationalities.nationalities[c] for c in country_codes]
+            return nationality_tuples
+        else:
+            return None
 
     def __str__(self):
         return f'{self.title} [{self.movie_id}] ({self.duration_str})'
@@ -68,7 +98,14 @@ class MovieVersion(Movie):
             movie_id=self.movie_id,
             title=self.title,
             rating=self.rating,
-            duration=self.duration
+            duration=self.duration,
+            original_title=self.original_title,
+            year=self.year,
+            genres=self.genres,
+            countries=self.countries,
+            directors=self.directors,
+            actors=self.actors,
+            synopsis=self.synopsis,
         )
 
     def __str__(self):
@@ -216,6 +253,13 @@ class Theater:
             self.showtimes = [s for s in self.showtimes if s.date >= date_min]
         if date_max:
             self.showtimes = [s for s in self.showtimes if s.date <= date_max]
+
+    def __eq__(self, other):
+        return (self.theater_id) == (other.theater_id)
+
+    def __hash__(self):
+        """ This function allows us to do a set(list_of_Theaters_objects) """
+        return hash(self.theater_id)
 
 
 # == Utils ==
@@ -384,6 +428,7 @@ def get_showtimes_of_a_day(showtimes: List[Showtime], *, date: date):
 class Allocine:
     def __init__(self, base_url=BASE_URL):
         self.__client = Client(base_url=base_url)
+        self.__movie_store = {}  # Dict to store the movie info (and avoid useless requests)
 
     def get_theater(self, theater_id: str):
         ret = self.__client.get_showtimelist_by_theater_id(theater_id=theater_id)
@@ -456,12 +501,25 @@ class Allocine:
             except (ValueError, TypeError):
                 rating = None
 
+            movie_id = raw_movie.get('code')
+            movie_info = self.get_movie_info(movie_id)
+            countries = jmespath.search('nationality[]."$"', movie_info)
+            year = movie_info.get('productionYear')
+            if year:
+                year = int(year)
             movie = MovieVersion(
-                movie_id=raw_movie.get('code'),
+                movie_id=movie_id,
                 title=raw_movie.get('title'),
                 rating=rating,
                 language=language,
                 screen_format=screen_format,
+                synopsis=_clean_synopsis(movie_info.get('synopsis')),
+                original_title=movie_info.get('originalTitle'),
+                year=year,
+                countries=countries,
+                genres=', '.join(jmespath.search('genre[]."$"', movie_info)),
+                directors=jmespath.search('castingShort.directors', movie_info),
+                actors=jmespath.search('castingShort.actors', movie_info),
                 duration=duration_obj)
             for showtimes_of_day in s.get('scr') or []:
                 day = showtimes_of_day.get('d')
@@ -474,6 +532,13 @@ class Allocine:
                     )
                     showtimes.append(showtime)
         return showtimes
+
+    def get_movie_info(self, movie_id: int):
+        movie_info = self.__movie_store.get(movie_id)
+        if movie_info is None:
+            movie_info = self.__client.get_movie_info_by_id(movie_id).get('movie')
+            self.__movie_store[movie_id] = movie_info
+        return movie_info
 
 
 # === Client to execute requests with Allociné APIs ===
@@ -532,6 +597,12 @@ class Client(metaclass=SingletonMeta):
         )
         return self._get(url=url)
 
+    def get_movie_info_by_id(self, movie_id: int):
+        url = (
+                f'{self.base_url}/movie?partner={PARTNER_KEY}&format=json&code={movie_id}'
+        )
+        return self._get(url=url)
+
 
 def _strfdelta(tdelta, fmt):
     """ Format a timedelta object """
@@ -544,3 +615,18 @@ def _strfdelta(tdelta, fmt):
 
 def _str_datetime_to_datetime_obj(datetime_str, date_format=DEFAULT_DATE_FORMAT):
     return datetime.strptime(datetime_str, date_format)
+
+
+def _cleanhtml(raw_html):
+    cleanr = re.compile('<.*?>')
+    cleantext = re.sub(cleanr, '', raw_html)
+    return cleantext
+
+
+def _clean_synopsis(raw_synopsis):
+    if raw_synopsis is None:
+        return None
+
+    synopsis = _cleanhtml(raw_synopsis)  # Remove HTML tags (ex: <span>)
+    synopsis = synopsis.replace('\xa0', ' ')
+    return unicodedata.normalize("NFKD", synopsis)
