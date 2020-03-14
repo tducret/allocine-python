@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, date, time
 from typing import List, Optional
 
+import backoff
 import jmespath
 import requests
 
@@ -485,6 +486,10 @@ class SingletonMeta(type):
         return self._instance
 
 
+class Error503(Exception):
+    pass
+
+
 class Client(metaclass=SingletonMeta):
     """ Client to process the requests with allocine APIs.
     This is a singleton to avoid the creation of a new session for every theater.
@@ -499,9 +504,12 @@ class Client(metaclass=SingletonMeta):
         self.session = requests.session()
         self.session.headers.update(headers)
 
+    @backoff.on_exception(backoff.expo, Error503, max_tries=5, max_time=30)
     def _get(self, url: str, expected_status: int = 200, *args, **kwargs):
         ret = self.session.get(url, *args, **kwargs)
         if ret.status_code != expected_status:
+            if ret.status_code == 503:
+                raise Error503
             raise ValueError('{!r} : expected status {}, received {}'.format(
                 url, expected_status, ret.status_code))
         return ret.json()
