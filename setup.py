@@ -3,22 +3,19 @@
 
 """The setup script."""
 
+from pathlib import Path
 from setuptools import setup, find_packages
-try:  # For pip >= 10
-    from pip._internal.req import parse_requirements
-except ImportError:  # For pip <= 9
-    from pip.req import parse_requirements
 
+HERE = Path(__file__).parent
+reqs_path = HERE / 'requirements.txt'
+with open(reqs_path) as reqs_file:
+    requirements = reqs_file.read().splitlines()
 
 __version__ = '0.0.9'  # Should match with __init.py__
 _GITHUB_URL = 'https://github.com/tducret/allocine-python'
 _KEYWORDS = ['api', 'allocine', 'parsing',
              'python-wrapper', 'scraping', 'scraper', 'parser']
 _SCRIPTS = ['seances.py']
-
-
-install_reqs = parse_requirements('requirements.txt', session='hack')
-requirements = [str(ir.req) for ir in install_reqs]
 
 setup(
     name='allocine',
