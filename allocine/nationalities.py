@@ -310,6 +310,7 @@ countries = {
     'Guinée-Bissau': 'GW',
     'Guyana': 'GY',
     'Hong Kong': 'HK',
+    'Hong-Kong': 'HK',
     'Honduras': 'HN',
     'Croatie': 'HR',
     'Haïti': 'HT',
