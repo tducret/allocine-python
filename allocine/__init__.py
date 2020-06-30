@@ -5,6 +5,7 @@
 from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, date, time
+import logging
 import re
 from typing import List, Optional
 import unicodedata
@@ -17,11 +18,13 @@ from allocine import nationalities
 
 __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
-__version__ = '0.0.11'
+__version__ = '0.0.12'
 
 DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 BASE_URL = 'http://api.allocine.fr/rest/v3'
 PARTNER_KEY = '000042532791'
+
+logger = logging.getLogger(__name__)
 
 
 # === Models ===
@@ -63,8 +66,16 @@ class Movie:
             Example: if self.countries = ['France'] => [('français', 'française')]
         """
         if self.countries:
-            country_codes = [nationalities.countries[c] for c in self.countries]
-            nationality_tuples = [nationalities.nationalities[c] for c in country_codes]
+            nationality_tuples = []
+            for country_name in self.countries:
+                normalized_country_name = _strip_accents(country_name).lower()
+                country_code = nationalities.countries.get(normalized_country_name)
+
+                if country_code is not None:
+                    nationality_tuples.append(nationalities.nationalities[country_code])
+                else:
+                    logger.warning(f'Country {country_name!r} not found in nationalities')
+                    nationality_tuples.append((f'de {country_name}', f'de {country_name}'))
             return nationality_tuples
         else:
             return None
@@ -630,3 +641,9 @@ def _clean_synopsis(raw_synopsis):
     synopsis = _cleanhtml(raw_synopsis)  # Remove HTML tags (ex: <span>)
     synopsis = synopsis.replace('\xa0', ' ')
     return unicodedata.normalize("NFKD", synopsis)
+
+
+def _strip_accents(s):
+    # https://stackoverflow.com/a/518232/8748757
+    return ''.join(c for c in unicodedata.normalize('NFD', s)
+                   if unicodedata.category(c) != 'Mn')
