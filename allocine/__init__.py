@@ -18,7 +18,7 @@ from allocine import nationalities
 
 __author__ = """Thibault Ducret"""
 __email__ = 'hello@tducret.com'
-__version__ = '0.0.12'
+__version__ = '0.0.13'
 
 DEFAULT_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 BASE_URL = 'http://api.allocine.fr/rest/v3'
@@ -534,7 +534,7 @@ class Allocine:
                 duration=duration_obj)
             for showtimes_of_day in s.get('scr') or []:
                 day = showtimes_of_day.get('d')
-                for one_showtime in showtimes_of_day.get('t'):
+                for one_showtime in showtimes_of_day.get('t') or []:
                     datetime_str = '{}T{}:00'.format(day, one_showtime.get('$'))
                     datetime_obj = _str_datetime_to_datetime_obj(datetime_str)
                     showtime = Showtime(

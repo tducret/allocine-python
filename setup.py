@@ -11,7 +11,7 @@ reqs_path = HERE / 'requirements.txt'
 with open(reqs_path) as reqs_file:
     requirements = reqs_file.read().splitlines()
 
-__version__ = '0.0.12'  # Should match with __init.py__
+__version__ = '0.0.13'  # Should match with __init.py__
 _GITHUB_URL = 'https://github.com/tducret/allocine-python'
 _KEYWORDS = ['api', 'allocine', 'parsing',
              'python-wrapper', 'scraping', 'scraper', 'parser']
@@ -49,7 +49,7 @@ setup(
 # ------------------------------------------
 # Make sure everything was pushed (with a git status)
 # (or git commit --am "Comment" and git push)
-# export VERSION=0.0.12; git tag $VERSION -m "Normalisation des nationalités + fallback et warning si introuvable"; git push --tags
+# export VERSION=0.0.13; git tag $VERSION -m "Ajout de l'Irak et Samoa + robustesse des jours sans séance"; git push --tags
 
 # If you need to delete a tag
 # git push --delete origin $VERSION; git tag -d $VERSION
