@@ -103,6 +103,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Ruff
+.ruff_cache/
+
 # VS Code workspace configuration
 .vscode/*
 !.vscode/extensions.json
