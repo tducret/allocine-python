@@ -1,8 +1,10 @@
+import json
 import re
 import unicodedata
 from datetime import datetime, timedelta
 
 import jmespath
+from parsel import Selector
 
 from allocine.api import AllocineApi
 from allocine.models import MovieVersion, Showtime, Theater
@@ -30,6 +32,16 @@ class Allocine:
             theater.showtimes += self._parse_showtimes(resp["results"])
 
         return theater
+
+    def search_theaters(self, geocode: int | str) -> list[Theater]:
+        theaters = []
+        page = 1
+        while True:
+            selector = Selector(text=self._client.get_theaterlist_by_geocode(geocode=geocode, page=page))
+            theaters.extend(_parse_theaters(selector))
+            if not selector.css(".button-right:not(.button-disabled)"):
+                return theaters
+            page += 1
 
     def _get_theater_details_from_movie_id(self, theater_id: str, movie_id: int) -> Theater:
         operation = self._client.get_showtimes_by_movie_and_theater_id(
@@ -136,3 +148,27 @@ def _person_name(person):
     if not person:
         return None
     return " ".join(part for part in (person.get("firstName"), person.get("lastName")) if part)
+
+
+def _parse_theaters(selector: Selector) -> list[Theater]:
+    theaters = []
+    for card in selector.css("div.theater-card"):
+        theater_json = card.css(".add-theater-anchor[data-theater]::attr(data-theater)").get()
+        if not theater_json:
+            continue
+
+        theater_data = json.loads(theater_json)
+        full_address = " ".join((card.css("address.address").xpath("string()").get() or "").split())
+        address_match = re.fullmatch(r"(.*)\s+(\d{5})\s+(.+)", full_address)
+        address, zipcode, city = address_match.groups() if address_match else (full_address, "", "")
+        theaters.append(
+            Theater(
+                theater_id=theater_data["id"],
+                name=theater_data["name"],
+                address=address,
+                zipcode=zipcode,
+                city=city,
+                showtimes=[],
+            )
+        )
+    return theaters

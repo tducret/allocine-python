@@ -18,7 +18,11 @@ class JsonBodySerializer:
     def serialize(cassette):
         for interaction in cassette["interactions"]:
             response = interaction["response"]
-            response["body"] = json.loads(response["body"]["string"])
+            try:
+                response["body"] = json.loads(response["body"]["string"])
+            except json.decoder.JSONDecodeError:
+                pass  # Probably HTML
+
         return json.dumps(cassette, ensure_ascii=False, indent=2) + "\n"
 
     @staticmethod
@@ -26,9 +30,10 @@ class JsonBodySerializer:
         cassette = json.loads(cassette_string)
         for interaction in cassette["interactions"]:
             response = interaction["response"]
-            body = json.dumps(response["body"], ensure_ascii=False, separators=(",", ":"))
-            response["body"] = {"string": body}
-            response["headers"]["content-length"] = [str(len(body.encode()))]
+            if not response["body"].get("string"):
+                body = json.dumps(response["body"], ensure_ascii=False, separators=(",", ":"))
+                response["body"] = {"string": body}
+                response["headers"]["content-length"] = [str(len(body.encode()))]
         return cassette
 
 
