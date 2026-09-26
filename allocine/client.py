@@ -65,15 +65,13 @@ class Allocine:
 
             countries = [country.get("localizedName") for country in raw_movie.get("countries") or []]
             countries = [country for country in countries if country]
-            year = jmespath.search("data.productionYear", raw_movie)
-            if year:
+            if year := jmespath.search("data.productionYear", raw_movie):
                 year = int(year)
 
             directors = []
             for credit in sorted(raw_movie.get("credits") or [], key=lambda item: item.get("rank") or 0):
                 if jmespath.search("position.name", credit) == "DIRECTOR":
-                    name = _person_name(credit.get("person"))
-                    if name:
+                    if name := _person_name(credit.get("person")):
                         directors.append(name)
 
             actors = []
@@ -82,8 +80,7 @@ class Allocine:
                 person = (
                     cast_member.get("actor") or cast_member.get("originalVoiceActor") or cast_member.get("voiceActor")
                 )
-                name = _person_name(person)
-                if name:
+                if name := _person_name(person):
                     actors.append(name)
 
             genres = ", ".join(genre["translate"] for genre in raw_movie.get("genres") or [] if genre.get("translate"))
@@ -105,13 +102,19 @@ class Allocine:
                         for value in raw_showtime.get("projection") or []
                         if value != "DIGITAL" or not screen_formats
                     )
+
+                    if synopsis := raw_movie.get("synopsis"):
+                        synopsis = re.sub(r"<.*?>", "", synopsis)
+                        synopsis = synopsis.replace("\xa0", " ")  # Remove HTML tags (ex: <span>)
+                        synopsis = unicodedata.normalize("NFKD", synopsis)
+
                     movie = MovieVersion(
                         movie_id=raw_movie["internalId"],
                         title=raw_movie.get("title"),
                         rating=rating,
                         language=language,
                         screen_format=" ".join(screen_formats) or "Numérique",
-                        synopsis=_clean_synopsis(raw_movie.get("synopsis")),
+                        synopsis=synopsis,
                         original_title=raw_movie.get("originalTitle"),
                         year=year,
                         countries=countries,
@@ -122,30 +125,11 @@ class Allocine:
                     )
                     showtimes.append(
                         Showtime(
-                            date_time=_str_datetime_to_datetime_obj(raw_showtime["startsAt"]),
+                            date_time=datetime.strptime(raw_showtime["startsAt"], DEFAULT_DATE_FORMAT),
                             movie=movie,
                         )
                     )
         return showtimes
-
-
-def _str_datetime_to_datetime_obj(datetime_str, date_format=DEFAULT_DATE_FORMAT):
-    return datetime.strptime(datetime_str, date_format)
-
-
-def _cleanhtml(raw_html):
-    cleanr = re.compile("<.*?>")
-    cleantext = re.sub(cleanr, "", raw_html)
-    return cleantext
-
-
-def _clean_synopsis(raw_synopsis):
-    if raw_synopsis is None:
-        return None
-
-    synopsis = _cleanhtml(raw_synopsis)  # Remove HTML tags (ex: <span>)
-    synopsis = synopsis.replace("\xa0", " ")
-    return unicodedata.normalize("NFKD", synopsis)
 
 
 def _person_name(person):
