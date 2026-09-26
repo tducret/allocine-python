@@ -1,7 +1,6 @@
 # Allociné
 
 [![PyPI](https://img.shields.io/pypi/v/allocine.svg)](https://pypi.org/project/allocine/)
-[![Docker Image size](https://img.shields.io/microbadger/image-size/thibdct/seances.svg)](https://hub.docker.com/r/thibdct/seances/)
 ![License](https://img.shields.io/github/license/tducret/allocine-python.svg)
 
 ![Cinéma](cinema.jpg)
@@ -20,8 +19,6 @@
 ```bash
 python -m pip install -U allocine
 ```
-
-> You can also use it with Docker. Have a look at [this section](#docker)
 
 ## CLI tool usage
 
@@ -153,46 +150,3 @@ Run all pre-commit hooks manually with:
 
 VS Code users should accept the workspace extension recommendations to enable live Ruff and ty diagnostics and Ruff
 formatting on save.
-
-# Docker
-
-You can use the `seances` tool with the [Docker image](https://hub.docker.com/r/thibdct/seances/)
-
-You may execute :
-
-`docker run -it --rm thibdct/seances P2235`
-
-> The Docker image is built on top of [Google Distroless image](https://github.com/GoogleContainerTools/distroless), so it is tiny :)
-
-## 🤘 The easy way 🤘
-
-I also built a bash wrapper to execute the Docker container easily.
-
-Install it with :
-
-```bash
-curl -s https://raw.githubusercontent.com/tducret/allocine-python/master/seances \
-> /usr/local/bin/seances && chmod +x /usr/local/bin/seances
-```
-*You may replace `/usr/local/bin` with another folder that is in your $PATH*
-
-Check that it works :
-
-*On the first execution, the script will download the Docker image, so please be patient*
-
-```bash
-seances --help
-seances P2235 -j+1 --entrelignes
-```
-
-You can upgrade the app with :
-
-```bash
-seances --upgrade
-```
-
-and even uninstall with :
-
-```bash
-seances --uninstall
-```
