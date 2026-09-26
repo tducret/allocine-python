@@ -12,13 +12,13 @@
 
 ## Requirements
 
-- Python 3.7 and above
-- pip3
+- Python 3.10 and above
+- pip
 
 ## Installation
 
 ```bash
-pip3 install -U allocine
+python -m pip install -U allocine
 ```
 
 > You can also use it with Docker. Have a look at [this section](#docker)
@@ -120,6 +120,39 @@ Example output :
 29/12/2018 14:15 : Astérix - Le Secret de la Potion Magique [244560] (VF) (01h25)
 [...]
 ```
+
+## Development
+
+Create a virtual environment and install the package with its development dependencies:
+
+```bash
+python -m venv .venv
+.venv/bin/python -m pip install -e ".[dev]"
+```
+
+Install the pre-commit hooks once, then use `make check` to lint, format, and type-check the entire codebase:
+
+```bash
+.venv/bin/pre-commit install
+make check
+```
+
+Run individual checks without modifying files:
+
+```bash
+.venv/bin/ruff check .
+.venv/bin/ruff format --check .
+.venv/bin/ty check
+```
+
+Run all pre-commit hooks manually with:
+
+```bash
+.venv/bin/pre-commit run --all-files
+```
+
+VS Code users should accept the workspace extension recommendations to enable live Ruff and ty diagnostics and Ruff
+formatting on save.
 
 # Docker
 

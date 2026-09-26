@@ -103,5 +103,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# VSCode
-.vscode/
+# VS Code workspace configuration
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

@@ -2,16 +2,19 @@
 # -*- coding: utf-8 -*-
 
 """CLI tool for allocine"""
+
+from datetime import date, datetime, timedelta
+
 import click
+from prettytable import ALL, FRAME, UNICODE, PrettyTable
+
 from allocine import Allocine
-from prettytable import PrettyTable, UNICODE, FRAME, ALL
-from datetime import date, timedelta, datetime
 
 # Usage : seances.py --help
 
 
 def extract_field_names(dict_list):
-    """ Returns a sorted list of field names from a dictionary list
+    """Returns a sorted list of field names from a dictionary list
     > extract_field_names([{'a': 1, 'b': 2}, {'a': 3, 'c': 4}])
     ['a', 'b', 'c']
     """
@@ -23,26 +26,25 @@ def extract_field_names(dict_list):
 
 
 @click.command()
-@click.argument(
-    'id_cinema',
-    type=str,
-    required=True
-)
+@click.argument("id_cinema", type=str, required=True)
 @click.option(
-    '--jour', '-j',
+    "--jour",
+    "-j",
     type=str,
     help="jour des séances souhaitées \
 (au format DD/MM/YYYY ou +1 pour demain), par défaut : aujourd’hui",
 )
 @click.option(
-    '--semaine', '-s',
+    "--semaine",
+    "-s",
     is_flag=True,
-    help='affiche les séance pour les 7 prochains jours',
+    help="affiche les séance pour les 7 prochains jours",
 )
 @click.option(
-    '--entrelignes', '-e',
+    "--entrelignes",
+    "-e",
     is_flag=True,
-    help='ajoute une ligne entre chaque film pour améliorer la lisibilité',
+    help="ajoute une ligne entre chaque film pour améliorer la lisibilité",
 )
 def main(id_cinema, entrelignes, jour=None, semaine=None):
     """
@@ -58,7 +60,7 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
     if semaine is False:
         if jour is None:
             jours.append(today.strftime("%d/%m/%Y"))
-        elif jour[0] == '+':
+        elif jour[0] == "+":
             delta_jours = int(jour[1:])
             jour_obj = today + timedelta(days=delta_jours)
             jours.append(jour_obj.strftime("%d/%m/%Y"))
@@ -71,41 +73,32 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
 
     theater = allocine.get_theater(theater_id=id_cinema)
 
-    print('{}, le '.format(theater.name), end='')
+    print("{}, le ".format(theater.name), end="")
     for jour in jours:
-        print(get_showtime_table(
-            theater=theater,
-            entrelignes=entrelignes,
-            jour=jour)
-        )
+        print(get_showtime_table(theater=theater, entrelignes=entrelignes, jour=jour))
         print()
 
 
 def get_showtime_table(theater, entrelignes, jour):
     showtime_table = []
 
-    date_obj = datetime.strptime(jour, '%d/%m/%Y').date()
+    date_obj = datetime.strptime(jour, "%d/%m/%Y").date()
     movies_available_today = theater.get_movies_available_for_a_day(date=date_obj)
 
     for movie_version in movies_available_today:
-
         title = movie_version.title
         if len(title) >= 31:  # On tronque les titres trop longs
-            title = title[:31] + '...'
+            title = title[:31] + "..."
 
         # '*1_film' pour être sûr que cela soit la 1ère colonne
-        movie_row = {'*1_film': "{} ({}) - {}".format(
-            title,
-            movie_version.version,
-            movie_version.duration_str)}
+        movie_row = {"*1_film": "{} ({}) - {}".format(title, movie_version.version, movie_version.duration_str)}
 
-        movie_row['*2_note'] = "{}*".format(movie_version.rating_str)
+        movie_row["*2_note"] = "{}*".format(movie_version.rating_str)
 
-        showtimes = theater.get_showtimes_of_a_movie(
-            movie_version=movie_version, date=date_obj)
+        showtimes = theater.get_showtimes_of_a_movie(movie_version=movie_version, date=date_obj)
 
         for showtime in showtimes:
-            hour = showtime.hour_str.split(':')[0]  # 11:15 => 11
+            hour = showtime.hour_str.split(":")[0]  # 11:15 => 11
             movie_row[hour] = showtime.hour_str
 
         showtime_table.append(movie_row)
