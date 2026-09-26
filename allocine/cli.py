@@ -5,7 +5,7 @@ from datetime import date, datetime, timedelta
 import click
 from prettytable import ALL, FRAME, UNICODE, PrettyTable
 
-from allocine.api import Allocine
+from allocine.client import Allocine
 
 
 def extract_field_names(dict_list):

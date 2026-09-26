@@ -1,6 +1,7 @@
 """Top-level package for Allociné."""
 
-from allocine.api import DEFAULT_DATE_FORMAT, Allocine, Client, Error503
+from allocine.api import AllocineApi
+from allocine.client import DEFAULT_DATE_FORMAT, Allocine
 from allocine.models import (
     Movie,
     MovieVersion,
@@ -30,9 +31,8 @@ __version__ = "0.0.12"
 
 __all__ = [
     "Allocine",
-    "Client",
+    "AllocineApi",
     "DEFAULT_DATE_FORMAT",
-    "Error503",
     "Movie",
     "MovieVersion",
     "Schedule",
