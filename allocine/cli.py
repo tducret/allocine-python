@@ -1,28 +1,20 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-"""CLI tool for allocine"""
+"""Command-line interface for Allociné showtimes."""
 
 from datetime import date, datetime, timedelta
 
 import click
 from prettytable import ALL, FRAME, UNICODE, PrettyTable
 
-from allocine import Allocine
-
-# Usage : seances.py --help
+from allocine.api import Allocine
 
 
 def extract_field_names(dict_list):
-    """Returns a sorted list of field names from a dictionary list
-    > extract_field_names([{'a': 1, 'b': 2}, {'a': 3, 'c': 4}])
-    ['a', 'b', 'c']
-    """
+    """Return a sorted list of field names from a dictionary list."""
     field_names = []
     for row_dict in dict_list:
         field_names += row_dict.keys()
-    field_names = list(set(field_names))  # Removes duplicates
-    return sorted(field_names)  # sort it in ascending order
+    field_names = list(set(field_names))
+    return sorted(field_names)
 
 
 @click.command()

@@ -46,8 +46,8 @@ dev = [
 Homepage = "https://github.com/tducret/allocine-python"
 Download = "https://github.com/tducret/allocine-python/tarball/0.0.12"
 
-[tool.setuptools]
-script-files = ["seances.py"]
+[project.scripts]
+"seances.py" = "allocine.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["allocine*"]
