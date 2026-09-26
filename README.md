@@ -12,12 +12,12 @@
 ## Requirements
 
 - Python 3.10 and above
-- pip
+- [uv](https://docs.astral.sh/uv/)
 
 ## Installation
 
 ```bash
-python -m pip install -U allocine
+uv tool install --upgrade allocine
 ```
 
 ## CLI tool usage
@@ -120,32 +120,31 @@ Example output :
 
 ## Development
 
-Create a virtual environment and install the package with its development dependencies:
+Create the virtual environment and install the package with its development dependencies:
 
 ```bash
-python -m venv .venv
-.venv/bin/python -m pip install -e ".[dev]"
+uv sync --extra dev
 ```
 
 Install the pre-commit hooks once, then use `make check` to lint, format, and type-check the entire codebase:
 
 ```bash
-.venv/bin/pre-commit install
+uv run pre-commit install
 make check
 ```
 
 Run individual checks without modifying files:
 
 ```bash
-.venv/bin/ruff check .
-.venv/bin/ruff format --check .
-.venv/bin/ty check
+uv run ruff check .
+uv run ruff format --check .
+uv run ty check
 ```
 
 Run all pre-commit hooks manually with:
 
 ```bash
-.venv/bin/pre-commit run --all-files
+uv run pre-commit run --all-files
 ```
 
 VS Code users should accept the workspace extension recommendations to enable live Ruff and ty diagnostics and Ruff
