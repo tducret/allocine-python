@@ -1,7 +1,5 @@
 # Allociné
 
-[![Travis](https://img.shields.io/travis/tducret/allocine-python.svg)](https://travis-ci.org/tducret/allocine-python)
-[![Coveralls github](https://img.shields.io/coveralls/github/tducret/allocine-python.svg)](https://coveralls.io/github/tducret/allocine-python)
 [![PyPI](https://img.shields.io/pypi/v/allocine.svg)](https://pypi.org/project/allocine/)
 [![Docker Image size](https://img.shields.io/microbadger/image-size/thibdct/seances.svg)](https://hub.docker.com/r/thibdct/seances/)
 ![License](https://img.shields.io/github/license/tducret/allocine-python.svg)
