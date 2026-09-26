@@ -15,43 +15,42 @@ SHOWTIMES_BASE_URL = "https://www.allocine.fr/_/showtimes"
 
 class Allocine:
     def __init__(self):
-        self.__client = Client()
+        self._client = Client()
 
-    def get_theater(self, theater_id: str, date: Date | None = None):
-        ret = self.__client.get_showtimelist_by_theater_id(theater_id=theater_id, date=date)
-        if not ret.get("results"):
+    def get_theater(self, theater_id: str):
+        resp = self._client.get_showtimelist_by_theater_id(theater_id=theater_id)
+        if not resp.get("results"):
             raise ValueError(f"Theater not found. Is theater id {theater_id!r} correct?")
 
-        theaters = self.__get_theaters_from_raw_showtimelist(raw_showtimelist=ret, theater_id=theater_id)
-        if len(theaters) != 1:
-            raise ValueError("Expecting 1 theater but received {}".format(len(theaters)))
+        movie_id: int | None = jmespath.search("results[0].movie.internalId", resp)
+        assert movie_id is not None, "We need at least one showtime to get details about a theater"
+        theater = self._get_theater_details_from_movie_id(theater_id, movie_id)
 
-        return theaters[0]
+        theater.showtimes = self._parse_showtimes(resp["results"])
 
-    def __get_theaters_from_raw_showtimelist(self, raw_showtimelist: dict, theater_id: str):
-        raw_showtimes = raw_showtimelist.get("results") or []
-        if not raw_showtimes:
-            return []
+        for page in range(2, jmespath.search("pagination.totalPages", resp) + 1):
+            resp = self._client.get_showtimelist_by_theater_id(theater_id=theater_id, page=page)
+            theater.showtimes += self._parse_showtimes(resp["results"])
 
-        movie_id = raw_showtimes[0]["movie"]["internalId"]
-        operation = self.__client.get_showtimes_by_movie_and_theater_id(
+        return theater
+
+    def _get_theater_details_from_movie_id(self, theater_id: str, movie_id: int) -> Theater:
+        operation = self._client.get_showtimes_by_movie_and_theater_id(
             movie_id=movie_id,
             theater_id=theater_id,
         )
         raw_theater = operation["results"]["theater"]
         location = raw_theater["location"]
-        return [
-            Theater(
-                theater_id=raw_theater["internalId"],
-                name=raw_theater["name"],
-                address=location["address"],
-                zipcode=location["zip"],
-                city=location["city"],
-                showtimes=self.__parse_showtimes(raw_showtimes=raw_showtimes),
-            )
-        ]
+        return Theater(
+            theater_id=raw_theater["internalId"],
+            name=raw_theater["name"],
+            address=location["address"],
+            zipcode=location["zip"],
+            city=location["city"],
+            showtimes=[],
+        )
 
-    def __parse_showtimes(self, raw_showtimes: list[dict]):
+    def _parse_showtimes(self, raw_showtimes: list[dict]):
         showtimes = []
         for showtime_data in raw_showtimes:
             raw_movie = showtime_data["movie"]
@@ -163,22 +162,13 @@ class Client:
         page: int | None = None,
         date: Date | None = None,
     ):
-        date = date or datetime.now().date()
-        first_page = page or 1
-        url = f"{SHOWTIMES_BASE_URL}/theater-{theater_id}/d-{date.isoformat()}/p-{first_page}/"
-        response = self._get(url=url)
+        url = f"{SHOWTIMES_BASE_URL}/theater-{theater_id}/"
+        if date:
+            url += date.isoformat()
+        if page:
+            url += f"p-{page}/"
 
-        if page is not None:
-            return response
-
-        response = {**response, "results": list(response.get("results") or [])}
-        pagination = response.get("pagination")
-        total_pages = int(pagination.get("totalPages", 1)) if isinstance(pagination, dict) else 1
-        for next_page in range(2, total_pages + 1):
-            url = f"{SHOWTIMES_BASE_URL}/theater-{theater_id}/d-{date.isoformat()}/p-{next_page}/"
-            next_response = self._get(url=url)
-            response["results"].extend(next_response.get("results") or [])
-        return response
+        return self._get(url=url)
 
     def get_showtimes_by_movie_and_theater_id(self, movie_id: int, theater_id: str):
         url = f"{SHOWTIMES_BASE_URL}/ope/movie-{movie_id}/theater-{theater_id}/"

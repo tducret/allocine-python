@@ -76,15 +76,15 @@ def create_weekdays_str(dates: List[Date]) -> str:
         return "sf {}".format(", ".join([to_french_short_weekday(d) for d in missing_days]))
 
 
-def __get_time_weight_in_list(item: Tuple[str, List[Time]]) -> timedelta:
+def _get_time_weight_in_list(item: Tuple[str, List[Time]]) -> timedelta:
     """Returns the minimum time weight from the time list contained in the dict values
     ex: {'key': [time(hour=12), time(hour=9)]} => timedelta(hour=9)
     """
-    weights = [__get_time_weight(t) for t in item[1]]
+    weights = [_get_time_weight(t) for t in item[1]]
     return min(weights)
 
 
-def __get_time_weight(t: Time) -> timedelta:
+def _get_time_weight(t: Time) -> timedelta:
     """Return a timedelta taking into account night time.
     Basically, it allows to sort a list of times 18h>23h>0h30
     and not 0h30>18h>23h
@@ -120,11 +120,11 @@ def build_weekly_schedule_str(schedule_list: List[Schedule]) -> str:
         hours.sort()
         grouped_date_hashmap_raw[grouped_dates_str] = hours
 
-    grouped_date_hashmap_raw = sorted(grouped_date_hashmap_raw.items(), key=__get_time_weight_in_list)
+    grouped_date_hashmap_raw = sorted(grouped_date_hashmap_raw.items(), key=_get_time_weight_in_list)
     grouped_date_hashmap = OrderedDict(grouped_date_hashmap_raw)
 
     hours_hashmap = OrderedDict()
-    for hour in sorted(hours_hashmap_raw.keys(), key=__get_time_weight):
+    for hour in sorted(hours_hashmap_raw.keys(), key=_get_time_weight):
         hours_hashmap[hour] = hours_hashmap_raw.get(hour)
 
     different_showtimes = len(grouped_date_hashmap)
