@@ -105,6 +105,39 @@ for showtime in showtimes:
     print(showtime)
 ```
 
+Caching is disabled by default. Enable it with `cache=True`; responses are then stored in the operating system's user
+cache directory as selected by [`platformdirs`](https://platformdirs.readthedocs.io/):
+
+- macOS: `~/Library/Caches/allocine`
+- Linux: `${XDG_CACHE_HOME:-~/.cache}/allocine`
+- Windows: `%LOCALAPPDATA%\\allocine\\Cache`
+
+Only HTTP responses explicitly marked as public and cacheable are stored. Their `Cache-Control` response header controls
+freshness and retention, including `max-age`, `stale-if-error`, and `stale-while-revalidate`. Stale responses are
+conditionally revalidated with `ETag` or `Last-Modified` when available, and can be served after a request failure for
+the duration declared by `stale-if-error`.
+
+Call `clear_cache()` to invalidate the entire cache, or use `cache_dir` to choose a different location:
+
+```python
+from allocine import Allocine
+
+allocine = Allocine(cache=True)
+allocine.clear_cache()
+showtimes = allocine.get_showtimes("P2235")
+allocine.close()
+
+custom_cache = Allocine(cache=True, cache_dir="/path/to/cache")
+```
+
+`Allocine` can also be used as a context manager to close its HTTP and cache resources automatically.
+
+The CLI cache can be cleared globally without providing a theater ID:
+
+```bash
+seances.py --clear-cache
+```
+
 Example output :
 
 ```bash

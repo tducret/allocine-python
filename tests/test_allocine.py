@@ -9,27 +9,32 @@ from freezegun import freeze_time
 from allocine import Allocine
 
 
-def test_get_theater(json_snapshot, allocine_vcr):
-    theater = Allocine().get_theater("P0645")
+@pytest.fixture(scope="session")
+def allocine() -> Allocine:
+    return Allocine(cache=False)
+
+
+def test_get_theater(allocine: Allocine, json_snapshot, allocine_vcr):
+    theater = allocine.get_theater("P0645")
 
     assert asdict(theater) == json_snapshot
 
 
-def test_search_theaters(json_snapshot, allocine_vcr):
-    theaters = Allocine().search_theaters(geocode=83178)
+def test_search_theaters(allocine: Allocine, json_snapshot, allocine_vcr):
+    theaters = allocine.search_theaters(geocode=83178)
 
     assert theaters == json_snapshot
 
 
 @freeze_time("2026-09-27")
-def test_get_showtimes_defaults_to_today(json_snapshot, allocine_vcr):
-    showtimes = Allocine().get_showtimes("G0FOX")
+def test_get_showtimes_defaults_to_today(allocine: Allocine, json_snapshot, allocine_vcr):
+    showtimes = allocine.get_showtimes("G0FOX")
 
     assert [asdict(showtime) for showtime in showtimes] == json_snapshot
 
 
-def test_get_showtimes_fetches_inclusive_date_range(json_snapshot, allocine_vcr):
-    showtimes = Allocine().get_showtimes(
+def test_get_showtimes_fetches_inclusive_date_range(allocine: Allocine, json_snapshot, allocine_vcr):
+    showtimes = allocine.get_showtimes(
         "G0FOX",
         from_date=date(2026, 9, 27),
         to_date=date(2026, 9, 28),
@@ -38,20 +43,24 @@ def test_get_showtimes_fetches_inclusive_date_range(json_snapshot, allocine_vcr)
     assert [asdict(showtime) for showtime in showtimes] == json_snapshot
 
 
-def test_get_showtimes_rejects_inverted_date_range():
+def test_get_showtimes_rejects_inverted_date_range(
+    allocine,
+):
     with pytest.raises(ValueError, match="from_date must be before or equal to to_date"):
-        Allocine().get_showtimes(
+        allocine.get_showtimes(
             "P0645",
             from_date=date(2026, 9, 27),
             to_date=date(2026, 9, 26),
         )
 
 
-def test_get_showtimes_skips_entries_without_movie():
-    assert Allocine()._parse_showtimes([{"movie": None, "showtimes": {}}]) == []
+def test_get_showtimes_skips_entries_without_movie(
+    allocine,
+):
+    assert allocine._parse_showtimes([{"movie": None, "showtimes": {}}]) == []
 
 
-def test_get_theater_falls_back_to_page_metadata(json_snapshot, allocine_vcr):
-    theater = Allocine().get_theater("G0FOX")
+def test_get_theater_falls_back_to_page_metadata(allocine: Allocine, json_snapshot, allocine_vcr):
+    theater = allocine.get_theater("G0FOX")
 
     assert asdict(theater) == json_snapshot

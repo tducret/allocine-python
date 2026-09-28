@@ -3,27 +3,35 @@ import re
 import unicodedata
 from datetime import date as Date
 from datetime import datetime, timedelta
+from os import PathLike
 
 import jmespath
 from parsel import Selector
 
 from allocine.api import AllocineApi
+from allocine.cache import CacheOption
 from allocine.models import MovieVersion, Showtime, Theater
 
 DEFAULT_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S"
 
 
 class Allocine:
-    def __init__(self):
-        self._client = AllocineApi()
+    def __init__(
+        self,
+        *,
+        cache: CacheOption = False,
+        cache_dir: str | PathLike[str] | None = None,
+    ):
+        self._client = AllocineApi(cache=cache, cache_dir=cache_dir)
 
-    def get_theater(self, theater_id: str):
+    def get_theater(self, theater_id: str) -> Theater:
         resp = self._client.get_showtimelist_by_theater_id(theater_id=theater_id)
         if not resp.get("results"):
             raise ValueError(f"Theater not found. Is theater id {theater_id!r} correct?")
 
         movie_id: int | None = jmespath.search("results[0].movie.internalId", resp)
         assert movie_id is not None, "We need at least one showtime to get details about a theater"
+
         return self._get_theater_details_from_movie_id(theater_id, movie_id)
 
     def get_showtimes(
@@ -67,6 +75,18 @@ class Allocine:
             if not selector.css(".button-right:not(.button-disabled)"):
                 return theaters
             page += 1
+
+    def clear_cache(self) -> int:
+        return self._client.clear_cache()
+
+    def close(self) -> None:
+        self._client.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
 
     def _get_theater_details_from_movie_id(self, theater_id: str, movie_id: int) -> Theater:
         operation = self._client.get_showtimes_by_movie_and_theater_id(

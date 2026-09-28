@@ -9,6 +9,15 @@ from allocine.client import Allocine
 from allocine.schedules import get_showtimes_of_a_day
 
 
+def clear_cache(ctx, param, value):
+    if not value or ctx.resilient_parsing:
+        return
+    with Allocine(cache=True) as allocine:
+        removed = allocine.clear_cache()
+    click.echo(f"Cache vidé ({removed} entrée(s)).")
+    ctx.exit()
+
+
 def extract_field_names(dict_list):
     """Return a sorted list of field names from a dictionary list."""
     field_names = []
@@ -20,6 +29,14 @@ def extract_field_names(dict_list):
 
 @click.command()
 @click.argument("id_cinema", type=str, required=True)
+@click.option(
+    "--clear-cache",
+    is_flag=True,
+    is_eager=True,
+    expose_value=False,
+    callback=clear_cache,
+    help="vide entièrement le cache et quitte",
+)
 @click.option(
     "--jour",
     "-j",
@@ -47,7 +64,7 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
     http://allocine.fr/seance/salle_gen_csalle=<ID_CINEMA>.html
     """
     today = date.today()
-    allocine = Allocine()
+    allocine = Allocine(cache=True)
 
     jours = []
     if semaine is False:
@@ -64,13 +81,13 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
             jour_obj = today + timedelta(days=delta)
             jours.append(jour_obj.strftime("%d/%m/%Y"))
 
-    theater = allocine.get_theater(theater_id=id_cinema)
     requested_dates = [datetime.strptime(jour, "%d/%m/%Y").date() for jour in jours]
     showtimes = allocine.get_showtimes(
         theater_id=id_cinema,
         from_date=min(requested_dates),
         to_date=max(requested_dates),
     )
+    theater = allocine.get_theater(theater_id=id_cinema)
 
     print("{}, le ".format(theater.name), end="")
     for jour in jours:

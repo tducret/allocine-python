@@ -28,9 +28,11 @@ classifiers = [
 dependencies = [
     "backoff>=2.2.1",
     "click>=8.5.0",
+    "diskcache>=5.6,<6",
     "httpx2>=2.13.1",
     "jmespath>=1.1.0",
     "parsel>=1.10.0",
+    "platformdirs>=4.3",
     "ptableunicode>=0.9.3",
 ]
 
