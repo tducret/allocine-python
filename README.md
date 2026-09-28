@@ -176,6 +176,7 @@ publier. Le workflow rejette les distributions dont la version ne correspond pas
 wheel et de la distribution source avant leur publication :
 
 ```bash
-git tag -a 0.0.13 -m 0.0.13
-git push origin 0.0.13
+VERSION=0.0.13
+git tag -a ${VERSION} -m ${VERSION}
+git push origin ${VERSION}
 ```
