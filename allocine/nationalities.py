@@ -388,6 +388,7 @@ countries = {
     "pologne": "PL",
     "porto rico": "PR",
     "autorite palestinienne": "PS",
+    "palestine": "PS",
     "portugal": "PT",
     "palaos": "PW",
     "paraguay": "PY",
@@ -427,6 +428,7 @@ countries = {
     "ukraine": "UA",
     "ouganda": "UG",
     "u.r.s.s.": "SU",
+    "urss": "SU",
     "u.s.a.": "US",  # modified based on allocine value, originally 'etats-unis'
     "uruguay": "UY",
     "ouzbekistan": "UZ",
