@@ -87,7 +87,10 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
         from_date=min(requested_dates),
         to_date=max(requested_dates),
     )
-    theater = allocine.get_theater(theater_id=id_cinema)
+    try:
+        theater = allocine.get_theater(theater_id=id_cinema)
+    except ValueError as error:
+        raise click.ClickException(str(error)) from None
 
     print("{}, le ".format(theater.name), end="")
     for jour in jours:
