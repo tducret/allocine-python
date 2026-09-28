@@ -183,3 +183,21 @@ uv run pre-commit run --all-files
 
 VS Code users should accept the workspace extension recommendations to enable live Ruff and ty diagnostics and Ruff
 formatting on save.
+
+## Releasing
+
+The release workflow publishes version tags such as `0.0.13` to PyPI using Trusted Publishing, without a stored API
+token. Before the first release:
+
+1. Create a GitHub environment named `pypi`; requiring approval for deployments is recommended.
+2. In the `allocine` project's PyPI publishing settings, add a GitHub Trusted Publisher for owner `tducret`, repository
+   `allocine-python`, workflow `release.yml`, and environment `pypi`.
+
+The Git tag is the package's version; no version files need to be updated. Tag the commit to release. The workflow
+rejects built distributions whose version does not match the tag and smoke-tests both the wheel and source distribution
+before publishing:
+
+```bash
+git tag -a 0.0.13 -m 0.0.13
+git push origin 0.0.13
+```

@@ -8,7 +8,6 @@ resolution-markers = [
 
 [[package]]
 name = "allocine"
-version = "0.0.12"
 source = { editable = "." }
 dependencies = [
     { name = "backoff" },

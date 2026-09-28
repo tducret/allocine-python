@@ -1,5 +1,7 @@
 """Top-level package for Allociné."""
 
+from importlib.metadata import version as _distribution_version
+
 from allocine.api import AllocineApi
 from allocine.client import DEFAULT_DATE_FORMAT, Allocine
 from allocine.models import (
@@ -27,7 +29,7 @@ from allocine.schedules import (
 
 __author__ = "Thibault Ducret"
 __email__ = "hello@tducret.com"
-__version__ = "0.0.12"
+__version__ = _distribution_version("allocine")
 
 __all__ = [
     "Allocine",
