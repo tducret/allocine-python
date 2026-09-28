@@ -33,7 +33,7 @@ dependencies = [
     "jmespath>=1.1.0",
     "parsel>=1.10.0",
     "platformdirs>=4.3",
-    "ptableunicode>=0.9.3",
+    "rich>=14.2.0",
 ]
 
 [project.optional-dependencies]
