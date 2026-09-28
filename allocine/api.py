@@ -10,6 +10,10 @@ SHOWTIMES_BASE_URL = "https://www.allocine.fr/_/showtimes"
 THEATERS_BASE_URL = "https://www.allocine.fr/salle/cinema"
 
 
+class _RateLimitError(Exception):
+    pass
+
+
 class AllocineApi:
     """Client to process requests with the Allocine APIs."""
 
@@ -103,7 +107,7 @@ class AllocineApi:
 
         try:
             response = self._fetch(url, expected_status, *args, not_found_ok=not_found_ok, **kwargs)
-        except (ValueError, httpx2.HTTPError):
+        except (_RateLimitError, ValueError, httpx2.HTTPError):
             if cached is not CACHE_MISS and cached.can_serve_on_error():
                 return cached.to_response()
             raise
@@ -113,6 +117,14 @@ class AllocineApi:
         self.cache.set(url, response, params)
         return response
 
+    @backoff.on_exception(
+        backoff.expo,
+        _RateLimitError,
+        factor=5,
+        max_value=120,
+        max_tries=7,
+        jitter=None,
+    )
     @backoff.on_exception(backoff.expo, ValueError, max_tries=5, max_time=30)
     def _fetch(
         self,
@@ -123,6 +135,8 @@ class AllocineApi:
         **kwargs,
     ) -> httpx2.Response:
         ret = self.session.get(url, *args, **kwargs)
+        if ret.status_code == 429:
+            raise _RateLimitError(f"{url!r}: rate limit exceeded")
         if ret.status_code not in {expected_status, 304} and not (not_found_ok and ret.status_code == 404):
             raise ValueError("{!r} : expected status {}, received {}".format(url, expected_status, ret.status_code))
         return ret
