@@ -52,7 +52,7 @@ dev = [
 Homepage = "https://github.com/tducret/allocine-python"
 
 [project.scripts]
-"seances.py" = "allocine.cli:main"
+seances = "allocine.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["allocine*"]

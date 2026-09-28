@@ -33,8 +33,8 @@ Recherchez votre cinéma et relevez son identifiant dans l’URL. Dans cet exemp
 #### Aide
 
 ```bash
-seances.py --help
-Usage: seances.py [OPTIONS] ID_CINEMA
+seances --help
+Usage: seances [OPTIONS] ID_CINEMA
 
   Les séances de votre cinéma dans le terminal, avec ID_CINEMA : identifiant
   du cinéma sur Allociné, ex: C0159 pour l’UGC Ciné Cité Les Halles. Se
@@ -53,7 +53,7 @@ Options:
 #### Utilisation simple
 
 ```bash
-seances.py P2235
+seances P2235
 
 27/12/2018
 ┌──────────────────────────────────────────────────────────┬──────┬───────┬───────┬───────┬───────┐
@@ -67,7 +67,7 @@ seances.py P2235
 #### Pour demain, avec des interlignes
 
 ```bash
-seances.py P2235 -j+1 --entrelignes
+seances P2235 -j+1 --entrelignes
 
 28/12/2018
 ┌────────────────────────────────────────────────────┬──────┬───────┬───────┬───────┐
@@ -82,13 +82,13 @@ seances.py P2235 -j+1 --entrelignes
 #### Pour une date précise
 
 ```bash
-seances.py P2235 --jour 29/12/2018
+seances P2235 --jour 29/12/2018
 ```
 
 #### Pour toute la semaine
 
 ```bash
-seances.py P2235 --semaine
+seances P2235 --semaine
 ```
 
 ## Utilisation de la bibliothèque
@@ -126,7 +126,7 @@ Le cache est activé par défaut. Les réponses sont enregistrées dans le répe
 Videz le cache en ligne de commande (aucun identifiant de cinéma n’est nécessaire) :
 
 ```bash
-seances.py --clear-cache
+seances --clear-cache
 ```
 
 ## Développement
