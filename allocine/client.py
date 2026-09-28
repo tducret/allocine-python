@@ -1,6 +1,7 @@
 import json
 import re
 import unicodedata
+from datetime import date as Date
 from datetime import datetime, timedelta
 
 import jmespath
@@ -23,15 +24,39 @@ class Allocine:
 
         movie_id: int | None = jmespath.search("results[0].movie.internalId", resp)
         assert movie_id is not None, "We need at least one showtime to get details about a theater"
-        theater = self._get_theater_details_from_movie_id(theater_id, movie_id)
+        return self._get_theater_details_from_movie_id(theater_id, movie_id)
 
-        theater.showtimes = self._parse_showtimes(resp["results"])
+    def get_showtimes(
+        self,
+        theater_id: str,
+        from_date: Date | None = None,
+        to_date: Date | None = None,
+    ) -> list[Showtime]:
+        from_date = from_date or Date.today()
+        to_date = to_date or from_date
+        if from_date > to_date:
+            raise ValueError("from_date must be before or equal to to_date")
 
-        for page in range(2, jmespath.search("pagination.totalPages", resp) + 1):
-            resp = self._client.get_showtimelist_by_theater_id(theater_id=theater_id, page=page)
-            theater.showtimes += self._parse_showtimes(resp["results"])
+        showtimes = []
+        requested_date = from_date
+        while requested_date <= to_date:
+            response = self._client.get_showtimelist_by_theater_id(
+                theater_id=theater_id,
+                date=requested_date,
+            )
+            day_showtimes = self._parse_showtimes(response.get("results") or [])
+            for page in range(2, (jmespath.search("pagination.totalPages", response) or 1) + 1):
+                response = self._client.get_showtimelist_by_theater_id(
+                    theater_id=theater_id,
+                    date=requested_date,
+                    page=page,
+                )
+                day_showtimes.extend(self._parse_showtimes(response.get("results") or []))
 
-        return theater
+            showtimes.extend(showtime for showtime in day_showtimes if showtime.date == requested_date)
+            requested_date += timedelta(days=1)
+
+        return showtimes
 
     def search_theaters(self, geocode: int | str) -> list[Theater]:
         theaters = []
@@ -49,6 +74,9 @@ class Allocine:
             theater_id=theater_id,
         )
         raw_theater = operation["results"]["theater"]
+        if raw_theater is None:
+            return self._get_theater_details_from_page(theater_id)
+
         location = raw_theater["location"]
         return Theater(
             theater_id=raw_theater["internalId"],
@@ -56,8 +84,25 @@ class Allocine:
             address=location["address"],
             zipcode=location["zip"],
             city=location["city"],
-            showtimes=[],
         )
+
+    def _get_theater_details_from_page(self, theater_id: str) -> Theater:
+        selector = Selector(text=self._client.get_theater_page(theater_id))
+        for raw_data in selector.css('script[type="application/ld+json"]::text').getall():
+            theater_data = json.loads(raw_data)
+            if theater_data.get("@type") != "MovieTheater":
+                continue
+
+            address = theater_data.get("address") or {}
+            return Theater(
+                theater_id=theater_id,
+                name=theater_data["name"],
+                address=address.get("streetAddress") or "",
+                zipcode=address.get("postalCode") or "",
+                city=address.get("addressLocality") or "",
+            )
+
+        raise ValueError(f"Theater details not found for theater id {theater_id!r}")
 
     def _parse_showtimes(self, raw_showtimes: list[dict]):
         showtimes = []
@@ -168,7 +213,6 @@ def _parse_theaters(selector: Selector) -> list[Theater]:
                 address=address,
                 zipcode=zipcode,
                 city=city,
-                showtimes=[],
             )
         )
     return theaters

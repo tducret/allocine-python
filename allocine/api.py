@@ -26,7 +26,7 @@ class AllocineApi:
     ):
         url = f"{SHOWTIMES_BASE_URL}/theater-{theater_id}/"
         if date:
-            url += date.isoformat()
+            url += f"d-{date.isoformat()}/"
         if page:
             url += f"p-{page}/"
 
@@ -35,6 +35,10 @@ class AllocineApi:
     def get_showtimes_by_movie_and_theater_id(self, movie_id: int, theater_id: str):
         url = f"{SHOWTIMES_BASE_URL}/ope/movie-{movie_id}/theater-{theater_id}/"
         return self._get(url=url)
+
+    def get_theater_page(self, theater_id: str) -> str:
+        url = f"https://www.allocine.fr/seance/salle_gen_csalle={theater_id}.html"
+        return self._get_text(url=url)
 
     def get_theaterlist_by_geocode(self, geocode: int | str, page: int = 1) -> str:
         url = f"{THEATERS_BASE_URL}/ville-{geocode}/"

@@ -99,8 +99,9 @@ from allocine import Allocine
 
 allocine = Allocine()
 theater = allocine.get_theater("P2235")
+showtimes = allocine.get_showtimes(theater.theater_id)
 
-for showtime in theater.showtimes:
+for showtime in showtimes:
     print(showtime)
 ```
 

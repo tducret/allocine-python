@@ -201,7 +201,6 @@ def short_day_str(date: Date) -> str:
 class Theater:
     theater_id: str
     name: str
-    showtimes: List[Showtime]
     address: str
     zipcode: str
     city: str
@@ -211,54 +210,6 @@ class Theater:
         address_str = f"{self.address}, " if self.address else ""
         address_str += f"{self.zipcode} {self.city}"
         return address_str
-
-    def get_showtimes_of_a_movie(self, movie_version: MovieVersion, date: Optional[Date] = None):
-        movie_showtimes = [showtime for showtime in self.showtimes if showtime.movie == movie_version]
-        if date:
-            return [showtime for showtime in movie_showtimes if showtime.date == date]
-        else:
-            return movie_showtimes
-
-    def get_showtimes_of_a_day(self, date: Date):
-        from allocine.schedules import get_showtimes_of_a_day
-
-        return get_showtimes_of_a_day(showtimes=self.showtimes, date=date)
-
-    def get_movies_available_for_a_day(self, date: Date):
-        """Returns a list of movies available on a specified day"""
-        movies = [showtime.movie for showtime in self.get_showtimes_of_a_day(date)]
-        return list(set(movies))
-
-    def get_showtimes_per_movie_version(self):
-        movies = {}
-        for showtime in self.showtimes:
-            if movies.get(showtime.movie) is None:
-                movies[showtime.movie] = []
-            movies[showtime.movie].append(showtime)
-        return movies
-
-    def get_showtimes_per_movie(self):
-        movies = {}
-        for showtime in self.showtimes:
-            movie = showtime.movie.get_movie()  # Without language nor screen_format
-            if movies.get(movie) is None:
-                movies[movie] = []
-            movies[movie].append(showtime)
-        return movies
-
-    def get_program_per_movie(self):
-        from allocine.schedules import build_program_str
-
-        program_per_movie = {}
-        for movie, showtimes in self.get_showtimes_per_movie().items():
-            program_per_movie[movie] = build_program_str(showtimes=showtimes)
-        return program_per_movie
-
-    def filter_showtimes(self, date_min: Optional[Date] = None, date_max: Optional[Date] = None):
-        if date_min:
-            self.showtimes = [s for s in self.showtimes if s.date >= date_min]
-        if date_max:
-            self.showtimes = [s for s in self.showtimes if s.date <= date_max]
 
     def __eq__(self, other):
         return (self.theater_id) == (other.theater_id)

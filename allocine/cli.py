@@ -6,6 +6,7 @@ import click
 from prettytable import ALL, FRAME, UNICODE, PrettyTable
 
 from allocine.client import Allocine
+from allocine.schedules import get_showtimes_of_a_day
 
 
 def extract_field_names(dict_list):
@@ -64,18 +65,25 @@ def main(id_cinema, entrelignes, jour=None, semaine=None):
             jours.append(jour_obj.strftime("%d/%m/%Y"))
 
     theater = allocine.get_theater(theater_id=id_cinema)
+    requested_dates = [datetime.strptime(jour, "%d/%m/%Y").date() for jour in jours]
+    showtimes = allocine.get_showtimes(
+        theater_id=id_cinema,
+        from_date=min(requested_dates),
+        to_date=max(requested_dates),
+    )
 
     print("{}, le ".format(theater.name), end="")
     for jour in jours:
-        print(get_showtime_table(theater=theater, entrelignes=entrelignes, jour=jour))
+        print(get_showtime_table(showtimes=showtimes, entrelignes=entrelignes, jour=jour))
         print()
 
 
-def get_showtime_table(theater, entrelignes, jour):
+def get_showtime_table(showtimes, entrelignes, jour):
     showtime_table = []
 
     date_obj = datetime.strptime(jour, "%d/%m/%Y").date()
-    movies_available_today = theater.get_movies_available_for_a_day(date=date_obj)
+    day_showtimes = get_showtimes_of_a_day(showtimes, date=date_obj)
+    movies_available_today = set(showtime.movie for showtime in day_showtimes)
 
     for movie_version in movies_available_today:
         title = movie_version.title
@@ -87,9 +95,9 @@ def get_showtime_table(theater, entrelignes, jour):
 
         movie_row["*2_note"] = "{}*".format(movie_version.rating_str)
 
-        showtimes = theater.get_showtimes_of_a_movie(movie_version=movie_version, date=date_obj)
-
-        for showtime in showtimes:
+        for showtime in day_showtimes:
+            if showtime.movie != movie_version:
+                continue
             hour = showtime.hour_str.split(":")[0]  # 11:15 => 11
             movie_row[hour] = showtime.hour_str
 
