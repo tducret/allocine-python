@@ -1,9 +1,12 @@
 """Command-line interface for Allociné showtimes."""
 
 from datetime import date, datetime, timedelta
+from io import StringIO
 
 import click
-from prettytable import ALL, FRAME, UNICODE, PrettyTable
+from rich import box
+from rich.console import Console
+from rich.table import Table
 
 from allocine.client import Allocine
 from allocine.schedules import get_showtimes_of_a_day
@@ -131,26 +134,17 @@ def get_showtime_table(showtimes, entrelignes, jour):
         retour += "Aucune séance"
 
     else:
-        table = PrettyTable()
-        table.set_style(UNICODE)
-        table.header = False
+        field_names = extract_field_names(seances)
+        table = Table(box=box.SQUARE, show_header=False, show_lines=entrelignes)
+        for field_name in field_names:
+            table.add_column(justify="left" if field_name == "*1_film" else "center", no_wrap=True)
 
-        if entrelignes is True:
-            table.hrules = ALL
-        else:
-            table.hrules = FRAME
+        for seances_film in sorted(seances, key=lambda seance: seance["*1_film"]):
+            table.add_row(*(seances_film.get(field_name, "") for field_name in field_names))
 
-        table.field_names = extract_field_names(seances)
-
-        for seances_film in seances:
-            row = []
-            for field_name in table.field_names:
-                row.append(seances_film.get(field_name, ""))
-            table.add_row(row)
-
-        table.align["*1_film"] = "l"
-        table.sortby = "*1_film"
-        retour += str(table)
+        output = StringIO()
+        Console(file=output, color_system=None, width=1000, markup=False).print(table)
+        retour += output.getvalue().rstrip("\n")
 
     return retour
 
