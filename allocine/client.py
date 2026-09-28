@@ -40,7 +40,8 @@ class Allocine:
         from_date: Date | None = None,
         to_date: Date | None = None,
     ) -> list[Showtime]:
-        from_date = from_date or Date.today()
+        today = Date.today()
+        from_date = max(from_date or today, today)
         to_date = to_date or from_date
         if from_date > to_date:
             raise ValueError("from_date must be before or equal to to_date")

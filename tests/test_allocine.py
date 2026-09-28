@@ -33,6 +33,14 @@ def test_get_showtimes_defaults_to_today(allocine: Allocine, json_snapshot, allo
     assert [asdict(showtime) for showtime in showtimes] == json_snapshot
 
 
+@freeze_time("2026-09-28")
+def test_get_showtimes_clamps_past_from_date_to_today(allocine: Allocine, json_snapshot, allocine_vcr):
+    showtimes = allocine.get_showtimes("G0FOX", from_date=date(2026, 9, 26))
+
+    assert [asdict(showtime) for showtime in showtimes] == json_snapshot
+
+
+@freeze_time("2026-09-27")
 def test_get_showtimes_fetches_inclusive_date_range(allocine: Allocine, json_snapshot, allocine_vcr):
     showtimes = allocine.get_showtimes(
         "G0FOX",
