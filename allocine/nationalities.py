@@ -322,6 +322,7 @@ countries = {
     "israel": "IL",
     "inde": "IN",
     "irak": "IQ",
+    "iran": "IR",
     "islande": "IS",
     "italie": "IT",
     "jamaique": "JM",
