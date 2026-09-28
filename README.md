@@ -1,9 +1,6 @@
 # Allociné
 
-[![Travis](https://img.shields.io/travis/tducret/allocine-python.svg)](https://travis-ci.org/tducret/allocine-python)
-[![Coveralls github](https://img.shields.io/coveralls/github/tducret/allocine-python.svg)](https://coveralls.io/github/tducret/allocine-python)
 [![PyPI](https://img.shields.io/pypi/v/allocine.svg)](https://pypi.org/project/allocine/)
-[![Docker Image size](https://img.shields.io/microbadger/image-size/thibdct/seances.svg)](https://hub.docker.com/r/thibdct/seances/)
 ![License](https://img.shields.io/github/license/tducret/allocine-python.svg)
 
 ![Cinéma](cinema.jpg)
@@ -12,34 +9,32 @@
 
 **Avec cet outil, vous récupérez les horaires des séances ciné directement dans le terminal**.
 
-## Requirements
+## Prérequis
 
-- Python 3.7 and above
-- pip3
+- Python 3.10 ou une version ultérieure
+- [uv](https://docs.astral.sh/uv/)
 
 ## Installation
 
 ```bash
-pip3 install -U allocine
+uv tool install --upgrade allocine
 ```
 
-> You can also use it with Docker. Have a look at [this section](#docker)
+## Utilisation en ligne de commande
 
-## CLI tool usage
+Commencez par rechercher l’identifiant de votre cinéma sur [allocine.fr](https://www.allocine.fr/).
 
-You just need to look for your theater identifier on [allocine.fr](allocine.fr).
+Recherchez votre cinéma et relevez son identifiant dans l’URL. Dans cet exemple, il s’agit de `P0645`.
 
-Just search for your theater, and take note of the identifier in the URL. Here, it is `P0645`.
+![Identifiant du cinéma](snapshot_theater_id.png)
 
-![Theater identifier](snapshot_theater_id.png)
+![Capture terminal](demo.gif)
 
-![Capture terminal](capture.svg)
-
-#### Help
+#### Aide
 
 ```bash
-seances.py --help
-Usage: seances.py [OPTIONS] ID_CINEMA
+seances --help
+Usage: seances [OPTIONS] ID_CINEMA
 
   Les séances de votre cinéma dans le terminal, avec ID_CINEMA : identifiant
   du cinéma sur Allociné, ex: C0159 pour l’UGC Ciné Cité Les Halles. Se
@@ -55,10 +50,10 @@ Options:
   --help             Show this message and exit.
 ```
 
-#### Basic usage
+#### Utilisation simple
 
 ```bash
-seances.py P2235
+seances P2235
 
 27/12/2018
 ┌──────────────────────────────────────────────────────────┬──────┬───────┬───────┬───────┬───────┐
@@ -69,10 +64,10 @@ seances.py P2235
 └──────────────────────────────────────────────────────────┴──────┴───────┴───────┴───────┴───────┘
 ```
 
-#### For tomorrow, with interlines
+#### Pour demain, avec des interlignes
 
 ```bash
-seances.py P2235 -j+1 --entrelignes
+seances P2235 -j+1 --entrelignes
 
 28/12/2018
 ┌────────────────────────────────────────────────────┬──────┬───────┬───────┬───────┐
@@ -84,32 +79,31 @@ seances.py P2235 -j+1 --entrelignes
 └────────────────────────────────────────────────────┴──────┴───────┴───────┴───────┘
 ```
 
-#### For a specific date
+#### Pour une date précise
 
 ```bash
-seances.py P2235 --jour 29/12/2018
+seances P2235 --jour 29/12/2018
 ```
 
-#### For the full week
+#### Pour toute la semaine
 
 ```bash
-seances.py P2235 --semaine
+seances P2235 --semaine
 ```
 
-## Package usage
+## Utilisation de la bibliothèque
 
 ```python
-# -*- coding: utf-8 -*-
 from allocine import Allocine
 
-allocine = Allocine()
-theater = allocine.get_theater("P2235")
+with Allocine() as allocine:
+    showtimes = allocine.get_showtimes("P2235")
 
-for showtime in theater.showtimes:
+for showtime in showtimes:
     print(showtime)
 ```
 
-Example output :
+Exemple de sortie :
 
 ```bash
 27/12/2018 10:15 : Astérix - Le Secret de la Potion Magique [244560] (VF) (01h25)
@@ -123,45 +117,66 @@ Example output :
 [...]
 ```
 
-# Docker
+Le cache est activé par défaut. Les réponses sont enregistrées dans le répertoire de cache utilisateur du système :
 
-You can use the `seances` tool with the [Docker image](https://hub.docker.com/r/thibdct/seances/)
+- macOS: `~/Library/Caches/allocine`
+- Linux: `${XDG_CACHE_HOME:-~/.cache}/allocine`
+- Windows: `%LOCALAPPDATA%\\allocine\\Cache`
 
-You may execute :
-
-`docker run -it --rm thibdct/seances P2235`
-
-> The Docker image is built on top of [Google Distroless image](https://github.com/GoogleContainerTools/distroless), so it is tiny :)
-
-## 🤘 The easy way 🤘
-
-I also built a bash wrapper to execute the Docker container easily.
-
-Install it with :
+Videz le cache en ligne de commande (aucun identifiant de cinéma n’est nécessaire) :
 
 ```bash
-curl -s https://raw.githubusercontent.com/tducret/allocine-python/master/seances \
-> /usr/local/bin/seances && chmod +x /usr/local/bin/seances
-```
-*You may replace `/usr/local/bin` with another folder that is in your $PATH*
-
-Check that it works :
-
-*On the first execution, the script will download the Docker image, so please be patient*
-
-```bash
-seances --help
-seances P2235 -j+1 --entrelignes
+seances --clear-cache
 ```
 
-You can upgrade the app with :
+## Développement
+
+Créez l’environnement virtuel et installez le paquet avec ses dépendances de développement :
 
 ```bash
-seances --upgrade
+uv sync --extra dev
 ```
 
-and even uninstall with :
+Installez les hooks pre-commit une première fois, puis utilisez `make check` pour analyser, formater et vérifier les types
+de l’ensemble du code :
 
 ```bash
-seances --uninstall
+uv run pre-commit install
+make check
+```
+
+Exécutez chaque vérification sans modifier les fichiers :
+
+```bash
+uv run ruff check .
+uv run ruff format --check .
+uv run ty check
+```
+
+Exécutez manuellement tous les hooks pre-commit avec :
+
+```bash
+uv run pre-commit run --all-files
+```
+
+Les utilisateurs de VS Code doivent accepter les recommandations d’extensions de l’espace de travail afin d’activer les
+diagnostics Ruff et ty en temps réel, ainsi que le formatage Ruff à l’enregistrement.
+
+## Publication
+
+Le workflow de publication publie sur PyPI les tags de version tels que `0.0.13` grâce à Trusted Publishing, sans
+stocker de jeton d’API. Avant la première publication :
+
+1. Créez un environnement GitHub nommé `pypi`. Il est recommandé d’exiger une approbation avant tout déploiement.
+2. Dans les paramètres de publication PyPI du projet `allocine`, ajoutez un Trusted Publisher GitHub avec le
+   propriétaire `tducret`, le dépôt `allocine-python`, le workflow `release.yml` et l’environnement `pypi`.
+
+Le tag Git définit la version du paquet ; aucun fichier de version ne doit être mis à jour. Ajoutez le tag au commit à
+publier. Le workflow rejette les distributions dont la version ne correspond pas au tag et effectue un test rapide du
+wheel et de la distribution source avant leur publication :
+
+```bash
+VERSION=0.0.13
+git tag -a ${VERSION} -m ${VERSION}
+git push origin ${VERSION}
 ```
