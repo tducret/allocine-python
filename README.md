@@ -28,7 +28,7 @@ Recherchez votre cinéma et relevez son identifiant dans l’URL. Dans cet exemp
 
 ![Identifiant du cinéma](snapshot_theater_id.png)
 
-![Capture terminal](capture.svg)
+![Capture terminal](demo.gif)
 
 #### Aide
 
