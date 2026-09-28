@@ -107,7 +107,9 @@ class Allocine:
     def _parse_showtimes(self, raw_showtimes: list[dict]):
         showtimes = []
         for showtime_data in raw_showtimes:
-            raw_movie = showtime_data["movie"]
+            raw_movie = showtime_data.get("movie")
+            if not raw_movie:
+                continue
             duration_match = re.fullmatch(r"(?:(\d+)h)?\s*(?:(\d+)min)?", raw_movie.get("runtime") or "")
             duration_obj = None
             if duration_match and any(duration_match.groups()):

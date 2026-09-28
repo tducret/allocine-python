@@ -47,6 +47,10 @@ def test_get_showtimes_rejects_inverted_date_range():
         )
 
 
+def test_get_showtimes_skips_entries_without_movie():
+    assert Allocine()._parse_showtimes([{"movie": None, "showtimes": {}}]) == []
+
+
 def test_get_theater_falls_back_to_page_metadata(json_snapshot, allocine_vcr):
     theater = Allocine().get_theater("G0FOX")
 
