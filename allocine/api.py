@@ -39,7 +39,10 @@ class AllocineApi:
         if page:
             url += f"p-{page}/"
 
-        return self._get(url)
+        response = self._request(url, 200, not_found_ok=True)
+        if response.status_code == 404:
+            return {"results": []}
+        return response.json()
 
     def get_showtimes_by_movie_and_theater_id(
         self,
@@ -77,7 +80,14 @@ class AllocineApi:
     def _get_text(self, url: str, expected_status: int = 200, *args, **kwargs) -> str:
         return self._request(url, expected_status, *args, **kwargs).text
 
-    def _request(self, url: str, expected_status: int, *args, **kwargs) -> httpx2.Response:
+    def _request(
+        self,
+        url: str,
+        expected_status: int,
+        *args,
+        not_found_ok: bool = False,
+        **kwargs,
+    ) -> httpx2.Response:
         params = kwargs.get("params")
         cached = self.cache.get(url, params)
         if cached is not CACHE_MISS and cached.is_fresh():
@@ -92,7 +102,7 @@ class AllocineApi:
             kwargs["headers"] = headers
 
         try:
-            response = self._fetch(url, expected_status, *args, **kwargs)
+            response = self._fetch(url, expected_status, *args, not_found_ok=not_found_ok, **kwargs)
         except (ValueError, httpx2.HTTPError):
             if cached is not CACHE_MISS and cached.can_serve_on_error():
                 return cached.to_response()
@@ -104,9 +114,16 @@ class AllocineApi:
         return response
 
     @backoff.on_exception(backoff.expo, ValueError, max_tries=5, max_time=30)
-    def _fetch(self, url: str, expected_status: int, *args, **kwargs) -> httpx2.Response:
+    def _fetch(
+        self,
+        url: str,
+        expected_status: int,
+        *args,
+        not_found_ok: bool = False,
+        **kwargs,
+    ) -> httpx2.Response:
         ret = self.session.get(url, *args, **kwargs)
-        if ret.status_code not in {expected_status, 304}:
+        if ret.status_code not in {expected_status, 304} and not (not_found_ok and ret.status_code == 404):
             raise ValueError("{!r} : expected status {}, received {}".format(url, expected_status, ret.status_code))
         return ret
 

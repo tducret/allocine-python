@@ -51,6 +51,11 @@ def test_get_showtimes_fetches_inclusive_date_range(allocine: Allocine, json_sna
     assert [asdict(showtime) for showtime in showtimes] == json_snapshot
 
 
+@freeze_time("2026-09-28")
+def test_get_showtimes_treats_not_found_as_empty_without_retry(allocine: Allocine, allocine_vcr):
+    assert allocine.get_showtimes("C0125", from_date=date(2026, 9, 29)) == []
+
+
 def test_get_showtimes_rejects_inverted_date_range(
     allocine,
 ):
