@@ -9,9 +9,9 @@
 
 **Avec cet outil, vous récupérez les horaires des séances ciné directement dans le terminal**.
 
-## Requirements
+## Prérequis
 
-- Python 3.10 and above
+- Python 3.10 ou une version ultérieure
 - [uv](https://docs.astral.sh/uv/)
 
 ## Installation
@@ -20,17 +20,17 @@
 uv tool install --upgrade allocine
 ```
 
-## CLI tool usage
+## Utilisation en ligne de commande
 
-You just need to look for your theater identifier on [allocine.fr](allocine.fr).
+Commencez par rechercher l’identifiant de votre cinéma sur [allocine.fr](https://www.allocine.fr/).
 
-Just search for your theater, and take note of the identifier in the URL. Here, it is `P0645`.
+Recherchez votre cinéma et relevez son identifiant dans l’URL. Dans cet exemple, il s’agit de `P0645`.
 
-![Theater identifier](snapshot_theater_id.png)
+![Identifiant du cinéma](snapshot_theater_id.png)
 
 ![Capture terminal](capture.svg)
 
-#### Help
+#### Aide
 
 ```bash
 seances.py --help
@@ -50,7 +50,7 @@ Options:
   --help             Show this message and exit.
 ```
 
-#### Basic usage
+#### Utilisation simple
 
 ```bash
 seances.py P2235
@@ -64,7 +64,7 @@ seances.py P2235
 └──────────────────────────────────────────────────────────┴──────┴───────┴───────┴───────┴───────┘
 ```
 
-#### For tomorrow, with interlines
+#### Pour demain, avec des interlignes
 
 ```bash
 seances.py P2235 -j+1 --entrelignes
@@ -79,19 +79,19 @@ seances.py P2235 -j+1 --entrelignes
 └────────────────────────────────────────────────────┴──────┴───────┴───────┴───────┘
 ```
 
-#### For a specific date
+#### Pour une date précise
 
 ```bash
 seances.py P2235 --jour 29/12/2018
 ```
 
-#### For the full week
+#### Pour toute la semaine
 
 ```bash
 seances.py P2235 --semaine
 ```
 
-## Package usage
+## Utilisation de la bibliothèque
 
 ```python
 from allocine import Allocine
@@ -103,7 +103,7 @@ for showtime in showtimes:
     print(showtime)
 ```
 
-Example output :
+Exemple de sortie :
 
 ```bash
 27/12/2018 10:15 : Astérix - Le Secret de la Potion Magique [244560] (VF) (01h25)
@@ -117,34 +117,35 @@ Example output :
 [...]
 ```
 
-Caching is enabled by default. Responses are stored in the operating system's user cache directory:
+Le cache est activé par défaut. Les réponses sont enregistrées dans le répertoire de cache utilisateur du système :
 
 - macOS: `~/Library/Caches/allocine`
 - Linux: `${XDG_CACHE_HOME:-~/.cache}/allocine`
 - Windows: `%LOCALAPPDATA%\\allocine\\Cache`
 
-Clear the cache with the CLI (no theater ID is required):
+Videz le cache en ligne de commande (aucun identifiant de cinéma n’est nécessaire) :
 
 ```bash
 seances.py --clear-cache
 ```
 
-## Development
+## Développement
 
-Create the virtual environment and install the package with its development dependencies:
+Créez l’environnement virtuel et installez le paquet avec ses dépendances de développement :
 
 ```bash
 uv sync --extra dev
 ```
 
-Install the pre-commit hooks once, then use `make check` to lint, format, and type-check the entire codebase:
+Installez les hooks pre-commit une première fois, puis utilisez `make check` pour analyser, formater et vérifier les types
+de l’ensemble du code :
 
 ```bash
 uv run pre-commit install
 make check
 ```
 
-Run individual checks without modifying files:
+Exécutez chaque vérification sans modifier les fichiers :
 
 ```bash
 uv run ruff check .
@@ -152,27 +153,27 @@ uv run ruff format --check .
 uv run ty check
 ```
 
-Run all pre-commit hooks manually with:
+Exécutez manuellement tous les hooks pre-commit avec :
 
 ```bash
 uv run pre-commit run --all-files
 ```
 
-VS Code users should accept the workspace extension recommendations to enable live Ruff and ty diagnostics and Ruff
-formatting on save.
+Les utilisateurs de VS Code doivent accepter les recommandations d’extensions de l’espace de travail afin d’activer les
+diagnostics Ruff et ty en temps réel, ainsi que le formatage Ruff à l’enregistrement.
 
-## Releasing
+## Publication
 
-The release workflow publishes version tags such as `0.0.13` to PyPI using Trusted Publishing, without a stored API
-token. Before the first release:
+Le workflow de publication publie sur PyPI les tags de version tels que `0.0.13` grâce à Trusted Publishing, sans
+stocker de jeton d’API. Avant la première publication :
 
-1. Create a GitHub environment named `pypi`; requiring approval for deployments is recommended.
-2. In the `allocine` project's PyPI publishing settings, add a GitHub Trusted Publisher for owner `tducret`, repository
-   `allocine-python`, workflow `release.yml`, and environment `pypi`.
+1. Créez un environnement GitHub nommé `pypi`. Il est recommandé d’exiger une approbation avant tout déploiement.
+2. Dans les paramètres de publication PyPI du projet `allocine`, ajoutez un Trusted Publisher GitHub avec le
+   propriétaire `tducret`, le dépôt `allocine-python`, le workflow `release.yml` et l’environnement `pypi`.
 
-The Git tag is the package's version; no version files need to be updated. Tag the commit to release. The workflow
-rejects built distributions whose version does not match the tag and smoke-tests both the wheel and source distribution
-before publishing:
+Le tag Git définit la version du paquet ; aucun fichier de version ne doit être mis à jour. Ajoutez le tag au commit à
+publier. Le workflow rejette les distributions dont la version ne correspond pas au tag et effectue un test rapide du
+wheel et de la distribution source avant leur publication :
 
 ```bash
 git tag -a 0.0.13 -m 0.0.13
