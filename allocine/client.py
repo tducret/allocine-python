@@ -19,7 +19,7 @@ class Allocine:
     def __init__(
         self,
         *,
-        cache: CacheOption = False,
+        cache: CacheOption = True,
         cache_dir: str | PathLike[str] | None = None,
     ):
         self._client = AllocineApi(cache=cache, cache_dir=cache_dir)
