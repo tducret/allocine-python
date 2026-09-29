@@ -356,11 +356,12 @@ class Allocine:
                     screen_formats = [
                         {"E_4DX": "4DX", "PLF": "PLF"}.get(value, value)
                         for value in raw_showtime.get("experience") or []
+                        if value
                     ]
                     screen_formats.extend(
                         {"DIGITAL": "Numérique", "IMAX": "IMAX", "F_3D": "3D"}.get(value, value)
                         for value in raw_showtime.get("projection") or []
-                        if value != "DIGITAL" or not screen_formats
+                        if value and (value != "DIGITAL" or not screen_formats)
                     )
 
                     if synopsis := raw_movie.get("synopsis"):

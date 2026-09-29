@@ -1,0 +1,865 @@
+[
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Anne Hathaway, Dakota Johnson, Josh Hartnett",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Michael Showalter",
+      "duration": "datetime.timedelta(seconds=6840)",
+      "genres": "Drame, Romance, Thriller",
+      "language": "Français",
+      "movie_id": 1000015739,
+      "original_title": "Verity",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "Peinant à vivre de son métier, Lowen Ashleigh est une écrivaine qui accepte de devenir le prête-plume de l'autrice à succès Verity Crawford. Elle s'installe dans sa propriété, où elle est confrontée à des révélations inquiétantes concernant le mari de Verity. ",
+      "title": "Verity",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T16:30:00.000000",
+    "movie": {
+      "actors": "Anne Hathaway, Dakota Johnson, Josh Hartnett",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Michael Showalter",
+      "duration": "datetime.timedelta(seconds=6840)",
+      "genres": "Drame, Romance, Thriller",
+      "language": "Français",
+      "movie_id": 1000015739,
+      "original_title": "Verity",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "Peinant à vivre de son métier, Lowen Ashleigh est une écrivaine qui accepte de devenir le prête-plume de l'autrice à succès Verity Crawford. Elle s'installe dans sa propriété, où elle est confrontée à des révélations inquiétantes concernant le mari de Verity. ",
+      "title": "Verity",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T19:00:00.000000",
+    "movie": {
+      "actors": "Anne Hathaway, Dakota Johnson, Josh Hartnett",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Michael Showalter",
+      "duration": "datetime.timedelta(seconds=6840)",
+      "genres": "Drame, Romance, Thriller",
+      "language": "Français",
+      "movie_id": 1000015739,
+      "original_title": "Verity",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "Peinant à vivre de son métier, Lowen Ashleigh est une écrivaine qui accepte de devenir le prête-plume de l'autrice à succès Verity Crawford. Elle s'installe dans sa propriété, où elle est confrontée à des révélations inquiétantes concernant le mari de Verity. ",
+      "title": "Verity",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T21:30:00.000000",
+    "movie": {
+      "actors": "Anne Hathaway, Dakota Johnson, Josh Hartnett",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Michael Showalter",
+      "duration": "datetime.timedelta(seconds=6840)",
+      "genres": "Drame, Romance, Thriller",
+      "language": "Français",
+      "movie_id": 1000015739,
+      "original_title": "Verity",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "Peinant à vivre de son métier, Lowen Ashleigh est une écrivaine qui accepte de devenir le prête-plume de l'autrice à succès Verity Crawford. Elle s'installe dans sa propriété, où elle est confrontée à des révélations inquiétantes concernant le mari de Verity. ",
+      "title": "Verity",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Tom Cruise, Sandra Hüller, Riz Ahmed",
+      "countries": [
+        "U.S.A.",
+        "Mexique",
+        "Grande-Bretagne"
+      ],
+      "directors": "Alejandro González Iñárritu",
+      "duration": "datetime.timedelta(seconds=7740)",
+      "genres": "Action, Comédie",
+      "language": "Français",
+      "movie_id": 327174,
+      "original_title": "Digger",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "L’homme le plus puissant au monde se lance dans une mission effrénée pour s'ériger en sauveur de l’humanité avant que la catastrophe, qu’il a lui-même déclenchée, n’anéantisse la planète.",
+      "title": "Digger",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T16:30:00.000000",
+    "movie": {
+      "actors": "Tom Cruise, Sandra Hüller, Riz Ahmed",
+      "countries": [
+        "U.S.A.",
+        "Mexique",
+        "Grande-Bretagne"
+      ],
+      "directors": "Alejandro González Iñárritu",
+      "duration": "datetime.timedelta(seconds=7740)",
+      "genres": "Action, Comédie",
+      "language": "Français",
+      "movie_id": 327174,
+      "original_title": "Digger",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "L’homme le plus puissant au monde se lance dans une mission effrénée pour s'ériger en sauveur de l’humanité avant que la catastrophe, qu’il a lui-même déclenchée, n’anéantisse la planète.",
+      "title": "Digger",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T19:00:00.000000",
+    "movie": {
+      "actors": "Tom Cruise, Sandra Hüller, Riz Ahmed",
+      "countries": [
+        "U.S.A.",
+        "Mexique",
+        "Grande-Bretagne"
+      ],
+      "directors": "Alejandro González Iñárritu",
+      "duration": "datetime.timedelta(seconds=7740)",
+      "genres": "Action, Comédie",
+      "language": "Français",
+      "movie_id": 327174,
+      "original_title": "Digger",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "L’homme le plus puissant au monde se lance dans une mission effrénée pour s'ériger en sauveur de l’humanité avant que la catastrophe, qu’il a lui-même déclenchée, n’anéantisse la planète.",
+      "title": "Digger",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T21:30:00.000000",
+    "movie": {
+      "actors": "Tom Cruise, Sandra Hüller, Riz Ahmed",
+      "countries": [
+        "U.S.A.",
+        "Mexique",
+        "Grande-Bretagne"
+      ],
+      "directors": "Alejandro González Iñárritu",
+      "duration": "datetime.timedelta(seconds=7740)",
+      "genres": "Action, Comédie",
+      "language": "Français",
+      "movie_id": 327174,
+      "original_title": "Digger",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "L’homme le plus puissant au monde se lance dans une mission effrénée pour s'ériger en sauveur de l’humanité avant que la catastrophe, qu’il a lui-même déclenchée, n’anéantisse la planète.",
+      "title": "Digger",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Alassane Diong, Manon Bresch, Guillaume Gouix",
+      "countries": [
+        "France"
+      ],
+      "directors": "Mohamed Chabane, Théo Jourdain Rhodes",
+      "duration": "datetime.timedelta(0)",
+      "genres": "Epouvante-horreur",
+      "language": "Français",
+      "movie_id": 1000032855,
+      "original_title": "Kraken",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "Dans une cité, une tour abandonnée alimente les rumeurs. Alors que des disparitions étranges s'enchaînent, 5 jeunes n’ont plus le choix : y entrer à nouveau. Pris dans un piège mortel, ils vont bientôt comprendre que s'échapper leur sera impossible...",
+      "title": "Kraken",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T17:55:00.000000",
+    "movie": {
+      "actors": "Alassane Diong, Manon Bresch, Guillaume Gouix",
+      "countries": [
+        "France"
+      ],
+      "directors": "Mohamed Chabane, Théo Jourdain Rhodes",
+      "duration": "datetime.timedelta(0)",
+      "genres": "Epouvante-horreur",
+      "language": "Français",
+      "movie_id": 1000032855,
+      "original_title": "Kraken",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "Dans une cité, une tour abandonnée alimente les rumeurs. Alors que des disparitions étranges s'enchaînent, 5 jeunes n’ont plus le choix : y entrer à nouveau. Pris dans un piège mortel, ils vont bientôt comprendre que s'échapper leur sera impossible...",
+      "title": "Kraken",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T20:00:00.000000",
+    "movie": {
+      "actors": "Alassane Diong, Manon Bresch, Guillaume Gouix",
+      "countries": [
+        "France"
+      ],
+      "directors": "Mohamed Chabane, Théo Jourdain Rhodes",
+      "duration": "datetime.timedelta(0)",
+      "genres": "Epouvante-horreur",
+      "language": "Français",
+      "movie_id": 1000032855,
+      "original_title": "Kraken",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "Dans une cité, une tour abandonnée alimente les rumeurs. Alors que des disparitions étranges s'enchaînent, 5 jeunes n’ont plus le choix : y entrer à nouveau. Pris dans un piège mortel, ils vont bientôt comprendre que s'échapper leur sera impossible...",
+      "title": "Kraken",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T22:00:00.000000",
+    "movie": {
+      "actors": "Alassane Diong, Manon Bresch, Guillaume Gouix",
+      "countries": [
+        "France"
+      ],
+      "directors": "Mohamed Chabane, Théo Jourdain Rhodes",
+      "duration": "datetime.timedelta(0)",
+      "genres": "Epouvante-horreur",
+      "language": "Français",
+      "movie_id": 1000032855,
+      "original_title": "Kraken",
+      "rating": null,
+      "screen_format": "Numérique",
+      "synopsis": "Dans une cité, une tour abandonnée alimente les rumeurs. Alors que des disparitions étranges s'enchaînent, 5 jeunes n’ont plus le choix : y entrer à nouveau. Pris dans un piège mortel, ils vont bientôt comprendre que s'échapper leur sera impossible...",
+      "title": "Kraken",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Owen Wilson, Paul Newman, Bonnie Hunt",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "John Lasseter",
+      "duration": "datetime.timedelta(seconds=7020)",
+      "genres": "Animation, Comédie, Action, Fantastique",
+      "language": "Français",
+      "movie_id": 55774,
+      "original_title": "Cars",
+      "rating": 3.85,
+      "screen_format": "Numérique",
+      "synopsis": "\"Cars\" a pour héros quelques légendes de la route qui vont faire hurler de rire leur moteur sur la mythique route 66 qui traverse les Etats-Unis d'est en ouest...",
+      "title": "Cars",
+      "year": 2006
+    }
+  },
+  {
+    "date_time": "2026-09-30T16:30:00.000000",
+    "movie": {
+      "actors": "Owen Wilson, Paul Newman, Bonnie Hunt",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "John Lasseter",
+      "duration": "datetime.timedelta(seconds=7020)",
+      "genres": "Animation, Comédie, Action, Fantastique",
+      "language": "Français",
+      "movie_id": 55774,
+      "original_title": "Cars",
+      "rating": 3.85,
+      "screen_format": "Numérique",
+      "synopsis": "\"Cars\" a pour héros quelques légendes de la route qui vont faire hurler de rire leur moteur sur la mythique route 66 qui traverse les Etats-Unis d'est en ouest...",
+      "title": "Cars",
+      "year": 2006
+    }
+  },
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Brad Pitt, Uber, J.K. Simmons",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "David Ayer",
+      "duration": "datetime.timedelta(seconds=6060)",
+      "genres": "Action, Aventure",
+      "language": "Français",
+      "movie_id": 1000000085,
+      "original_title": "Heart Of The Beast",
+      "rating": 3.82,
+      "screen_format": "Numérique",
+      "synopsis": "Après un terrible crash d’avion, James Belmont, ancien des forces spéciales, se retrouve perdu au cœur de l’Alaska avec son chien Odin, depuis toujours à ses côtés. Livrés à eux-mêmes dans une nature aussi magnifique qu’impitoyable, ils devront puiser dans leurs dernières forces pour survivre ensemble.",
+      "title": "Heart Of The Beast",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T15:50:00.000000",
+    "movie": {
+      "actors": "Brad Pitt, Uber, J.K. Simmons",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "David Ayer",
+      "duration": "datetime.timedelta(seconds=6060)",
+      "genres": "Action, Aventure",
+      "language": "Français",
+      "movie_id": 1000000085,
+      "original_title": "Heart Of The Beast",
+      "rating": 3.82,
+      "screen_format": "Numérique",
+      "synopsis": "Après un terrible crash d’avion, James Belmont, ancien des forces spéciales, se retrouve perdu au cœur de l’Alaska avec son chien Odin, depuis toujours à ses côtés. Livrés à eux-mêmes dans une nature aussi magnifique qu’impitoyable, ils devront puiser dans leurs dernières forces pour survivre ensemble.",
+      "title": "Heart Of The Beast",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T17:55:00.000000",
+    "movie": {
+      "actors": "Brad Pitt, Uber, J.K. Simmons",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "David Ayer",
+      "duration": "datetime.timedelta(seconds=6060)",
+      "genres": "Action, Aventure",
+      "language": "Français",
+      "movie_id": 1000000085,
+      "original_title": "Heart Of The Beast",
+      "rating": 3.82,
+      "screen_format": "Numérique",
+      "synopsis": "Après un terrible crash d’avion, James Belmont, ancien des forces spéciales, se retrouve perdu au cœur de l’Alaska avec son chien Odin, depuis toujours à ses côtés. Livrés à eux-mêmes dans une nature aussi magnifique qu’impitoyable, ils devront puiser dans leurs dernières forces pour survivre ensemble.",
+      "title": "Heart Of The Beast",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T20:00:00.000000",
+    "movie": {
+      "actors": "Brad Pitt, Uber, J.K. Simmons",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "David Ayer",
+      "duration": "datetime.timedelta(seconds=6060)",
+      "genres": "Action, Aventure",
+      "language": "Français",
+      "movie_id": 1000000085,
+      "original_title": "Heart Of The Beast",
+      "rating": 3.82,
+      "screen_format": "Numérique",
+      "synopsis": "Après un terrible crash d’avion, James Belmont, ancien des forces spéciales, se retrouve perdu au cœur de l’Alaska avec son chien Odin, depuis toujours à ses côtés. Livrés à eux-mêmes dans une nature aussi magnifique qu’impitoyable, ils devront puiser dans leurs dernières forces pour survivre ensemble.",
+      "title": "Heart Of The Beast",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T22:00:00.000000",
+    "movie": {
+      "actors": "Brad Pitt, Uber, J.K. Simmons",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "David Ayer",
+      "duration": "datetime.timedelta(seconds=6060)",
+      "genres": "Action, Aventure",
+      "language": "Français",
+      "movie_id": 1000000085,
+      "original_title": "Heart Of The Beast",
+      "rating": 3.82,
+      "screen_format": "Numérique",
+      "synopsis": "Après un terrible crash d’avion, James Belmont, ancien des forces spéciales, se retrouve perdu au cœur de l’Alaska avec son chien Odin, depuis toujours à ses côtés. Livrés à eux-mêmes dans une nature aussi magnifique qu’impitoyable, ils devront puiser dans leurs dernières forces pour survivre ensemble.",
+      "title": "Heart Of The Beast",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Adèle Exarchopoulos, Sara Giraudeau, Sarajeanne Drillaud",
+      "countries": [
+        "France",
+        "Belgique"
+      ],
+      "directors": "Jeanne Herry",
+      "duration": "datetime.timedelta(seconds=6900)",
+      "genres": "Drame",
+      "language": "Français",
+      "movie_id": 1000026039,
+      "original_title": "Garance",
+      "rating": 3.94,
+      "screen_format": "Numérique",
+      "synopsis": "Garance est une jeune actrice alcoolique. Huit ans d’un parcours fait de déménagements, de travail, de rencontres, de fêtes et d’angoisses, de joies et de coups durs... Mais aussi une révolution intime, amicale et sexuelle.",
+      "title": "Garance",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T16:30:00.000000",
+    "movie": {
+      "actors": "Adèle Exarchopoulos, Sara Giraudeau, Sarajeanne Drillaud",
+      "countries": [
+        "France",
+        "Belgique"
+      ],
+      "directors": "Jeanne Herry",
+      "duration": "datetime.timedelta(seconds=6900)",
+      "genres": "Drame",
+      "language": "Français",
+      "movie_id": 1000026039,
+      "original_title": "Garance",
+      "rating": 3.94,
+      "screen_format": "Numérique",
+      "synopsis": "Garance est une jeune actrice alcoolique. Huit ans d’un parcours fait de déménagements, de travail, de rencontres, de fêtes et d’angoisses, de joies et de coups durs... Mais aussi une révolution intime, amicale et sexuelle.",
+      "title": "Garance",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T19:00:00.000000",
+    "movie": {
+      "actors": "Adèle Exarchopoulos, Sara Giraudeau, Sarajeanne Drillaud",
+      "countries": [
+        "France",
+        "Belgique"
+      ],
+      "directors": "Jeanne Herry",
+      "duration": "datetime.timedelta(seconds=6900)",
+      "genres": "Drame",
+      "language": "Français",
+      "movie_id": 1000026039,
+      "original_title": "Garance",
+      "rating": 3.94,
+      "screen_format": "Numérique",
+      "synopsis": "Garance est une jeune actrice alcoolique. Huit ans d’un parcours fait de déménagements, de travail, de rencontres, de fêtes et d’angoisses, de joies et de coups durs... Mais aussi une révolution intime, amicale et sexuelle.",
+      "title": "Garance",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Robert Downey Jr., Chris Evans, Mark Ruffalo",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Joe Russo, Anthony Russo",
+      "duration": "datetime.timedelta(seconds=11100)",
+      "genres": "Action, Aventure, Science Fiction",
+      "language": "Français",
+      "movie_id": 1000036867,
+      "original_title": "Avengers Endgame: Encore",
+      "rating": 4.37,
+      "screen_format": "Numérique",
+      "synopsis": "Dans Avengers Endgame Extended, les Avengers doivent faire face aux conséquences de leur défaite contre Thanos. Après avoir réuni les six Pierres d’Infinité et anéanti la moitié de la population de l’univers, dont nombre de leurs alliés, le Titan fou a laissé derrière lui un monde profondément bouleversé. Confrontés à la plus grande épreuve de leur histoire, les héros restants doivent trouver la force de se relever, se rassembler une nouvelle fois et tenter l’impossible : restaurer l’équilibre de l’univers, ramener ceux qu’ils ont perdus et vaincre Thanos une fois pour toutes.",
+      "title": "Avengers : Endgame Extended",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T20:30:00.000000",
+    "movie": {
+      "actors": "Robert Downey Jr., Chris Evans, Mark Ruffalo",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Joe Russo, Anthony Russo",
+      "duration": "datetime.timedelta(seconds=11100)",
+      "genres": "Action, Aventure, Science Fiction",
+      "language": "Français",
+      "movie_id": 1000036867,
+      "original_title": "Avengers Endgame: Encore",
+      "rating": 4.37,
+      "screen_format": "Numérique",
+      "synopsis": "Dans Avengers Endgame Extended, les Avengers doivent faire face aux conséquences de leur défaite contre Thanos. Après avoir réuni les six Pierres d’Infinité et anéanti la moitié de la population de l’univers, dont nombre de leurs alliés, le Titan fou a laissé derrière lui un monde profondément bouleversé. Confrontés à la plus grande épreuve de leur histoire, les héros restants doivent trouver la force de se relever, se rassembler une nouvelle fois et tenter l’impossible : restaurer l’équilibre de l’univers, ramener ceux qu’ils ont perdus et vaincre Thanos une fois pour toutes.",
+      "title": "Avengers : Endgame Extended",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Austin Abrams, Paul Walter Hauser, Zach Cherry",
+      "countries": [
+        "U.S.A.",
+        "Allemagne"
+      ],
+      "directors": "Zach Cregger",
+      "duration": "datetime.timedelta(seconds=5820)",
+      "genres": "Science Fiction, Epouvante-horreur, Thriller",
+      "language": "Français",
+      "movie_id": 1000018854,
+      "original_title": "Resident Evil",
+      "rating": 3.85,
+      "screen_format": "Numérique",
+      "synopsis": "Bryan, coursier médical, s'engage dans une course effrénée pour survivre, alors qu'autour de lui le monde s'enfonce dans un chaos total.",
+      "title": "Resident Evil",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T15:50:00.000000",
+    "movie": {
+      "actors": "Austin Abrams, Paul Walter Hauser, Zach Cherry",
+      "countries": [
+        "U.S.A.",
+        "Allemagne"
+      ],
+      "directors": "Zach Cregger",
+      "duration": "datetime.timedelta(seconds=5820)",
+      "genres": "Science Fiction, Epouvante-horreur, Thriller",
+      "language": "Français",
+      "movie_id": 1000018854,
+      "original_title": "Resident Evil",
+      "rating": 3.85,
+      "screen_format": "Numérique",
+      "synopsis": "Bryan, coursier médical, s'engage dans une course effrénée pour survivre, alors qu'autour de lui le monde s'enfonce dans un chaos total.",
+      "title": "Resident Evil",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T17:55:00.000000",
+    "movie": {
+      "actors": "Austin Abrams, Paul Walter Hauser, Zach Cherry",
+      "countries": [
+        "U.S.A.",
+        "Allemagne"
+      ],
+      "directors": "Zach Cregger",
+      "duration": "datetime.timedelta(seconds=5820)",
+      "genres": "Science Fiction, Epouvante-horreur, Thriller",
+      "language": "Français",
+      "movie_id": 1000018854,
+      "original_title": "Resident Evil",
+      "rating": 3.85,
+      "screen_format": "Numérique",
+      "synopsis": "Bryan, coursier médical, s'engage dans une course effrénée pour survivre, alors qu'autour de lui le monde s'enfonce dans un chaos total.",
+      "title": "Resident Evil",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T20:00:00.000000",
+    "movie": {
+      "actors": "Austin Abrams, Paul Walter Hauser, Zach Cherry",
+      "countries": [
+        "U.S.A.",
+        "Allemagne"
+      ],
+      "directors": "Zach Cregger",
+      "duration": "datetime.timedelta(seconds=5820)",
+      "genres": "Science Fiction, Epouvante-horreur, Thriller",
+      "language": "Français",
+      "movie_id": 1000018854,
+      "original_title": "Resident Evil",
+      "rating": 3.85,
+      "screen_format": "Numérique",
+      "synopsis": "Bryan, coursier médical, s'engage dans une course effrénée pour survivre, alors qu'autour de lui le monde s'enfonce dans un chaos total.",
+      "title": "Resident Evil",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T22:00:00.000000",
+    "movie": {
+      "actors": "Austin Abrams, Paul Walter Hauser, Zach Cherry",
+      "countries": [
+        "U.S.A.",
+        "Allemagne"
+      ],
+      "directors": "Zach Cregger",
+      "duration": "datetime.timedelta(seconds=5820)",
+      "genres": "Science Fiction, Epouvante-horreur, Thriller",
+      "language": "Français",
+      "movie_id": 1000018854,
+      "original_title": "Resident Evil",
+      "rating": 3.85,
+      "screen_format": "Numérique",
+      "synopsis": "Bryan, coursier médical, s'engage dans une course effrénée pour survivre, alors qu'autour de lui le monde s'enfonce dans un chaos total.",
+      "title": "Resident Evil",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T13:45:00.000000",
+    "movie": {
+      "actors": "Tom Holland, Zendaya, Sadie Sink",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Destin Daniel Cretton",
+      "duration": "datetime.timedelta(seconds=8700)",
+      "genres": "Action, Aventure, Fantastique, Science Fiction",
+      "language": "Français",
+      "movie_id": 276608,
+      "original_title": "Spider-Man: Brand New Day",
+      "rating": 4.09,
+      "screen_format": "Numérique",
+      "synopsis": "C’est un tout nouveau jour pour Peter Parker Dans un monde qui ne se souvient plus de lui, il poursuit sans relâche sa lutte contre la criminalité. Mais le sentiment d’avoir été oublié par ses amis qui avancent désormais sans lui provoque un changement chez Peter qu’il n’est peut-être pas en mesure de contrôler. Et pourtant, c’est cette mutation qui pourrait être sa seule chance de s’opposer à un adversaire terrifiant, capable d’agir sans jamais être repéré et prêt à s’attaquer à la ville et à tous les proches de Spider-Man. Car si le monde ne se souvient plus de Peter Parker, lui ne l’a pas oublié...",
+      "title": "Spider-Man: Brand New Day",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T16:30:00.000000",
+    "movie": {
+      "actors": "Tom Holland, Zendaya, Sadie Sink",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Destin Daniel Cretton",
+      "duration": "datetime.timedelta(seconds=8700)",
+      "genres": "Action, Aventure, Fantastique, Science Fiction",
+      "language": "Français",
+      "movie_id": 276608,
+      "original_title": "Spider-Man: Brand New Day",
+      "rating": 4.09,
+      "screen_format": "Numérique",
+      "synopsis": "C’est un tout nouveau jour pour Peter Parker Dans un monde qui ne se souvient plus de lui, il poursuit sans relâche sa lutte contre la criminalité. Mais le sentiment d’avoir été oublié par ses amis qui avancent désormais sans lui provoque un changement chez Peter qu’il n’est peut-être pas en mesure de contrôler. Et pourtant, c’est cette mutation qui pourrait être sa seule chance de s’opposer à un adversaire terrifiant, capable d’agir sans jamais être repéré et prêt à s’attaquer à la ville et à tous les proches de Spider-Man. Car si le monde ne se souvient plus de Peter Parker, lui ne l’a pas oublié...",
+      "title": "Spider-Man: Brand New Day",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T21:10:00.000000",
+    "movie": {
+      "actors": "Tom Holland, Zendaya, Sadie Sink",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Destin Daniel Cretton",
+      "duration": "datetime.timedelta(seconds=8700)",
+      "genres": "Action, Aventure, Fantastique, Science Fiction",
+      "language": "Français",
+      "movie_id": 276608,
+      "original_title": "Spider-Man: Brand New Day",
+      "rating": 4.09,
+      "screen_format": "Numérique",
+      "synopsis": "C’est un tout nouveau jour pour Peter Parker Dans un monde qui ne se souvient plus de lui, il poursuit sans relâche sa lutte contre la criminalité. Mais le sentiment d’avoir été oublié par ses amis qui avancent désormais sans lui provoque un changement chez Peter qu’il n’est peut-être pas en mesure de contrôler. Et pourtant, c’est cette mutation qui pourrait être sa seule chance de s’opposer à un adversaire terrifiant, capable d’agir sans jamais être repéré et prêt à s’attaquer à la ville et à tous les proches de Spider-Man. Car si le monde ne se souvient plus de Peter Parker, lui ne l’a pas oublié...",
+      "title": "Spider-Man: Brand New Day",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T14:00:00.000000",
+    "movie": {
+      "actors": "Alban Ivanov, Birane Ba, Alexandra Lamy",
+      "countries": [
+        "France",
+        "Belgique"
+      ],
+      "directors": "Éric Barbier",
+      "duration": "datetime.timedelta(seconds=6600)",
+      "genres": "Historique, Guerre",
+      "language": "Français",
+      "movie_id": 1000028944,
+      "original_title": "Justin le Juste",
+      "rating": 3.73,
+      "screen_format": "Numérique",
+      "synopsis": "Pendant la Première Guerre mondiale, l’histoire d’un paysan naïf enrôlé de force dans l’armée française.",
+      "title": "Justin le Juste",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T16:30:00.000000",
+    "movie": {
+      "actors": "Alban Ivanov, Birane Ba, Alexandra Lamy",
+      "countries": [
+        "France",
+        "Belgique"
+      ],
+      "directors": "Éric Barbier",
+      "duration": "datetime.timedelta(seconds=6600)",
+      "genres": "Historique, Guerre",
+      "language": "Français",
+      "movie_id": 1000028944,
+      "original_title": "Justin le Juste",
+      "rating": 3.73,
+      "screen_format": "Numérique",
+      "synopsis": "Pendant la Première Guerre mondiale, l’histoire d’un paysan naïf enrôlé de force dans l’armée française.",
+      "title": "Justin le Juste",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T19:00:00.000000",
+    "movie": {
+      "actors": "Alban Ivanov, Birane Ba, Alexandra Lamy",
+      "countries": [
+        "France",
+        "Belgique"
+      ],
+      "directors": "Éric Barbier",
+      "duration": "datetime.timedelta(seconds=6600)",
+      "genres": "Historique, Guerre",
+      "language": "Français",
+      "movie_id": 1000028944,
+      "original_title": "Justin le Juste",
+      "rating": 3.73,
+      "screen_format": "Numérique",
+      "synopsis": "Pendant la Première Guerre mondiale, l’histoire d’un paysan naïf enrôlé de force dans l’armée française.",
+      "title": "Justin le Juste",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T15:55:00.000000",
+    "movie": {
+      "actors": "Ilyes Djadel, Josiane Balasko, Fred Testot",
+      "countries": [
+        "France"
+      ],
+      "directors": "Mohamed Hamidi",
+      "duration": "datetime.timedelta(seconds=5520)",
+      "genres": "Comédie, Famille",
+      "language": "Français",
+      "movie_id": 1000032856,
+      "original_title": "Tombé du ciel",
+      "rating": 3.21,
+      "screen_format": "Numérique",
+      "synopsis": "Ilyes mène une vie joyeuse dans la banlieue de Roubaix. Seul problème : le bac. Après avoir échoué deux fois, c’est sa dernière chance de l’avoir et de rendre enfin fier ses parents. Mais un incendie survient pendant le bac blanc, et on l’accuse d’en être à l’origine... Exclu de son lycée, il doit quitter son quartier et aller dans le seul établissement qui l’accepte : le pensionnat catholique de Saint-Albert-le-Grand, en Bourgogne. Entre choc des cultures et quête de rédemption, Ilyes va devoir surmonter ses préjugés... Et ceux des autres. ",
+      "title": "Tombé du ciel",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T19:15:00.000000",
+    "movie": {
+      "actors": "Ilyes Djadel, Josiane Balasko, Fred Testot",
+      "countries": [
+        "France"
+      ],
+      "directors": "Mohamed Hamidi",
+      "duration": "datetime.timedelta(seconds=5520)",
+      "genres": "Comédie, Famille",
+      "language": "Français",
+      "movie_id": 1000032856,
+      "original_title": "Tombé du ciel",
+      "rating": 3.21,
+      "screen_format": "Numérique",
+      "synopsis": "Ilyes mène une vie joyeuse dans la banlieue de Roubaix. Seul problème : le bac. Après avoir échoué deux fois, c’est sa dernière chance de l’avoir et de rendre enfin fier ses parents. Mais un incendie survient pendant le bac blanc, et on l’accuse d’en être à l’origine... Exclu de son lycée, il doit quitter son quartier et aller dans le seul établissement qui l’accepte : le pensionnat catholique de Saint-Albert-le-Grand, en Bourgogne. Entre choc des cultures et quête de rédemption, Ilyes va devoir surmonter ses préjugés... Et ceux des autres. ",
+      "title": "Tombé du ciel",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T17:15:00.000000",
+    "movie": {
+      "actors": "Matt Damon, Tom Holland, Anne Hathaway",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Christopher Nolan",
+      "duration": "datetime.timedelta(seconds=10380)",
+      "genres": "Action, Fantastique",
+      "language": "Français",
+      "movie_id": 1000013045,
+      "original_title": "The Odyssey",
+      "rating": 4.3,
+      "screen_format": "Numérique",
+      "synopsis": "L’Odyssée est une épopée mythique tournée à travers le monde qui suit le retour d'Ulysse vers Ithaque. Pour la première fois, la saga fondatrice d'Homère est portée sur les écrans de manière spectaculaire avec la toute dernière technologie IMAX. ",
+      "title": "L'Odyssée",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T19:00:00.000000",
+    "movie": {
+      "actors": "Ethan Hawke, Russell Crowe, Julia Jones",
+      "countries": [
+        "Allemagne",
+        "Canada",
+        "U.S.A."
+      ],
+      "directors": "Padraic McKinley",
+      "duration": "datetime.timedelta(seconds=6780)",
+      "genres": "Thriller, Action, Aventure",
+      "language": "Français",
+      "movie_id": 1000019874,
+      "original_title": "The Weight",
+      "rating": 3.28,
+      "screen_format": "Numérique",
+      "synopsis": "Oregon, 1933. Après la mort de sa femme, Samuel Murphy est arraché à sa fille et envoyé dans un camp de travail impitoyable. Lorsqu’un surveillant sans scrupule lui promet la liberté contre une périlleuse mission de contrebande d’or, Murphy saisit sa seule chance de rentrer chez lui. Il s’embarque alors dans une expédition de tous les dangers, au cœur d’une nature hostile, où les trahisons se multiplient. Jusqu’où Murphy sera-t-il prêt à aller pour revoir sa fille ?",
+      "title": "Les Contrebandiers",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T21:15:00.000000",
+    "movie": {
+      "actors": "Ethan Hawke, Russell Crowe, Julia Jones",
+      "countries": [
+        "Allemagne",
+        "Canada",
+        "U.S.A."
+      ],
+      "directors": "Padraic McKinley",
+      "duration": "datetime.timedelta(seconds=6780)",
+      "genres": "Thriller, Action, Aventure",
+      "language": "Français",
+      "movie_id": 1000019874,
+      "original_title": "The Weight",
+      "rating": 3.28,
+      "screen_format": "Numérique",
+      "synopsis": "Oregon, 1933. Après la mort de sa femme, Samuel Murphy est arraché à sa fille et envoyé dans un camp de travail impitoyable. Lorsqu’un surveillant sans scrupule lui promet la liberté contre une périlleuse mission de contrebande d’or, Murphy saisit sa seule chance de rentrer chez lui. Il s’embarque alors dans une expédition de tous les dangers, au cœur d’une nature hostile, où les trahisons se multiplient. Jusqu’où Murphy sera-t-il prêt à aller pour revoir sa fille ?",
+      "title": "Les Contrebandiers",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T21:30:00.000000",
+    "movie": {
+      "actors": "Nicole Kidman, Sandra Bullock, Cassie Bradley",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Susanne Bier",
+      "duration": "datetime.timedelta(seconds=7800)",
+      "genres": "Romance, Fantastique",
+      "language": "Français",
+      "movie_id": 1000004679,
+      "original_title": "Practical Magic 2",
+      "rating": 2.41,
+      "screen_format": "Numérique",
+      "synopsis": "Les sœurs Owens affrontent la sombre malédiction qui menace de détruire leur famille une fois pour toutes, dans un événement cinématographique mêlant divertissement, magie et chaos.",
+      "title": "Les Ensorceleuses 2",
+      "year": 2026
+    }
+  },
+  {
+    "date_time": "2026-09-30T21:30:00.000000",
+    "movie": {
+      "actors": "Amelia Eve, Island Austin, Lin Shaye",
+      "countries": [
+        "U.S.A."
+      ],
+      "directors": "Jacob Chase",
+      "duration": "datetime.timedelta(seconds=6360)",
+      "genres": "Epouvante-horreur",
+      "language": "Français",
+      "movie_id": 1000016503,
+      "original_title": "Insidious: Out of the Further",
+      "rating": 2.63,
+      "screen_format": "Numérique",
+      "synopsis": "Gemma, une jeune mère élève sa fille dans la maison de son enfance. Elle découvre qu'elle peut voyager dans le Lointain, ce royaume purgatoire des âmes perdues au cœur de l'univers d'Insidious. Lorsqu'une entité malveillante s'en prend à elle, Gemma révèle un pouvoir qui change tout : elle ne se contente pas d'entrer dans le Lointain, elle peut ramener dans le monde réel ce qui s'y trouve. Une fois que les démons prennent conscience de son pouvoir, notre monde devient alors leur terrain de jeu.",
+      "title": "Insidious : l'invasion du lointain",
+      "year": 2026
+    }
+  }
+]

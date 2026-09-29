@@ -128,6 +128,17 @@ def test_get_showtimes_skips_entries_without_movie(
     assert allocine._parse_showtimes([{"movie": None, "showtimes": {}}]) == []
 
 
+@freeze_time("2026-09-29")
+def test_get_showtimes_ignores_null_screen_formats(allocine, json_snapshot, allocine_vcr):
+    showtimes = allocine.get_showtimes(
+        "P0535",
+        from_date=date(2026, 9, 30),
+        to_date=date(2026, 9, 30),
+    )
+
+    assert [asdict(showtime) for showtime in showtimes] == json_snapshot
+
+
 def test_get_theater_falls_back_to_page_metadata(allocine: Allocine, json_snapshot, allocine_vcr):
     theater = allocine.get_theater("G0FOX")
 
