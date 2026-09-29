@@ -1,0 +1,22 @@
+[
+  {
+    "date_time": "2026-10-02T20:30:00.000000",
+    "movie": {
+      "actors": "Pauline Clément, Laurent Stocker, Julien Frison",
+      "countries": [
+        "France"
+      ],
+      "directors": "Martin Darondeau, Bertrand Usclat",
+      "duration": "datetime.timedelta(seconds=4500)",
+      "genres": "Comédie",
+      "language": "Français",
+      "movie_id": 1000037046,
+      "original_title": "De la Comédie-Française",
+      "rating": 3.96,
+      "screen_format": "Numérique",
+      "synopsis": "Dans 3 heures, Nina dévoile sa première mise en scène à la Comédie-Française. Mais dans l’agitation des dernières répétitions, rien ne se passe comme prévu : retards, coups de stress, problèmes techniques et problèmes d’égo secouent la troupe. Pourtant, Nina n’a pas d’autre choix que d’aller jusqu’au bout car s’il y a bien une règle d’or à la Comédie-Française, c’est qu’on n’annule pas. Commence alors une course contre la montre pour sauver la représentation.",
+      "title": "De la Comédie-Française",
+      "year": 2026
+    }
+  }
+]

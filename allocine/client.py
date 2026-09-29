@@ -132,7 +132,10 @@ class Allocine:
     def get_theater(self, theater_id: str) -> Theater:
         resp = self._client.get_showtimelist_by_theater_id(theater_id=theater_id)
         if not resp.get("results"):
-            raise ValueError(f"Theater not found. Is theater id {theater_id!r} correct?")
+            try:
+                return self._get_theater_details_from_page(theater_id)
+            except ValueError:
+                raise ValueError(f"Theater not found. Is theater id {theater_id!r} correct?") from None
 
         movie_id: int | None = jmespath.search("results[0].movie.internalId", resp)
         assert movie_id is not None, "We need at least one showtime to get details about a theater"
@@ -158,6 +161,13 @@ class Allocine:
                 theater_id=theater_id,
                 date=requested_date,
             )
+            if response.get("error") is True and response.get("message") == "no.showtime.error":
+                break
+            if response.get("error") is True and response.get("message") == "next.showtime.on":
+                next_date = Date.fromisoformat(response["nextDate"])
+                if next_date > requested_date:
+                    requested_date = next_date
+                    continue
             day_showtimes = self._parse_showtimes(response.get("results") or [])
             for page in range(2, (jmespath.search("pagination.totalPages", response) or 1) + 1):
                 response = self._client.get_showtimelist_by_theater_id(
