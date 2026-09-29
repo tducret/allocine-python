@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "interactions": [
+    {
+      "request": {
+        "method": "GET",
+        "uri": "https://www.allocine.fr/_/showtimes/theater-W0746/d-2026-09-29/",
+        "body": null,
+        "headers": {}
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "date": [
+            "Tue, 29 Sep 2026 14:24:56 GMT"
+          ],
+          "content-type": [
+            "application/json"
+          ],
+          "cache-control": [
+            "max-age=3600, public, stale-if-error=172800, stale-while-revalidate=86400"
+          ],
+          "vary": [
+            "Origin, accept-encoding"
+          ],
+          "server": [
+            "cloudflare"
+          ],
+          "via": [
+            "1.1 google"
+          ],
+          "alt-svc": [
+            "h3=\":443\"; ma=86400"
+          ],
+          "last-modified": [
+            "Tue, 29 Sep 2026 14:24:56 GMT"
+          ],
+          "cf-cache-status": [
+            "MISS"
+          ],
+          "server-timing": [
+            "cfEdge;dur=22,cfOrigin;dur=31"
+          ],
+          "report-to": [
+            "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Ym%2FPStyB1TH%2BlYONMO%2F2yGpW6er%2BWXzBcZJpMnXYV0E7gySf0we3geiYpP%2FTJOoN80SU%2B2l%2FF3oiT0rfipoFiqPdH3Dyr1UK9vZL4iUrjAvMDmZYDzNsbbiTfhSpkB75sQ%3D%3D\"}]}"
+          ],
+          "nel": [
+            "{\"report_to\":\"cf-nel\",\"success_fraction\":0.01,\"max_age\":604800}"
+          ],
+          "cf-ray": [
+            "a42ba77ebd1dd12e-CDG"
+          ]
+        },
+        "body": {
+          "error": true,
+          "message": "no.showtime.error",
+          "messageParam": {
+            "day": "2026-09-29",
+            "page": 1
+          },
+          "nextDate": null,
+          "results": [],
+          "params": {
+            "experience": null,
+            "projection": null,
+            "comfort": null,
+            "picture": null,
+            "sound": null,
+            "versionDetail": null,
+            "page": 1
+          },
+          "facets": [
+            {
+              "__typename": "Facets",
+              "name": "showtimes.projection",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.experience",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.comfort",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.version_detail",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.picture",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.sound",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.service",
+              "values": []
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "totalPages": 0,
+            "itemsPerPage": 15,
+            "totalItems": 0
+          },
+          "data": null
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1124 @@
+{
+  "version": 1,
+  "interactions": [
+    {
+      "request": {
+        "method": "GET",
+        "uri": "https://www.allocine.fr/_/showtimes/theater-W1021/d-2026-09-26/",
+        "body": null,
+        "headers": {}
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "date": [
+            "Tue, 29 Sep 2026 14:28:02 GMT"
+          ],
+          "content-type": [
+            "application/json"
+          ],
+          "cache-control": [
+            "max-age=3600, public, stale-if-error=172800, stale-while-revalidate=86400"
+          ],
+          "vary": [
+            "Origin, accept-encoding"
+          ],
+          "server": [
+            "cloudflare"
+          ],
+          "via": [
+            "1.1 google"
+          ],
+          "alt-svc": [
+            "h3=\":443\"; ma=86400"
+          ],
+          "last-modified": [
+            "Tue, 29 Sep 2026 14:28:02 GMT"
+          ],
+          "cf-cache-status": [
+            "MISS"
+          ],
+          "server-timing": [
+            "cfEdge;dur=29,cfOrigin;dur=34"
+          ],
+          "report-to": [
+            "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=5NvXtwrZrBfshcRuG2u57WKEvKsJNVko4zzbfeDTnhpTMoXQ7XTVdqafkfbAdg0rTRf9cSLzgtaTFJD2ev1k0Pdc2SrwFqdb5UzIg0eBuMDxz4qupd8AV5UtgvjQw9ZsJQ%3D%3D\"}]}"
+          ],
+          "nel": [
+            "{\"report_to\":\"cf-nel\",\"success_fraction\":0.01,\"max_age\":604800}"
+          ],
+          "cf-ray": [
+            "a42bac0cc9870082-CDG"
+          ]
+        },
+        "body": {
+          "error": true,
+          "message": "next.showtime.on",
+          "messageParam": null,
+          "nextDate": "2026-10-02",
+          "results": [],
+          "params": {
+            "experience": null,
+            "projection": null,
+            "comfort": null,
+            "picture": null,
+            "sound": null,
+            "versionDetail": null,
+            "page": 1
+          },
+          "facets": [
+            {
+              "__typename": "Facets",
+              "name": "showtimes.projection",
+              "values": [
+                {
+                  "key": "Digital",
+                  "translation": {
+                    "tag": "DIGITAL",
+                    "name": "Numérique"
+                  }
+                }
+              ]
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.experience",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.comfort",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.version_detail",
+              "values": [
+                {
+                  "key": "Local",
+                  "versionDetail": "LOCAL"
+                }
+              ]
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.picture",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.sound",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.service",
+              "values": []
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "totalPages": 0,
+            "itemsPerPage": 15,
+            "totalItems": 0
+          },
+          "data": null
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "uri": "https://www.allocine.fr/_/showtimes/theater-W1021/d-2026-10-02/",
+        "body": null,
+        "headers": {}
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "date": [
+            "Tue, 29 Sep 2026 14:28:02 GMT"
+          ],
+          "content-type": [
+            "application/json"
+          ],
+          "cache-control": [
+            "max-age=3600, public, stale-if-error=172800, stale-while-revalidate=86400"
+          ],
+          "vary": [
+            "Origin, accept-encoding"
+          ],
+          "server": [
+            "cloudflare"
+          ],
+          "via": [
+            "1.1 google"
+          ],
+          "alt-svc": [
+            "h3=\":443\"; ma=86400"
+          ],
+          "age": [
+            "399"
+          ],
+          "last-modified": [
+            "Tue, 29 Sep 2026 14:21:23 GMT"
+          ],
+          "cf-cache-status": [
+            "HIT"
+          ],
+          "server-timing": [
+            "cfEdge;dur=20,cfOrigin;dur=0"
+          ],
+          "report-to": [
+            "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=vyhu5%2BN2OSAjTiM5KqWW0NbMdNkKMRDwh5WYHVRHOs15OW9LFOKUtXrUqPp7nwazXYN3h0%2FurkJqIjC5H3b7p%2BdtwikQePK9MLHlnxHBeRloLuy03TJgUpe5Z0byopIq1g%3D%3D\"}]}"
+          ],
+          "nel": [
+            "{\"report_to\":\"cf-nel\",\"success_fraction\":0.01,\"max_age\":604800}"
+          ],
+          "cf-ray": [
+            "a42bac0dbf1ad70e-CDG"
+          ]
+        },
+        "body": {
+          "error": false,
+          "message": null,
+          "messageParam": null,
+          "nextDate": null,
+          "results": [
+            {
+              "movie": {
+                "synopsis": "Dans 3 heures, Nina dévoile sa première mise en scène à la Comédie-Française. Mais dans l’agitation des dernières répétitions, rien ne se passe comme prévu : retards, coups de stress, problèmes techniques et problèmes d’égo secouent la troupe. Pourtant, Nina n’a pas d’autre choix que d’aller jusqu’au bout car s’il y a bien une règle d’or à la Comédie-Française, c’est qu’on n’annule pas. Commence alors une course contre la montre pour sauver la représentation.",
+                "synopsis_json": {
+                  "__typename": "BodyJson",
+                  "body": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "text": "Dans 3 heures, Nina dévoile sa première mise en scène à la Comédie-Française. Mais dans l’agitation des dernières répétitions, rien ne se passe comme prévu : retards, coups de stress, problèmes techniques et problèmes d’égo secouent la troupe. Pourtant, Nina n’a pas d’autre choix que d’aller jusqu’au bout car s’il y a bien une règle d’or à la Comédie-Française, c’est qu’on n’annule pas. Commence alors une course contre la montre pour sauver la représentation."
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "__typename": "Movie",
+                "internalId": 1000037046,
+                "id": "TW92aWU6MTAwMDAzNzA0Ng==",
+                "poster": {
+                  "__typename": "InternalImage",
+                  "id": "SW1hZ2U6OTAwMjA3MjIzMg==",
+                  "internalId": 9002072232,
+                  "url": "https://fr.web.img2.acsta.net/img/9c/4d/9c4daa6e94f7107c83f7d732700c44a0.jpg",
+                  "path": "/img/9c/4d/9c4daa6e94f7107c83f7d732700c44a0.jpg"
+                },
+                "title": "De la Comédie-Française",
+                "originalTitle": "De la Comédie-Française",
+                "type": "FEATURE_FILM",
+                "runtime": "1h 15min",
+                "genres": [
+                  {
+                    "id": 13005,
+                    "translate": "Comédie",
+                    "tag": "COMEDY"
+                  }
+                ],
+                "languages": [
+                  "FRENCH"
+                ],
+                "data": {
+                  "__typename": "MovieData",
+                  "seo": {
+                    "__typename": "Seo",
+                    "browsable": true,
+                    "title": null
+                  },
+                  "productionYear": 2026,
+                  "rules": {
+                    "rating": {
+                      "has_warning_message": false,
+                      "has_mandatory_review": false
+                    }
+                  }
+                },
+                "stats": {
+                  "userRating": {
+                    "score": 3.96,
+                    "count": 5535
+                  },
+                  "userReview": {
+                    "count": 1182
+                  },
+                  "pressReview": {
+                    "score": 4.1,
+                    "count": 41
+                  },
+                  "metric": {
+                    "hits": 1777374,
+                    "sessions": 852835
+                  },
+                  "wantToSeeCount": 2989
+                },
+                "editorialReviews": [],
+                "releases": [
+                  {
+                    "__typename": "MovieRelease",
+                    "releaseDate": {
+                      "__typename": "PartialDate",
+                      "date": "2026-07-22",
+                      "precision": "day"
+                    },
+                    "name": "Released",
+                    "certificate": {
+                      "__typename": "Certificate",
+                      "code": "U",
+                      "label": "Tout public"
+                    },
+                    "advice": null,
+                    "companyLimitation": null,
+                    "releaseTags": {
+                      "tagTypes": [
+                        "THEATER"
+                      ],
+                      "tagFlags": null
+                    },
+                    "visaNumber": "166502"
+                  }
+                ],
+                "credits": [
+                  {
+                    "person": {
+                      "__typename": "Person",
+                      "internalId": 808059,
+                      "lastName": "Darondeau",
+                      "firstName": "Martin",
+                      "seo": {
+                        "__typename": "Seo",
+                        "browsable": true
+                      }
+                    },
+                    "position": {
+                      "__typename": "Position",
+                      "name": "DIRECTOR",
+                      "department": "DIRECTION"
+                    },
+                    "rank": 1
+                  },
+                  {
+                    "person": {
+                      "__typename": "Person",
+                      "internalId": 701659,
+                      "lastName": "Usclat",
+                      "firstName": "Bertrand",
+                      "seo": {
+                        "__typename": "Seo",
+                        "browsable": true
+                      }
+                    },
+                    "position": {
+                      "__typename": "Position",
+                      "name": "DIRECTOR",
+                      "department": "DIRECTION"
+                    },
+                    "rank": 2
+                  }
+                ],
+                "cast": {
+                  "__typename": "castMemberConnection",
+                  "edges": [
+                    {
+                      "node": {
+                        "actor": {
+                          "__typename": "Person",
+                          "internalId": 722075,
+                          "lastName": "Clément",
+                          "firstName": "Pauline",
+                          "seo": {
+                            "__typename": "Seo",
+                            "browsable": true
+                          }
+                        },
+                        "voiceActor": null,
+                        "originalVoiceActor": null,
+                        "rank": 1
+                      }
+                    },
+                    {
+                      "node": {
+                        "actor": {
+                          "__typename": "Person",
+                          "internalId": 133471,
+                          "lastName": "Stocker",
+                          "firstName": "Laurent",
+                          "seo": {
+                            "__typename": "Seo",
+                            "browsable": true
+                          }
+                        },
+                        "voiceActor": null,
+                        "originalVoiceActor": null,
+                        "rank": 2
+                      }
+                    },
+                    {
+                      "node": {
+                        "actor": {
+                          "__typename": "Person",
+                          "internalId": 179737,
+                          "lastName": "Frison",
+                          "firstName": "Julien",
+                          "seo": {
+                            "__typename": "Seo",
+                            "browsable": true
+                          }
+                        },
+                        "voiceActor": null,
+                        "originalVoiceActor": null,
+                        "rank": 3
+                      }
+                    }
+                  ],
+                  "nodes": [
+                    {
+                      "actor": {
+                        "__typename": "Person",
+                        "internalId": 722075,
+                        "lastName": "Clément",
+                        "firstName": "Pauline",
+                        "seo": {
+                          "__typename": "Seo",
+                          "browsable": true
+                        }
+                      },
+                      "voiceActor": null,
+                      "originalVoiceActor": null,
+                      "rank": 1
+                    },
+                    {
+                      "actor": {
+                        "__typename": "Person",
+                        "internalId": 133471,
+                        "lastName": "Stocker",
+                        "firstName": "Laurent",
+                        "seo": {
+                          "__typename": "Seo",
+                          "browsable": true
+                        }
+                      },
+                      "voiceActor": null,
+                      "originalVoiceActor": null,
+                      "rank": 2
+                    },
+                    {
+                      "actor": {
+                        "__typename": "Person",
+                        "internalId": 179737,
+                        "lastName": "Frison",
+                        "firstName": "Julien",
+                        "seo": {
+                          "__typename": "Seo",
+                          "browsable": true
+                        }
+                      },
+                      "voiceActor": null,
+                      "originalVoiceActor": null,
+                      "rank": 3
+                    }
+                  ]
+                },
+                "countries": [
+                  {
+                    "__typename": "Country",
+                    "id": 5001,
+                    "name": "France",
+                    "localizedName": "France"
+                  }
+                ],
+                "relatedTags": [
+                  {
+                    "__typename": "Tag",
+                    "internalId": 1270,
+                    "name": "Compte à rebours",
+                    "scope": null,
+                    "data": {
+                      "seo": {
+                        "browsable": true,
+                        "friendly": false,
+                        "scope": {
+                          "userRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "pressRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "popularity": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "ranking": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "tags": {
+                      "list": [
+                        "Tag.Type.Keyword"
+                      ]
+                    }
+                  },
+                  {
+                    "__typename": "Tag",
+                    "internalId": 667,
+                    "name": "Course contre la montre",
+                    "scope": null,
+                    "data": {
+                      "seo": {
+                        "browsable": true,
+                        "friendly": false,
+                        "scope": {
+                          "userRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "pressRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "popularity": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "ranking": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "tags": {
+                      "list": [
+                        "Tag.Type.Characteristic"
+                      ]
+                    }
+                  },
+                  {
+                    "__typename": "Tag",
+                    "internalId": 2104,
+                    "name": "Théâtre et salle de spectacle",
+                    "scope": null,
+                    "data": {
+                      "seo": {
+                        "browsable": true,
+                        "friendly": false,
+                        "scope": {
+                          "userRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "pressRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "popularity": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "ranking": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "tags": {
+                      "list": [
+                        "Tag.Type.Environnement"
+                      ]
+                    }
+                  },
+                  {
+                    "__typename": "Tag",
+                    "internalId": 1753,
+                    "name": "Réalisateur /  Réalisatrice",
+                    "scope": null,
+                    "data": {
+                      "seo": {
+                        "browsable": true,
+                        "friendly": false,
+                        "scope": {
+                          "userRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "pressRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "popularity": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "ranking": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "tags": {
+                      "list": [
+                        "Tag.Type.Keyword"
+                      ]
+                    }
+                  },
+                  {
+                    "__typename": "Tag",
+                    "internalId": 732,
+                    "name": "Acteur / Actrice",
+                    "scope": null,
+                    "data": {
+                      "seo": {
+                        "browsable": true,
+                        "friendly": false,
+                        "scope": {
+                          "userRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "pressRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "popularity": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "ranking": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "tags": {
+                      "list": [
+                        "Tag.Type.Keyword"
+                      ]
+                    }
+                  },
+                  {
+                    "__typename": "Tag",
+                    "internalId": 5257,
+                    "name": "Rire",
+                    "scope": null,
+                    "data": {
+                      "seo": {
+                        "browsable": true,
+                        "friendly": false,
+                        "scope": {
+                          "userRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "pressRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "popularity": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "ranking": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "tags": {
+                      "list": [
+                        "Tag.Type.Envies"
+                      ]
+                    }
+                  },
+                  {
+                    "__typename": "Tag",
+                    "internalId": 2703,
+                    "name": "Situation comique / Gag",
+                    "scope": null,
+                    "data": {
+                      "seo": {
+                        "browsable": true,
+                        "friendly": false,
+                        "scope": {
+                          "userRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "pressRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "popularity": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "ranking": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "tags": {
+                      "list": [
+                        "Tag.Type.Ambiance"
+                      ]
+                    }
+                  },
+                  {
+                    "__typename": "Tag",
+                    "internalId": 5259,
+                    "name": "Art et essai",
+                    "scope": null,
+                    "data": {
+                      "seo": {
+                        "browsable": true,
+                        "friendly": false,
+                        "scope": {
+                          "userRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "pressRating": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "popularity": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          },
+                          "ranking": {
+                            "movie": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            },
+                            "series": {
+                              "title": null,
+                              "subTitle": null,
+                              "description": null
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "tags": {
+                      "list": [
+                        "Tag.Type.PublicVise"
+                      ]
+                    }
+                  }
+                ],
+                "flags": {
+                  "hasDvdRelease": false,
+                  "hasNews": true,
+                  "hasOnlineProduct": false,
+                  "hasOnlineRelease": false,
+                  "hasPhysicalProduct": false,
+                  "hasPreview": false,
+                  "hasShowtime": true,
+                  "hasSoundtrack": false,
+                  "hasTheaterRelease": true,
+                  "hasTrivia": true,
+                  "hasAwards": true,
+                  "isLesIndes": true,
+                  "isIncontestable": false,
+                  "isClubApproved": [],
+                  "hasClubNews": [],
+                  "isComingSoon": false,
+                  "isPlayingNow": true,
+                  "tvRelease": false,
+                  "hasTeaser": true,
+                  "hasTrailer": false
+                },
+                "customFlags": {
+                  "isPremiere": false,
+                  "weeklyOuting": false
+                },
+                "synopsisFull": "<p class=\"bo-p\">Dans 3 heures, Nina dévoile sa première mise en scène à la Comédie-Française. Mais dans l’agitation des dernières répétitions, rien ne se passe comme prévu : retards, coups de stress, problèmes techniques et problèmes d’égo secouent la troupe. Pourtant, Nina n’a pas d’autre choix que d’aller jusqu’au bout car s’il y a bien une règle d’or à la Comédie-Française, c’est qu’on n’annule pas. Commence alors une course contre la montre pour sauver la représentation.</p>"
+              },
+              "showtimes": {
+                "original": [],
+                "original_st": [],
+                "original_sme": [],
+                "multiple": [
+                  {
+                    "__typename": "Showtime",
+                    "internalId": 81216058339,
+                    "startsAt": "2026-10-02T20:30:00",
+                    "timeBeforeStart": "PT0H0M0S",
+                    "service": null,
+                    "experience": null,
+                    "comfort": null,
+                    "projection": [
+                      "DIGITAL"
+                    ],
+                    "picture": null,
+                    "sound": null,
+                    "tags": [
+                      "Localization.Version.Original",
+                      "Localization.Language.French",
+                      "Format.Projection.Digital"
+                    ],
+                    "diffusionVersion": "LOCAL",
+                    "data": {
+                      "__typename": "ShowtimeData",
+                      "ticketing": [
+                        {
+                          "__typename": "Ticketing",
+                          "urls": [
+                            "https://relay.mvtx.us/ticketing/dbz?code_theater=W1021&gid_entity=movie.movie._.1000037046&tags=Localization.Version.Original,Localization.Language.French,Format.Projection.Digital&perfd=20261002&perft=20:30"
+                          ],
+                          "type": "DESKTOP",
+                          "provider": "relay"
+                        }
+                      ]
+                    },
+                    "isPreview": false,
+                    "isWeeklyMovieOuting": false
+                  }
+                ],
+                "multiple_st": [],
+                "multiple_sme": []
+              }
+            }
+          ],
+          "params": {
+            "experience": null,
+            "projection": null,
+            "comfort": null,
+            "picture": null,
+            "sound": null,
+            "versionDetail": null,
+            "page": 1
+          },
+          "facets": [
+            {
+              "__typename": "Facets",
+              "name": "showtimes.projection",
+              "values": [
+                {
+                  "key": "Digital",
+                  "translation": {
+                    "tag": "DIGITAL",
+                    "name": "Numérique"
+                  }
+                }
+              ]
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.experience",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.comfort",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.version_detail",
+              "values": [
+                {
+                  "key": "Local",
+                  "versionDetail": "LOCAL"
+                }
+              ]
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.picture",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.sound",
+              "values": []
+            },
+            {
+              "__typename": "Facets",
+              "name": "showtimes.service",
+              "values": []
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "totalPages": 1,
+            "itemsPerPage": 15,
+            "totalItems": 1
+          },
+          "data": null
+        }
+      }
+    }
+  ]
+}

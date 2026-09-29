@@ -158,6 +158,13 @@ class Allocine:
                 theater_id=theater_id,
                 date=requested_date,
             )
+            if response.get("error") is True and response.get("message") == "no.showtime.error":
+                break
+            if response.get("error") is True and response.get("message") == "next.showtime.on":
+                next_date = Date.fromisoformat(response["nextDate"])
+                if next_date > requested_date:
+                    requested_date = next_date
+                    continue
             day_showtimes = self._parse_showtimes(response.get("results") or [])
             for page in range(2, (jmespath.search("pagination.totalPages", response) or 1) + 1):
                 response = self._client.get_showtimelist_by_theater_id(

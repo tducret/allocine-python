@@ -91,6 +91,20 @@ def test_get_showtimes_treats_not_found_as_empty_without_retry(allocine: Allocin
     assert allocine.get_showtimes("C0125", from_date=date(2026, 9, 29)) == []
 
 
+@freeze_time("2026-09-29")
+def test_get_showtimes_stops_after_no_showtime_error(allocine: Allocine, json_snapshot, allocine_vcr):
+    showtimes = allocine.get_showtimes("W0746", to_date=date(2026, 10, 5))
+
+    assert [asdict(showtime) for showtime in showtimes] == json_snapshot
+
+
+@freeze_time("2026-09-26")
+def test_get_showtimes_skips_to_next_showtime_date(allocine: Allocine, json_snapshot, allocine_vcr):
+    showtimes = allocine.get_showtimes("W1021", to_date=date(2026, 10, 2))
+
+    assert [asdict(showtime) for showtime in showtimes] == json_snapshot
+
+
 def test_get_showtimes_rejects_inverted_date_range(
     allocine,
 ):
