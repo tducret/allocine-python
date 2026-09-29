@@ -1,0 +1,702 @@
+[
+  {
+    "dept": "01",
+    "geocode": 83191,
+    "location_type": "department",
+    "name": "Ain",
+    "zipcode": null
+  },
+  {
+    "dept": "02",
+    "geocode": 83178,
+    "location_type": "department",
+    "name": "Aisne",
+    "zipcode": null
+  },
+  {
+    "dept": "03",
+    "geocode": 83111,
+    "location_type": "department",
+    "name": "Allier",
+    "zipcode": null
+  },
+  {
+    "dept": "04",
+    "geocode": 83185,
+    "location_type": "department",
+    "name": "Alpes de Haute-Provence",
+    "zipcode": null
+  },
+  {
+    "dept": "06",
+    "geocode": 83187,
+    "location_type": "department",
+    "name": "Alpes-Maritimes",
+    "zipcode": null
+  },
+  {
+    "dept": "07",
+    "geocode": 83192,
+    "location_type": "department",
+    "name": "Ardèche",
+    "zipcode": null
+  },
+  {
+    "dept": "08",
+    "geocode": 83129,
+    "location_type": "department",
+    "name": "Ardennes",
+    "zipcode": null
+  },
+  {
+    "dept": "09",
+    "geocode": 83150,
+    "location_type": "department",
+    "name": "Ariège",
+    "zipcode": null
+  },
+  {
+    "dept": "10",
+    "geocode": 83130,
+    "location_type": "department",
+    "name": "Aube",
+    "zipcode": null
+  },
+  {
+    "dept": "11",
+    "geocode": 83138,
+    "location_type": "department",
+    "name": "Aude",
+    "zipcode": null
+  },
+  {
+    "dept": "12",
+    "geocode": 83151,
+    "location_type": "department",
+    "name": "Aveyron",
+    "zipcode": null
+  },
+  {
+    "dept": "67",
+    "geocode": 83104,
+    "location_type": "department",
+    "name": "Bas-Rhin",
+    "zipcode": null
+  },
+  {
+    "dept": "13",
+    "geocode": 83188,
+    "location_type": "department",
+    "name": "Bouches-du-Rhône",
+    "zipcode": null
+  },
+  {
+    "dept": "14",
+    "geocode": 83160,
+    "location_type": "department",
+    "name": "Calvados",
+    "zipcode": null
+  },
+  {
+    "dept": "15",
+    "geocode": 83112,
+    "location_type": "department",
+    "name": "Cantal",
+    "zipcode": null
+  },
+  {
+    "dept": "16",
+    "geocode": 83181,
+    "location_type": "department",
+    "name": "Charente",
+    "zipcode": null
+  },
+  {
+    "dept": "17",
+    "geocode": 83182,
+    "location_type": "department",
+    "name": "Charente-Maritime",
+    "zipcode": null
+  },
+  {
+    "dept": "18",
+    "geocode": 83123,
+    "location_type": "department",
+    "name": "Cher",
+    "zipcode": null
+  },
+  {
+    "dept": "19",
+    "geocode": 83143,
+    "location_type": "department",
+    "name": "Corrèze",
+    "zipcode": null
+  },
+  {
+    "dept": "2A",
+    "geocode": 265496,
+    "location_type": "department",
+    "name": "Corse-du-Sud",
+    "zipcode": null
+  },
+  {
+    "dept": "21",
+    "geocode": 83115,
+    "location_type": "department",
+    "name": "Côte-d'or",
+    "zipcode": null
+  },
+  {
+    "dept": "22",
+    "geocode": 83119,
+    "location_type": "department",
+    "name": "Côtes d'Armor",
+    "zipcode": null
+  },
+  {
+    "dept": "23",
+    "geocode": 83144,
+    "location_type": "department",
+    "name": "Creuse",
+    "zipcode": null
+  },
+  {
+    "dept": "79",
+    "geocode": 83183,
+    "location_type": "department",
+    "name": "Deux-Sèvres",
+    "zipcode": null
+  },
+  {
+    "dept": "24",
+    "geocode": 83106,
+    "location_type": "department",
+    "name": "Dordogne",
+    "zipcode": null
+  },
+  {
+    "dept": "25",
+    "geocode": 83134,
+    "location_type": "department",
+    "name": "Doubs",
+    "zipcode": null
+  },
+  {
+    "dept": "26",
+    "geocode": 83193,
+    "location_type": "department",
+    "name": "Drôme",
+    "zipcode": null
+  },
+  {
+    "dept": "91",
+    "geocode": 83168,
+    "location_type": "department",
+    "name": "Essonne",
+    "zipcode": null
+  },
+  {
+    "dept": "27",
+    "geocode": 83163,
+    "location_type": "department",
+    "name": "Eure",
+    "zipcode": null
+  },
+  {
+    "dept": "29",
+    "geocode": 83120,
+    "location_type": "department",
+    "name": "Finistère",
+    "zipcode": null
+  },
+  {
+    "dept": "30",
+    "geocode": 83139,
+    "location_type": "department",
+    "name": "Gard",
+    "zipcode": null
+  },
+  {
+    "dept": "32",
+    "geocode": 83153,
+    "location_type": "department",
+    "name": "Gers",
+    "zipcode": null
+  },
+  {
+    "dept": "33",
+    "geocode": 83107,
+    "location_type": "department",
+    "name": "Gironde",
+    "zipcode": null
+  },
+  {
+    "dept": "971",
+    "geocode": 83199,
+    "location_type": "department",
+    "name": "Guadeloupe",
+    "zipcode": null
+  },
+  {
+    "dept": "973",
+    "geocode": 83201,
+    "location_type": "department",
+    "name": "Guyane",
+    "zipcode": null
+  },
+  {
+    "dept": "68",
+    "geocode": 83105,
+    "location_type": "department",
+    "name": "Haut-Rhin",
+    "zipcode": null
+  },
+  {
+    "dept": "2B",
+    "geocode": 83133,
+    "location_type": "department",
+    "name": "Haute-Corse",
+    "zipcode": null
+  },
+  {
+    "dept": "31",
+    "geocode": 83152,
+    "location_type": "department",
+    "name": "Haute-Garonne",
+    "zipcode": null
+  },
+  {
+    "dept": "43",
+    "geocode": 83113,
+    "location_type": "department",
+    "name": "Haute-Loire",
+    "zipcode": null
+  },
+  {
+    "dept": "52",
+    "geocode": 83132,
+    "location_type": "department",
+    "name": "Haute-Marne",
+    "zipcode": null
+  },
+  {
+    "dept": "70",
+    "geocode": 83136,
+    "location_type": "department",
+    "name": "Haute-Saône",
+    "zipcode": null
+  },
+  {
+    "dept": "74",
+    "geocode": 83198,
+    "location_type": "department",
+    "name": "Haute-Savoie",
+    "zipcode": null
+  },
+  {
+    "dept": "87",
+    "geocode": 83145,
+    "location_type": "department",
+    "name": "Haute-Vienne",
+    "zipcode": null
+  },
+  {
+    "dept": "05",
+    "geocode": 83186,
+    "location_type": "department",
+    "name": "Hautes-Alpes",
+    "zipcode": null
+  },
+  {
+    "dept": "65",
+    "geocode": 83155,
+    "location_type": "department",
+    "name": "Hautes-Pyrénées",
+    "zipcode": null
+  },
+  {
+    "dept": "92",
+    "geocode": 83169,
+    "location_type": "department",
+    "name": "Hauts-de-Seine",
+    "zipcode": null
+  },
+  {
+    "dept": "34",
+    "geocode": 83140,
+    "location_type": "department",
+    "name": "Hérault",
+    "zipcode": null
+  },
+  {
+    "dept": "35",
+    "geocode": 83121,
+    "location_type": "department",
+    "name": "Ille-et-Vilaine",
+    "zipcode": null
+  },
+  {
+    "dept": "36",
+    "geocode": 83125,
+    "location_type": "department",
+    "name": "Indre",
+    "zipcode": null
+  },
+  {
+    "dept": "37",
+    "geocode": 83126,
+    "location_type": "department",
+    "name": "Indre-et-Loire",
+    "zipcode": null
+  },
+  {
+    "dept": "38",
+    "geocode": 83194,
+    "location_type": "department",
+    "name": "Isère",
+    "zipcode": null
+  },
+  {
+    "dept": "39",
+    "geocode": 83135,
+    "location_type": "department",
+    "name": "Jura",
+    "zipcode": null
+  },
+  {
+    "dept": "28",
+    "geocode": 83124,
+    "location_type": "department",
+    "name": "L'Eure-et-Loir",
+    "zipcode": null
+  },
+  {
+    "dept": "40",
+    "geocode": 83108,
+    "location_type": "department",
+    "name": "Landes",
+    "zipcode": null
+  },
+  {
+    "dept": "41",
+    "geocode": 83127,
+    "location_type": "department",
+    "name": "Loir-et-Cher",
+    "zipcode": null
+  },
+  {
+    "dept": "42",
+    "geocode": 83195,
+    "location_type": "department",
+    "name": "Loire",
+    "zipcode": null
+  },
+  {
+    "dept": "44",
+    "geocode": 83173,
+    "location_type": "department",
+    "name": "Loire-Atlantique",
+    "zipcode": null
+  },
+  {
+    "dept": "45",
+    "geocode": 83128,
+    "location_type": "department",
+    "name": "Loiret",
+    "zipcode": null
+  },
+  {
+    "dept": "46",
+    "geocode": 83154,
+    "location_type": "department",
+    "name": "Lot",
+    "zipcode": null
+  },
+  {
+    "dept": "47",
+    "geocode": 83109,
+    "location_type": "department",
+    "name": "Lot-et-Garonne",
+    "zipcode": null
+  },
+  {
+    "dept": "48",
+    "geocode": 83141,
+    "location_type": "department",
+    "name": "Lozère",
+    "zipcode": null
+  },
+  {
+    "dept": "49",
+    "geocode": 83174,
+    "location_type": "department",
+    "name": "Maine-et-Loire",
+    "zipcode": null
+  },
+  {
+    "dept": "50",
+    "geocode": 83161,
+    "location_type": "department",
+    "name": "Manche",
+    "zipcode": null
+  },
+  {
+    "dept": "51",
+    "geocode": 83131,
+    "location_type": "department",
+    "name": "Marne",
+    "zipcode": null
+  },
+  {
+    "dept": "972",
+    "geocode": 83200,
+    "location_type": "department",
+    "name": "Martinique",
+    "zipcode": null
+  },
+  {
+    "dept": "53",
+    "geocode": 83175,
+    "location_type": "department",
+    "name": "Mayenne",
+    "zipcode": null
+  },
+  {
+    "dept": "54",
+    "geocode": 83146,
+    "location_type": "department",
+    "name": "Meurthe-et-Moselle",
+    "zipcode": null
+  },
+  {
+    "dept": "55",
+    "geocode": 83147,
+    "location_type": "department",
+    "name": "Meuse",
+    "zipcode": null
+  },
+  {
+    "dept": "56",
+    "geocode": 83122,
+    "location_type": "department",
+    "name": "Morbihan",
+    "zipcode": null
+  },
+  {
+    "dept": "57",
+    "geocode": 83148,
+    "location_type": "department",
+    "name": "Moselle",
+    "zipcode": null
+  },
+  {
+    "dept": "58",
+    "geocode": 83116,
+    "location_type": "department",
+    "name": "Nièvre",
+    "zipcode": null
+  },
+  {
+    "dept": "59",
+    "geocode": 83158,
+    "location_type": "department",
+    "name": "Nord",
+    "zipcode": null
+  },
+  {
+    "dept": "60",
+    "geocode": 83179,
+    "location_type": "department",
+    "name": "Oise",
+    "zipcode": null
+  },
+  {
+    "dept": "61",
+    "geocode": 83162,
+    "location_type": "department",
+    "name": "Orne",
+    "zipcode": null
+  },
+  {
+    "dept": "62",
+    "geocode": 83159,
+    "location_type": "department",
+    "name": "Pas-de-Calais",
+    "zipcode": null
+  },
+  {
+    "dept": "63",
+    "geocode": 83114,
+    "location_type": "department",
+    "name": "Puy-de-Dôme",
+    "zipcode": null
+  },
+  {
+    "dept": "64",
+    "geocode": 83110,
+    "location_type": "department",
+    "name": "Pyrénées Atlantiques",
+    "zipcode": null
+  },
+  {
+    "dept": "66",
+    "geocode": 83142,
+    "location_type": "department",
+    "name": "Pyrénées-Orientales",
+    "zipcode": null
+  },
+  {
+    "dept": "974",
+    "geocode": 83202,
+    "location_type": "department",
+    "name": "Réunion",
+    "zipcode": null
+  },
+  {
+    "dept": "69",
+    "geocode": 83196,
+    "location_type": "department",
+    "name": "Rhône",
+    "zipcode": null
+  },
+  {
+    "dept": "71",
+    "geocode": 83117,
+    "location_type": "department",
+    "name": "Saône-et-Loire",
+    "zipcode": null
+  },
+  {
+    "dept": "72",
+    "geocode": 83176,
+    "location_type": "department",
+    "name": "Sarthe",
+    "zipcode": null
+  },
+  {
+    "dept": "73",
+    "geocode": 83197,
+    "location_type": "department",
+    "name": "Savoie",
+    "zipcode": null
+  },
+  {
+    "dept": "77",
+    "geocode": 83166,
+    "location_type": "department",
+    "name": "Seine-et-Marne",
+    "zipcode": null
+  },
+  {
+    "dept": "76",
+    "geocode": 83164,
+    "location_type": "department",
+    "name": "Seine-Maritime",
+    "zipcode": null
+  },
+  {
+    "dept": "93",
+    "geocode": 83170,
+    "location_type": "department",
+    "name": "Seine-Saint-Denis",
+    "zipcode": null
+  },
+  {
+    "dept": "80",
+    "geocode": 83180,
+    "location_type": "department",
+    "name": "Somme",
+    "zipcode": null
+  },
+  {
+    "dept": "81",
+    "geocode": 83156,
+    "location_type": "department",
+    "name": "Tarn",
+    "zipcode": null
+  },
+  {
+    "dept": "82",
+    "geocode": 83157,
+    "location_type": "department",
+    "name": "Tarn-et-Garonne",
+    "zipcode": null
+  },
+  {
+    "dept": "90",
+    "geocode": 83137,
+    "location_type": "department",
+    "name": "Territoire de Belfort",
+    "zipcode": null
+  },
+  {
+    "dept": "95",
+    "geocode": 83172,
+    "location_type": "department",
+    "name": "Val-d'Oise",
+    "zipcode": null
+  },
+  {
+    "dept": "94",
+    "geocode": 83171,
+    "location_type": "department",
+    "name": "Val-de-Marne",
+    "zipcode": null
+  },
+  {
+    "dept": "83",
+    "geocode": 83189,
+    "location_type": "department",
+    "name": "Var",
+    "zipcode": null
+  },
+  {
+    "dept": "84",
+    "geocode": 83190,
+    "location_type": "department",
+    "name": "Vaucluse",
+    "zipcode": null
+  },
+  {
+    "dept": "85",
+    "geocode": 83177,
+    "location_type": "department",
+    "name": "Vendée",
+    "zipcode": null
+  },
+  {
+    "dept": "86",
+    "geocode": 83184,
+    "location_type": "department",
+    "name": "Vienne",
+    "zipcode": null
+  },
+  {
+    "dept": "88",
+    "geocode": 83149,
+    "location_type": "department",
+    "name": "Vosges",
+    "zipcode": null
+  },
+  {
+    "dept": "89",
+    "geocode": 83118,
+    "location_type": "department",
+    "name": "Yonne",
+    "zipcode": null
+  },
+  {
+    "dept": "78",
+    "geocode": 83167,
+    "location_type": "department",
+    "name": "Yvelines",
+    "zipcode": null
+  },
+  {
+    "dept": "75",
+    "geocode": 115755,
+    "location_type": "department",
+    "name": "Paris",
+    "zipcode": null
+  }
+]

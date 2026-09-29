@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "interactions": [
+    {
+      "request": {
+        "method": "GET",
+        "uri": "https://www.allocine.fr/_/localization_city/99999",
+        "body": "",
+        "headers": {
+          "host": [
+            "www.allocine.fr"
+          ],
+          "accept": [
+            "*/*"
+          ],
+          "accept-encoding": [
+            "gzip, deflate, zstd"
+          ],
+          "connection": [
+            "keep-alive"
+          ],
+          "user-agent": [
+            "Mozilla/5.0 (Macintosh;                                    Intel Mac OS X 10.14; rv:63.0)                                    Gecko/20100101 Firefox/63.0"
+          ]
+        }
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "date": [
+            "Tue, 29 Sep 2026 11:37:29 GMT"
+          ],
+          "content-type": [
+            "application/json"
+          ],
+          "transfer-encoding": [
+            "chunked"
+          ],
+          "connection": [
+            "keep-alive"
+          ],
+          "cache-control": [
+            "max-age=86400, public, stale-if-error=172800, stale-while-revalidate=86400"
+          ],
+          "vary": [
+            "Origin, accept-encoding"
+          ],
+          "server": [
+            "cloudflare"
+          ],
+          "via": [
+            "1.1 google"
+          ],
+          "alt-svc": [
+            "h3=\":443\"; ma=86400"
+          ],
+          "last-modified": [
+            "Tue, 29 Sep 2026 11:37:29 GMT"
+          ],
+          "cf-cache-status": [
+            "MISS"
+          ],
+          "nel": [
+            "{\"report_to\":\"cf-nel\",\"success_fraction\":0.01,\"max_age\":604800}"
+          ],
+          "report-to": [
+            "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=4Gvz3nDwG%2F35oCekdYhq4XlTD4yYgLR%2FJj9bRbsBWiqjH5qyUNQcuZsI%2F3Im2uQP5GsG0JNj1otWUCcMnWF%2BtqNzlbMASAydWj2oIfQuo4KqGicAe9fM0I2p8jQR%2BOrwxg%3D%3D\"}]}"
+          ],
+          "cf-ray": [
+            "a42ab2377abcd626-CDG"
+          ],
+          "content-length": [
+            "38"
+          ]
+        },
+        "body": {
+          "values": {
+            "cities": [],
+            "theaters": []
+          }
+        }
+      }
+    }
+  ]
+}

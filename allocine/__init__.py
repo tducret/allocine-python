@@ -5,6 +5,7 @@ from importlib.metadata import version as _distribution_version
 from allocine.api import AllocineApi
 from allocine.client import DEFAULT_DATE_FORMAT, Allocine
 from allocine.models import (
+    Location,
     Movie,
     MovieVersion,
     Schedule,
@@ -35,6 +36,7 @@ __all__ = [
     "Allocine",
     "AllocineApi",
     "DEFAULT_DATE_FORMAT",
+    "Location",
     "Movie",
     "MovieVersion",
     "Schedule",

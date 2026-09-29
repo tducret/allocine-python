@@ -1,0 +1,30 @@
+[
+  {
+    "address": "10 Avenue Georges Clemenceau",
+    "city": "Brest",
+    "name": "Multiplexe Liberté",
+    "theater_id": "P0417",
+    "zipcode": "29200"
+  },
+  {
+    "address": "136, rue Jean-Jaurès",
+    "city": "Brest",
+    "name": "Les Studios",
+    "theater_id": "P0153",
+    "zipcode": "29200"
+  },
+  {
+    "address": "187, rue Jean-Jaures",
+    "city": "Brest",
+    "name": "CGR Brest Le Celtic",
+    "theater_id": "P0151",
+    "zipcode": "29200"
+  },
+  {
+    "address": "25 Rue de Pontaniou",
+    "city": "Brest",
+    "name": "Pathé Capucins",
+    "theater_id": "W2920",
+    "zipcode": "29200"
+  }
+]
