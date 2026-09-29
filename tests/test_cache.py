@@ -1,15 +1,14 @@
-import httpx2
 import pytest
 from diskcache import Cache
 
-from allocine.cache import CACHE_MISS, HttpCache
+from allocine.cache import CACHE_MISS, HttpCache, HttpResponse
 
 CACHE_CONTROL = "max-age=3600, public, stale-if-error=172800, stale-while-revalidate=86400"
 
 
-def response(cache_control: str = CACHE_CONTROL) -> httpx2.Response:
-    result = httpx2.Response(
-        200,
+def response(cache_control: str = CACHE_CONTROL) -> HttpResponse:
+    result = HttpResponse(
+        status_code=200,
         headers={"cache-control": cache_control, "age": "300", "last-modified": "Sun, 27 Sep 2026 20:55:44 GMT"},
         content=b'{"results": []}',
     )

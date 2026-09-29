@@ -1,11 +1,11 @@
 from collections.abc import Mapping
 from dataclasses import dataclass
+from json import loads
 from os import PathLike
 from time import time
 from urllib.parse import urlencode
 from weakref import finalize
 
-import httpx2
 from diskcache import Cache
 from platformdirs import user_cache_path
 
@@ -13,6 +13,20 @@ CACHE_VERSION = 3
 CACHE_MISS = object()
 
 CacheOption = bool | Cache
+
+
+@dataclass
+class HttpResponse:
+    status_code: int
+    headers: dict[str, str]
+    content: bytes = b""
+
+    @property
+    def text(self) -> str:
+        return self.content.decode("utf-8", errors="replace")
+
+    def json(self):
+        return loads(self.content)
 
 
 @dataclass(frozen=True)
@@ -39,12 +53,12 @@ class CachedResponse:
         stale = max(self.stale_if_error, self.stale_while_revalidate)
         return self.max_age + stale - self.initial_age
 
-    def to_response(self, revalidation_headers: Mapping[str, str] | None = None) -> httpx2.Response:
+    def to_response(self, revalidation_headers: Mapping[str, str] | None = None) -> HttpResponse:
         headers = dict(self.headers)
         if revalidation_headers is not None:
             headers.pop("age", None)
             headers.update(revalidation_headers)
-        return httpx2.Response(self.status_code, headers=_decoded_headers(headers), content=self.content)
+        return HttpResponse(self.status_code, _decoded_headers(headers), self.content)
 
 
 class HttpCache:
@@ -69,7 +83,7 @@ class HttpCache:
             return CACHE_MISS
         return self._backend.get(self._key(url, params), default=CACHE_MISS)
 
-    def set(self, url: str, response: httpx2.Response, params: dict | None = None) -> None:
+    def set(self, url: str, response: HttpResponse, params: dict | None = None) -> None:
         if self._backend is None or (cached := _to_cached_response(response)) is None:
             return
         if (retention := cached.retention()) > 0:
@@ -88,7 +102,7 @@ class HttpCache:
         return f"http:v{CACHE_VERSION}:{url}?{query}"
 
 
-def _to_cached_response(response: httpx2.Response) -> CachedResponse | None:
+def _to_cached_response(response: HttpResponse) -> CachedResponse | None:
     directives = _parse_cache_control(response.headers.get("cache-control", ""))
     if "public" not in directives or "no-store" in directives or "private" in directives:
         return None
