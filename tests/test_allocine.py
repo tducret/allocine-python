@@ -20,6 +20,12 @@ def test_get_theater(allocine: Allocine, json_snapshot, allocine_vcr):
     assert asdict(theater) == json_snapshot
 
 
+def test_get_theater_without_current_showtimes(allocine: Allocine, json_snapshot, allocine_vcr):
+    theater = allocine.get_theater("W1021")
+
+    assert asdict(theater) == json_snapshot
+
+
 def test_search_theaters(allocine: Allocine, json_snapshot, allocine_vcr):
     theaters = allocine.search_theaters(geocode=83178)
 

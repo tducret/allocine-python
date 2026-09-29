@@ -132,7 +132,10 @@ class Allocine:
     def get_theater(self, theater_id: str) -> Theater:
         resp = self._client.get_showtimelist_by_theater_id(theater_id=theater_id)
         if not resp.get("results"):
-            raise ValueError(f"Theater not found. Is theater id {theater_id!r} correct?")
+            try:
+                return self._get_theater_details_from_page(theater_id)
+            except ValueError:
+                raise ValueError(f"Theater not found. Is theater id {theater_id!r} correct?") from None
 
         movie_id: int | None = jmespath.search("results[0].movie.internalId", resp)
         assert movie_id is not None, "We need at least one showtime to get details about a theater"
