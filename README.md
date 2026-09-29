@@ -11,7 +11,7 @@
 
 ## Prérequis
 
-- Python 3.10 ou une version ultérieure
+- Python 3.11 ou une version ultérieure
 - [uv](https://docs.astral.sh/uv/)
 
 ## Installation

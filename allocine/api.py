@@ -1,10 +1,15 @@
+import logging
 from datetime import date as Date
+from datetime import timedelta
 from os import PathLike
 
 import backoff
-import httpx2
+import wreq
+from wreq.blocking import Client, Response
 
-from allocine.cache import CACHE_MISS, CachedResponse, CacheOption, HttpCache
+from allocine.cache import CACHE_MISS, CachedResponse, CacheOption, HttpCache, HttpResponse
+
+logger = logging.getLogger(__name__)
 
 SHOWTIMES_BASE_URL = "https://www.allocine.fr/_/showtimes"
 THEATERS_BASE_URL = "https://www.allocine.fr/salle/cinema"
@@ -23,13 +28,16 @@ class AllocineApi:
         cache: CacheOption = False,
         cache_dir: str | PathLike[str] | None = None,
     ):
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; \
-                                   Intel Mac OS X 10.14; rv:63.0) \
-                                   Gecko/20100101 Firefox/63.0",
-        }
-        self.session = httpx2.Client(headers=headers, timeout=30)
+        self.session = self._new_client()
         self.cache = HttpCache(cache, cache_dir)
+
+    def _new_client(self) -> Client:
+        return Client(emulation=wreq.Emulation.random(), timeout=timedelta(seconds=30))
+
+    def _recreate_client(self) -> None:
+        logger.info("Recreating HTTP client")
+        self.session.close()
+        self.session = self._new_client()
 
     def get_showtimelist_by_theater_id(
         self,
@@ -105,7 +113,7 @@ class AllocineApi:
         *args,
         not_found_ok: bool = False,
         **kwargs,
-    ) -> httpx2.Response:
+    ) -> HttpResponse:
         params = kwargs.get("params")
         cached = self.cache.get(url, params)
         if cached is not CACHE_MISS and cached.is_fresh():
@@ -121,23 +129,36 @@ class AllocineApi:
 
         try:
             response = self._fetch(url, expected_status, *args, not_found_ok=not_found_ok, **kwargs)
-        except (_RateLimitError, ValueError, httpx2.HTTPError):
+        except (
+            _RateLimitError,
+            ValueError,
+            wreq.BodyError,
+            wreq.ConnectionError,
+            wreq.ConnectionResetError,
+            wreq.DecodingError,
+            wreq.RedirectError,
+            wreq.RequestError,
+            wreq.TimeoutError,
+            wreq.TlsError,
+        ):
             if cached is not CACHE_MISS and cached.can_serve_on_error():
                 return cached.to_response()
             raise
 
         if response.status_code == 304 and cached is not CACHE_MISS:
             response = self._revalidated_response(cached, response)
-        self.cache.set(url, response, params)
+        if response.status_code == 200:
+            self.cache.set(url, response, params)
         return response
 
     @backoff.on_exception(
         backoff.expo,
         _RateLimitError,
-        factor=5,
-        max_value=120,
+        factor=10,
+        max_value=60,
         max_tries=7,
         jitter=None,
+        on_backoff=lambda details: details["args"][0]._recreate_client(),
     )
     @backoff.on_exception(backoff.expo, ValueError, max_tries=5, max_time=30)
     def _fetch(
@@ -147,14 +168,26 @@ class AllocineApi:
         *args,
         not_found_ok: bool = False,
         **kwargs,
-    ) -> httpx2.Response:
+    ) -> HttpResponse:
+        if params := kwargs.pop("params", None):
+            kwargs["query"] = params
         ret = self.session.get(url, *args, **kwargs)
-        if ret.status_code == 429:
+        status_code = ret.status.as_int()
+        if status_code == 429:
+            ret.close()
             raise _RateLimitError(f"{url!r}: rate limit exceeded")
-        if ret.status_code not in {expected_status, 304} and not (not_found_ok and ret.status_code == 404):
-            raise ValueError("{!r} : expected status {}, received {}".format(url, expected_status, ret.status_code))
-        return ret
+        try:
+            response = HttpResponse(status_code, self._response_headers(ret), ret.bytes())
+        finally:
+            ret.close()
+        if status_code not in {expected_status, 304} and not (not_found_ok and status_code == 404):
+            raise ValueError("{!r} : expected status {}, received {}".format(url, expected_status, status_code))
+        return response
 
     @staticmethod
-    def _revalidated_response(cached: CachedResponse, response: httpx2.Response) -> httpx2.Response:
+    def _response_headers(response: Response) -> dict[str, str]:
+        return {name.decode("ascii"): value.decode("latin-1") for name, value in response.headers}
+
+    @staticmethod
+    def _revalidated_response(cached: CachedResponse, response: HttpResponse) -> HttpResponse:
         return cached.to_response(response.headers)
