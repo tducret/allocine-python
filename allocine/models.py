@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import date as Date
 from datetime import datetime, timedelta
 from datetime import time as Time
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from allocine import nationalities
 
@@ -195,6 +195,15 @@ def to_french_short_weekday(weekday: int) -> str:
 
 def short_day_str(date: Date) -> str:
     return day_str(date)[:3]
+
+
+@dataclass
+class Location:
+    geocode: int
+    name: str
+    location_type: Literal["department", "city"]
+    dept: str
+    zipcode: str | None
 
 
 @dataclass

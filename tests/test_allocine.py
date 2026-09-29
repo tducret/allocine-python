@@ -26,6 +26,41 @@ def test_search_theaters(allocine: Allocine, json_snapshot, allocine_vcr):
     assert theaters == json_snapshot
 
 
+def test_get_geocodes_lists_departments(allocine: Allocine, json_snapshot, allocine_vcr):
+    locations = allocine.get_geocodes()
+
+    assert [asdict(location) for location in locations] == json_snapshot
+
+
+def test_get_geocodes_lists_department_cities(allocine: Allocine, json_snapshot, allocine_vcr):
+    locations = allocine.get_geocodes(dept=29)
+
+    assert [asdict(location) for location in locations] == json_snapshot
+
+
+def test_search_theaters_by_department(allocine: Allocine, json_snapshot, allocine_vcr):
+    theaters = allocine.search_theaters(dept=53)
+
+    assert [asdict(theater) for theater in theaters] == json_snapshot
+
+
+def test_search_theaters_by_zipcode(allocine: Allocine, json_snapshot, allocine_vcr):
+    theaters = allocine.search_theaters(zipcode=29200)
+
+    assert [asdict(theater) for theater in theaters] == json_snapshot
+
+
+@pytest.mark.parametrize("kwargs", [{}, {"geocode": 95171, "dept": 29}])
+def test_search_theaters_requires_one_location_filter(allocine: Allocine, kwargs):
+    with pytest.raises(ValueError, match="Exactly one"):
+        allocine.search_theaters(**kwargs)
+
+
+def test_search_theaters_rejects_unknown_zipcode(allocine: Allocine, allocine_vcr):
+    with pytest.raises(ValueError, match="No location found for zipcode '99999'"):
+        allocine.search_theaters(zipcode=99999)
+
+
 @freeze_time("2026-09-27")
 def test_get_showtimes_defaults_to_today(allocine: Allocine, json_snapshot, allocine_vcr):
     showtimes = allocine.get_showtimes("G0FOX")

@@ -1,0 +1,198 @@
+[
+  {
+    "dept": "29",
+    "geocode": 95171,
+    "location_type": "city",
+    "name": "Brest",
+    "zipcode": "29200"
+  },
+  {
+    "dept": "29",
+    "geocode": 95372,
+    "location_type": "city",
+    "name": "Quimper",
+    "zipcode": "29000"
+  },
+  {
+    "dept": "29",
+    "geocode": 95198,
+    "location_type": "city",
+    "name": "Douarnenez",
+    "zipcode": "29100"
+  },
+  {
+    "dept": "29",
+    "geocode": 95252,
+    "location_type": "city",
+    "name": "Landerneau",
+    "zipcode": "29800"
+  },
+  {
+    "dept": "29",
+    "geocode": 95156,
+    "location_type": "city",
+    "name": "Audierne",
+    "zipcode": "29770"
+  },
+  {
+    "dept": "29",
+    "geocode": 95174,
+    "location_type": "city",
+    "name": "Camaret-sur-Mer",
+    "zipcode": "29570"
+  },
+  {
+    "dept": "29",
+    "geocode": 95175,
+    "location_type": "city",
+    "name": "Carantec",
+    "zipcode": "29660"
+  },
+  {
+    "dept": "29",
+    "geocode": 95176,
+    "location_type": "city",
+    "name": "Carhaix-Plouguer",
+    "zipcode": "29270"
+  },
+  {
+    "dept": "29",
+    "geocode": 95194,
+    "location_type": "city",
+    "name": "Crozon",
+    "zipcode": "29160"
+  },
+  {
+    "dept": "29",
+    "geocode": 95232,
+    "location_type": "city",
+    "name": "Huelgoat",
+    "zipcode": "29690"
+  },
+  {
+    "dept": "29",
+    "geocode": 95236,
+    "location_type": "city",
+    "name": "Île-Tudy",
+    "zipcode": "29980"
+  },
+  {
+    "dept": "29",
+    "geocode": 95272,
+    "location_type": "city",
+    "name": "Lesneven",
+    "zipcode": "29260"
+  },
+  {
+    "dept": "29",
+    "geocode": 95297,
+    "location_type": "city",
+    "name": "Moëlan-sur-Mer",
+    "zipcode": "29350"
+  },
+  {
+    "dept": "29",
+    "geocode": 95303,
+    "location_type": "city",
+    "name": "Penmarch",
+    "zipcode": "29760"
+  },
+  {
+    "dept": "29",
+    "geocode": 95329,
+    "location_type": "city",
+    "name": "Plouescat",
+    "zipcode": "29430"
+  },
+  {
+    "dept": "29",
+    "geocode": 95334,
+    "location_type": "city",
+    "name": "Plougonvelin",
+    "zipcode": "29217"
+  },
+  {
+    "dept": "29",
+    "geocode": 95373,
+    "location_type": "city",
+    "name": "Quimperlé",
+    "zipcode": "29300"
+  },
+  {
+    "dept": "29",
+    "geocode": 95379,
+    "location_type": "city",
+    "name": "Roscoff",
+    "zipcode": "29680"
+  },
+  {
+    "dept": "29",
+    "geocode": 95396,
+    "location_type": "city",
+    "name": "Saint-Pol-de-Léon",
+    "zipcode": "29250"
+  },
+  {
+    "dept": "29",
+    "geocode": 95397,
+    "location_type": "city",
+    "name": "Saint-Renan",
+    "zipcode": "29290"
+  },
+  {
+    "dept": "29",
+    "geocode": 95178,
+    "location_type": "city",
+    "name": "Châteaulin",
+    "zipcode": "29150"
+  },
+  {
+    "dept": "29",
+    "geocode": 95254,
+    "location_type": "city",
+    "name": "Landivisiau",
+    "zipcode": "29400"
+  },
+  {
+    "dept": "29",
+    "geocode": 95333,
+    "location_type": "city",
+    "name": "Plougastel-Daoulas",
+    "zipcode": "29470"
+  },
+  {
+    "dept": "29",
+    "geocode": 95298,
+    "location_type": "city",
+    "name": "Morlaix",
+    "zipcode": "29600"
+  },
+  {
+    "dept": "29",
+    "geocode": 95159,
+    "location_type": "city",
+    "name": "Bénodet",
+    "zipcode": "29950"
+  },
+  {
+    "dept": "29",
+    "geocode": 95362,
+    "location_type": "city",
+    "name": "Pont-l'Abbé",
+    "zipcode": "29120"
+  },
+  {
+    "dept": "29",
+    "geocode": 95191,
+    "location_type": "city",
+    "name": "Concarneau",
+    "zipcode": "29900"
+  },
+  {
+    "dept": "29",
+    "geocode": 95349,
+    "location_type": "city",
+    "name": "Plourin-lès-Morlaix",
+    "zipcode": "29600"
+  }
+]

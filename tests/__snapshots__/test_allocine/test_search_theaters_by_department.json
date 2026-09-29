@@ -1,0 +1,79 @@
+[
+  {
+    "address": "25 quai Gambetta",
+    "city": "Laval",
+    "name": "Cinéville Laval",
+    "theater_id": "P1140",
+    "zipcode": "53000"
+  },
+  {
+    "address": "29 All. du Vieux Saint-Louis",
+    "city": "Laval",
+    "name": "Cinéma l'Avant-scène",
+    "theater_id": "W5300",
+    "zipcode": "53000"
+  },
+  {
+    "address": "40, rue du Trianon",
+    "city": "Bourgneuf-la-Forêt",
+    "name": "Le Trianon",
+    "theater_id": "P0303",
+    "zipcode": "53410"
+  },
+  {
+    "address": "6, rue Lelièvre",
+    "city": "Ernée",
+    "name": "Le Majestic",
+    "theater_id": "W0105",
+    "zipcode": "53500"
+  },
+  {
+    "address": "Boulevard Faverie",
+    "city": "Gorron",
+    "name": "Gorron Cinéma",
+    "theater_id": "W0616",
+    "zipcode": "53120"
+  },
+  {
+    "address": "Rue de Gesnes",
+    "city": "Montsûrs",
+    "name": "Le Majestic",
+    "theater_id": "W0617",
+    "zipcode": "53150"
+  },
+  {
+    "address": "Place de l'Avant-Garde",
+    "city": "Renazé",
+    "name": "Vox",
+    "theater_id": "P0173",
+    "zipcode": "53800"
+  },
+  {
+    "address": "12, rue du Pré de la Ville",
+    "city": "Saint-Pierre-des-Nids",
+    "name": "L'Aiglon",
+    "theater_id": "P9185",
+    "zipcode": "53370"
+  },
+  {
+    "address": "3, place du Pilori",
+    "city": "Château-Gontier",
+    "name": "Le Palace",
+    "theater_id": "W0613",
+    "zipcode": "53200"
+  },
+  {
+    "address": "34 rue de la fontaine",
+    "city": "Évron",
+    "name": "Cinéma Yves Robert",
+    "theater_id": "W0161",
+    "zipcode": "53600"
+  },
+  {
+    "address": "16 place Juhel",
+    "city": "Mayenne",
+    "name": "Le Vox",
+    "theater_id": "P0295",
+    "zipcode": "53100"
+  }
+]

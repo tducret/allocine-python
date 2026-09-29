@@ -60,8 +60,22 @@ class AllocineApi:
         url = f"https://www.allocine.fr/seance/salle_gen_csalle={theater_id}.html"
         return self._get_text(url)
 
-    def get_theaterlist_by_geocode(self, geocode: int | str, page: int = 1) -> str:
-        url = f"{THEATERS_BASE_URL}/ville-{geocode}/"
+    def get_locationlist(self, department_geocode: int | None = None, page: int = 1) -> str:
+        if department_geocode is None:
+            return self._get_text("https://www.allocine.fr/salle/")
+        params = {"page": page} if page > 1 else None
+        return self._get_text(f"{THEATERS_BASE_URL}/departement-{department_geocode}/", params=params)
+
+    def get_city_locations(self, search: str) -> dict:
+        return self._get(f"https://www.allocine.fr/_/localization_city/{search}")
+
+    def get_theaterlist_by_geocode(
+        self,
+        geocode: int | str,
+        page: int = 1,
+        location_type: str = "ville",
+    ) -> str:
+        url = f"{THEATERS_BASE_URL}/{location_type}-{geocode}/"
         params = {"page": page} if page > 1 else None
         return self._get_text(url, params=params)
 
