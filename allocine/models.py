@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 class Movie:
     movie_id: int
     title: str
+    img_url: Optional[str]
     original_title: str
     rating: Optional[float]
     duration: Optional[timedelta]
@@ -91,6 +92,7 @@ class MovieVersion(Movie):
         return Movie(
             movie_id=self.movie_id,
             title=self.title,
+            img_url=self.img_url,
             rating=self.rating,
             duration=self.duration,
             original_title=self.original_title,

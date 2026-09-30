@@ -9,6 +9,7 @@
       "directors": "Martin Darondeau, Bertrand Usclat",
       "duration": "datetime.timedelta(seconds=4500)",
       "genres": "Comédie",
+      "img_url": "https://fr.web.img2.acsta.net/img/9c/4d/9c4daa6e94f7107c83f7d732700c44a0.jpg",
       "language": "Français",
       "movie_id": 1000037046,
       "original_title": "De la Comédie-Française",

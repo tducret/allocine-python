@@ -372,6 +372,7 @@ class Allocine:
                     movie = MovieVersion(
                         movie_id=raw_movie["internalId"],
                         title=raw_movie.get("title"),
+                        img_url=jmespath.search("poster.url", raw_movie),
                         rating=rating,
                         language=language,
                         screen_format=" ".join(screen_formats) or "Numérique",
