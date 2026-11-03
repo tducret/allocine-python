@@ -1,0 +1,17 @@
+{
+  "actors": "Owen Wilson, Paul Newman, Bonnie Hunt",
+  "countries": [
+    "U.S.A."
+  ],
+  "directors": "John Lasseter",
+  "duration": "datetime.timedelta(seconds=7020)",
+  "genres": "Animation, Comédie, Action, Fantastique",
+  "img_url": "https://fr.web.img3.acsta.net/img/59/da/59da33b9de0e915a94ce75dcd407df2d.jpg",
+  "movie_id": 55774,
+  "original_title": "Cars",
+  "rating": 3.85,
+  "release_date": "2006-06-14",
+  "synopsis": "\"Cars\" a pour héros quelques légendes de la route qui vont faire hurler de rire leur moteur sur la mythique route 66 qui traverse les Etats-Unis d'est en ouest...",
+  "title": "Cars",
+  "year": 2006
+}

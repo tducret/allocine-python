@@ -1,6 +1,6 @@
 import logging
 import unicodedata
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date as Date
 from datetime import datetime, timedelta
 from datetime import time as Time
@@ -25,6 +25,7 @@ class Movie:
     actors: str
     synopsis: str
     year: int
+    release_date: Date | None = field(default=None, kw_only=True)
 
     @property
     def duration_str(self):
@@ -102,6 +103,7 @@ class MovieVersion(Movie):
             directors=self.directors,
             actors=self.actors,
             synopsis=self.synopsis,
+            release_date=self.release_date,
         )
 
     def __str__(self):

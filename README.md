@@ -117,6 +117,12 @@ Exemple de sortie :
 [...]
 ```
 
+Chaque film expose également `showtime.movie.release_date` (`datetime.date | None`) : la plus ancienne sortie
+cinéma initiale référencée par Allociné (`Released`, type `THEATER`), uniquement si sa date est précise au jour.
+Les ressorties, la VOD et les supports physiques sont exclus. Si aucune sortie initiale avec une date complète
+n’est disponible, la valeur est `None`. Cette information provient des réponses des séances, sans requête supplémentaire,
+et est conservée par `showtime.movie.get_movie()`. L’attribut `year` reste l’année de production.
+
 Le cache est activé par défaut. Les réponses sont enregistrées dans le répertoire de cache utilisateur du système :
 
 - macOS: `~/Library/Caches/allocine`
