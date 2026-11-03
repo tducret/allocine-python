@@ -1,12 +1,15 @@
 """High-level tests for the Allocine API client."""
 
+import json
 from dataclasses import asdict
 from datetime import date
+from pathlib import Path
 
 import pytest
 from freezegun import freeze_time
 
 from allocine import Allocine
+from allocine.client import _initial_theatrical_release_date
 
 
 @pytest.fixture(scope="session")
@@ -137,6 +140,33 @@ def test_get_showtimes_ignores_null_screen_formats(allocine, json_snapshot, allo
     )
 
     assert [asdict(showtime) for showtime in showtimes] == json_snapshot
+
+    cars = next(showtime.movie for showtime in showtimes if showtime.movie.movie_id == 55774)
+    assert cars.release_date == date(2006, 6, 14)
+    assert asdict(cars.get_movie()) == json_snapshot(name="cars_movie")
+
+
+def test_initial_theatrical_release_date_from_recorded_releases(json_snapshot):
+    cassette_path = Path(__file__).parent / "cassettes" / "get_showtimes_ignores_null_screen_formats.json"
+    cassette = json.loads(cassette_path.read_text())
+    movies = cassette["interactions"][0]["response"]["body"]["results"]
+    cars = next(item["movie"] for item in movies if item["movie"]["internalId"] == 55774)
+    releases = cars["releases"]
+
+    # Select unmodified release records from the real response, never synthetic payloads.
+    without_initial = [release for release in releases if release["name"] != "Released"]
+    theatrical = [release for release in releases if "THEATER" in release["releaseTags"]["tagTypes"]]
+    cases = {
+        "all_releases": releases,
+        "reversed_releases": list(reversed(releases)),
+        "theatrical_only": theatrical,
+        "no_initial_release": without_initial,
+        "rerelease_only": [release for release in releases if release["name"] == "ReRelease"],
+        "digital_only": [release for release in releases if "ONLINE" in release["releaseTags"]["tagTypes"]],
+        "physical_only": [release for release in releases if "PHYSICAL" in release["releaseTags"]["tagTypes"]],
+        "no_releases": [],
+    }
+    assert {name: _initial_theatrical_release_date(records) for name, records in cases.items()} == json_snapshot
 
 
 def test_get_theater_falls_back_to_page_metadata(allocine: Allocine, json_snapshot, allocine_vcr):

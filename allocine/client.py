@@ -344,6 +344,7 @@ class Allocine:
                     actors.append(name)
 
             genres = ", ".join(genre["translate"] for genre in raw_movie.get("genres") or [] if genre.get("translate"))
+            release_date = _initial_theatrical_release_date(raw_movie.get("releases") or [])
             for showtime_group in (showtime_data.get("showtimes") or {}).values():
                 for raw_showtime in showtime_group:
                     tags = raw_showtime.get("tags") or []
@@ -384,6 +385,7 @@ class Allocine:
                         directors=", ".join(directors),
                         actors=", ".join(actors),
                         duration=duration_obj,
+                        release_date=release_date,
                     )
                     showtimes.append(
                         Showtime(
@@ -392,6 +394,28 @@ class Allocine:
                         )
                     )
         return showtimes
+
+
+def _initial_theatrical_release_date(releases: list[dict]) -> Date | None:
+    """Return the earliest day-precise initial theatrical release reported by Allociné."""
+    dates = []
+    for release in releases:
+        tags = release.get("releaseTags") or {}
+        if release.get("name") != "Released" or "THEATER" not in (tags.get("tagTypes") or []):
+            continue
+        if "RERUN" in (tags.get("tagFlags") or []):
+            continue
+        release_date = release.get("releaseDate") or {}
+        if release_date.get("precision") != "day":
+            continue
+        value = release_date.get("date")
+        if not value:
+            continue
+        try:
+            dates.append(Date.fromisoformat(value))
+        except (ValueError, TypeError):
+            continue
+    return min(dates, default=None)
 
 
 def _person_name(person):
