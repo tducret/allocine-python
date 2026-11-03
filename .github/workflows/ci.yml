@@ -25,7 +25,7 @@ jobs:
         with:
           enable-cache: true
           python-version: "3.14"
-          version: "0.12.19"
+          version: "0.13.7"
 
       - name: Install the project
         run: uv sync --locked --extra dev
@@ -59,7 +59,7 @@ jobs:
         with:
           enable-cache: true
           python-version: ${{ matrix.python-version }}
-          version: "0.12.19"
+          version: "0.13.7"
 
       - name: Install the project
         run: uv sync --locked --extra dev
